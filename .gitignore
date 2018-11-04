@@ -1,0 +1,14 @@
+
+*.ipch
+*.db
+*.tlog
+*.obj
+*.pch
+*.pdb
+*.log
+*.idb
+*.iobj
+*.ipdb
+*.exe
+*.ilk
+.vs/LearnRayTrace/v15/.suo
