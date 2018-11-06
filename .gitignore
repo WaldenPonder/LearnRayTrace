@@ -12,3 +12,4 @@
 *.exe
 *.ilk
 .vs/LearnRayTrace/v15/.suo
+*.opendb
