@@ -184,5 +184,8 @@ inline Vec2 componentDivide(const Vec2& lhs, const Vec2& rhs)
     return Vec2(lhs[0]/rhs[0], lhs[1]/rhs[1]);
 }
 
+
+using Point2D = Vec2;
+
 #endif
 

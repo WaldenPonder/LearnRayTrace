@@ -63,6 +63,21 @@
     <ClCompile Include="Cylinder.cpp">
       <Filter>Shape</Filter>
     </ClCompile>
+    <ClCompile Include="GlossyReflector.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="BRDF.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="GlossySpecular.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Sampler.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="MultiJittered.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Math.h">
@@ -121,6 +136,21 @@
     </ClInclude>
     <ClInclude Include="Cylinder.h">
       <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="GlossyReflector.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="BRDF.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="GlossySpecular.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Sampler.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="MultiJittered.h">
+      <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

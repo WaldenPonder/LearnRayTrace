@@ -2,6 +2,8 @@
 #include "Vec3.h"
 #include "Ray.h"
 
+    //  #define  USING_COUT
+
 class Shape;
 class World;
 class Material;
@@ -13,7 +15,7 @@ public:
 
 	float     distance = 0;
 	Shape*    shape = nullptr;
-
+	int       depth = 0;
 	Vec3      normal;
 	Vec3      position;
 

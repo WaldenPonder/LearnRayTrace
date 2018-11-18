@@ -8,7 +8,7 @@ public:
 	Ray(const Vec3& o, const Vec3& d);
 	~Ray();
 
-	Position distance(float t) const;
+	Point distance(float t) const;
 
 public:
 	Vec3 orig;

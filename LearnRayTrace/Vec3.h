@@ -35,7 +35,7 @@ class Vec3
         Vec3(value_type x,value_type y,value_type z) { _v[0]=x; _v[1]=y; _v[2]=z; }
 		explicit Vec3(value_type v) { _v[0] = v; _v[1] = v; _v[2] = v; }
 
-        Vec3(const Vec2& v2,value_type zz)
+        Vec3(const Point2D& v2,value_type zz)
         {
             _v[0] = v2[0];
             _v[1] = v2[1];
@@ -218,14 +218,24 @@ inline Vec3 componentDivide(const Vec3& lhs, const Vec3& rhs)
     return Vec3(lhs[0]/rhs[0], lhs[1]/rhs[1], lhs[2]/rhs[2]);
 }
 
+inline Vec3 operator*(float f, const Vec3& v)
+{
+	return v * f;
+}
 
+inline  std::ostream& operator<< (std::ostream& stm, const Vec3& v)
+{
+	stm << "  [" << v[0] << " , " << v[1] << " , " << v[2]  << "] ";
+
+	return stm;
+}
 
 const Vec3 X_AXIS(1.0,0.0,0.0);
 const Vec3 Y_AXIS(0.0,1.0,0.0);
 const Vec3 Z_AXIS(0.0,0.0,1.0);
 
 using Color = Vec3;
-using Position = Vec3;
+using Point = Vec3;
 
 #endif
 

@@ -17,26 +17,30 @@
 #include <cmath>
 #include <cfloat>
 
-namespace util {
-
-	// define the standard trig values
 #ifdef PI
 #undef PI
 #undef PI_2
 #undef PI_4
 #endif
 
-	const double PI = 3.14159265358979323846;
-	const double PI_2 = 1.57079632679489661923;
-	const double PI_4 = 0.78539816339744830962;
-	const double LN_2 = 0.69314718055994530942;
-	const double INVLN_2 = 1.0 / LN_2;
+const double PI = 3.14159265358979323846;
+const double PI_2 = 1.57079632679489661923;
+const double PI_4 = 0.78539816339744830962;
+const double LN_2 = 0.69314718055994530942;
+const double INVLN_2 = 1.0 / LN_2;
 
-	const float PIf = 3.14159265358979323846f;
-	const float PI_2f = 1.57079632679489661923f;
-	const float PI_4f = 0.78539816339744830962f;
-	const float LN_2f = 0.69314718055994530942f;
-	const float INVLN_2f = 1.0f / LN_2f;
+const float PIf = 3.14159265358979323846f;
+const float PI_2f = 1.57079632679489661923f;
+const float PI_4f = 0.78539816339744830962f;
+const float LN_2f = 0.69314718055994530942f;
+const float INVLN_2f = 1.0f / LN_2f;
+
+const float 	invRAND_MAX = 1.0 / (float)RAND_MAX;
+
+namespace util {
+
+	// define the standard trig values
+
 
 
 	template<typename T>
@@ -170,6 +174,30 @@ namespace util {
 	inline float findAsciiToFloat(const char* str) { return static_cast<float>(findAsciiToDouble(str)); }
 
 }
+
+
+
+inline int rand_int(void)
+{
+	return(rand());
+}
+
+inline float
+rand_float(void) {
+	return((float)rand_int() * invRAND_MAX);
+}
+
+inline float
+rand_float(int l, float h) {
+	return (rand_float() * (h - l) + l);
+}
+
+
+inline int
+rand_int(int l, int h) {
+	return ((int)(rand_float(0, h - l + 1) + l));
+}
+
 
 #endif  // __OSG_MATH
 

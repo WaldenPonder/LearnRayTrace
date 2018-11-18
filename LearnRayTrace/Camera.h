@@ -15,8 +15,7 @@ public:
 public:
 	int   _width   = int(1920 * .8);
 	int   _height  = int(1080 * .8);
-
-	Color _bgColor = Color(58, 179, 255);
+		
 	World& _world;
 	Vec3  _eye;
 	Vec3  _front;

@@ -16,7 +16,7 @@ Ray::~Ray()
 {
 }
 
-Position Ray::distance(float t) const
+Point Ray::distance(float t) const
 {
 	return orig + dir * t;
 }

@@ -20,16 +20,21 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Box.cpp" />
+    <ClCompile Include="BRDF.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Cylinder.cpp" />
+    <ClCompile Include="GlossyReflector.cpp" />
+    <ClCompile Include="GlossySpecular.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="Math.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="MultiJittered.cpp" />
     <ClCompile Include="Phong.cpp" />
     <ClCompile Include="Plane.cpp" />
     <ClCompile Include="Ray.cpp" />
+    <ClCompile Include="Sampler.cpp" />
     <ClCompile Include="ShadeInfo.cpp" />
     <ClCompile Include="Shape.cpp" />
     <ClCompile Include="Sphere.cpp" />
@@ -39,16 +44,21 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Box.h" />
+    <ClInclude Include="BRDF.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="common.h" />
     <ClInclude Include="Cylinder.h" />
+    <ClInclude Include="GlossyReflector.h" />
+    <ClInclude Include="GlossySpecular.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Math.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="MultiJittered.h" />
     <ClInclude Include="Phong.h" />
     <ClInclude Include="Plane.h" />
     <ClInclude Include="Ray.h" />
+    <ClInclude Include="Sampler.h" />
     <ClInclude Include="ShadeInfo.h" />
     <ClInclude Include="Shape.h" />
     <ClInclude Include="Singleton.h" />

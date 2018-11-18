@@ -5,7 +5,7 @@
 ShadeInfo::ShadeInfo()
 {
 	world = World::Instance();
-	distance = DBL_MAX;
+	distance = FLT_MAX;
 }
 
 void ShadeInfo::setShape(Shape* s)

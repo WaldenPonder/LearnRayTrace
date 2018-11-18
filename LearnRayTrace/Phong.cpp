@@ -31,5 +31,5 @@ Color Phong::shade(ShadeInfo& r)
 	Vec3 speculaItem = _specularColor * pow(max(NdotL, .0f), _shiness);
 	Vec3 val = (diffItem + speculaItem + g::White * .1);
 
-	return val.clamp(0.f, 255.f);
+	return val.clamp(0.f, 255.f) / 255.0;
 }
