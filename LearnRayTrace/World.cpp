@@ -12,7 +12,7 @@
 
 World::World() : _camera(*this)
 {
-	_max_depth = 4;
+	_max_depth = 2;
 	buildScene();
 }
 

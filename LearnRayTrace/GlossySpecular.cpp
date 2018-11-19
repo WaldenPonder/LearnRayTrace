@@ -6,9 +6,9 @@
 
 GlossySpecular::GlossySpecular()
 {
-	const int kSamples = 1024 * 100;
+	const int kSamples = 1024 * 256;
 	_sampler = new MultiJittered(kSamples);
-	_sampler->map_samples_to_hemisphere(1);
+	_sampler->map_samples_to_hemisphere(2);
 }
 
 

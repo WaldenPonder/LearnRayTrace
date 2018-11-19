@@ -30,7 +30,7 @@ void Camera::render()
 		for (float i = 0; i < _width; i+= 1)
 		{
 
-			int n = 5;
+			int n = 50;
 			Color c;// = _world._bgColor;
 
 			for (int p = 0; p < n; p++)
