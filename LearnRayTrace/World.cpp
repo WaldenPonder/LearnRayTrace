@@ -10,6 +10,7 @@
 #include "Box.h"
 #include "GlossyReflector.h"
 #include "Emissive.h"
+#include "PerfectReflect.h"
 
 #define MATERIAL Phong
 //#define only_botttom 
@@ -76,7 +77,7 @@ void World::buildScene()
 	_shapes.push_back(sphere);
 
 	sphere = new Sphere(Vec3(1, -1.5, -5), .5);
-	sphere->_material = new MATERIAL(g::Red);
+	sphere->_material = new PerfectReflect(g::Red);
 	_shapes.push_back(sphere);
 
 	sphere = new Sphere(Vec3(0, -1.5, -4), .5);

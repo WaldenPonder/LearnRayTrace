@@ -1,27 +1,25 @@
 #include "stdafx.h"
-#include "Phong.h"
+#include "PerfectReflect.h"
 #include <cmath>
 #include "BRDF.h"
 #include "MultiJittered.h"
 #include "World.h"
 
-Phong::Phong()
+PerfectReflect::PerfectReflect()
 {
 }
 
 
-Phong::Phong(const Color& c) 
+PerfectReflect::PerfectReflect(const Color& c) 
 {
 	_specularColor = _diffuseColor = c;
 }
 
-Phong::~Phong()
+PerfectReflect::~PerfectReflect()
 {
 }
 
-#define SIZE 50
-
-Color Phong::shade(ShadeInfo& info)
+Color PerfectReflect::shade(ShadeInfo& info)
 {
 	Color val = getColor(info);
 
@@ -32,32 +30,24 @@ Color Phong::shade(ShadeInfo& info)
 
 	Color f = g::Black;
 	int count = 0;
-	for (int i = 0; i < SIZE; i++)
-	{
-		Point sp = MultiJittered::instance()->sample_hemisphere();
-		Vec3 wi = sp.x() * u + sp.y() * v + sp.z() * w;			// reflected ray direction
-		Ray r(info.position, wi);
-		ShadeInfo rInfo(info.world->intersection(r));
-		if (rInfo.valid())
-		{
-			f += rInfo.material->getColor(rInfo);
-			count++;
-		}
-	}
 
-	if (count)
+	Vec3 wi = info.ray.dir - 2 * info.normal * info.ray.dir * info.normal;
+	Ray r(info.position, wi);
+	ShadeInfo rInfo(info.world->intersection(r));
+	if (rInfo.valid())
 	{
-		f /= count;
+		f = rInfo.material->getColor(rInfo);
+		count++;
 	}
 		
-	Color c = val + f;
+	Color c = f + val;// componentMultiply(f, val);
 
 	return c.clamp(0, 1);
 }
 
-Color Phong::getColor(ShadeInfo& info)
+Color PerfectReflect::getColor(ShadeInfo& info)
 {
-	//return _diffuseColor / PI;
+	return _diffuseColor / PI;
 
 	Vec3 lightDir(-info.position + Vec3(0, 2, -4.5));
 	lightDir.normalize();

@@ -32,6 +32,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="MultiJittered.cpp" />
+    <ClCompile Include="PerfectReflect.cpp" />
     <ClCompile Include="Phong.cpp" />
     <ClCompile Include="Plane.cpp" />
     <ClCompile Include="Ray.cpp" />
@@ -57,6 +58,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="MultiJittered.h" />
+    <ClInclude Include="PerfectReflect.h" />
     <ClInclude Include="Phong.h" />
     <ClInclude Include="Plane.h" />
     <ClInclude Include="Ray.h" />
