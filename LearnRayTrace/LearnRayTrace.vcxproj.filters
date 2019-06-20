@@ -78,6 +78,9 @@
     <ClCompile Include="MultiJittered.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Emissive.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Math.h">
@@ -150,6 +153,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="MultiJittered.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Emissive.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

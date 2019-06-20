@@ -6,11 +6,8 @@
 
 GlossySpecular::GlossySpecular()
 {
-	const int kSamples = 1024 * 256;
-	_sampler = new MultiJittered(kSamples);
-	_sampler->map_samples_to_hemisphere(2);
+	_sampler = MultiJittered::instance();
 }
-
 
 GlossySpecular::~GlossySpecular()
 {
@@ -40,5 +37,5 @@ Color GlossySpecular::sample_f(const ShadeInfo& info, const Vec3& wo, Vec3& wi, 
 	float ks = 1;
 	Color cs = _material == nullptr ? g::White : _material->_diffuseColor;
 
-	return (cs * ks * phong_lobe) / 255.0;
+	return (cs * ks * phong_lobe);
 }

@@ -12,7 +12,7 @@
 
 class MultiJittered: public Sampler {
 	public:
-		
+		static MultiJittered* instance();
 		MultiJittered(void);								
 		
 		MultiJittered(const int num_samples);				

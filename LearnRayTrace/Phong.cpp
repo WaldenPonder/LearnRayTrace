@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "Phong.h"
 #include <cmath>
+#include "BRDF.h"
+#include "MultiJittered.h"
+#include "World.h"
 
 Phong::Phong()
 {
@@ -16,20 +19,58 @@ Phong::~Phong()
 {
 }
 
-Color Phong::shade(ShadeInfo& r)
+#define SIZE 100
+
+Color Phong::shade(ShadeInfo& info)
 {
-	Vec3 lightDir(-r.position + Vec3(0, .7, 0));
+	Color val = getColor(info);
+
+	Vec3 w = info.normal;
+	Vec3 u = Vec3(0.00424, 1, 0.00764) ^ w;
+	u.normalize();
+	Vec3 v = u ^ w;
+
+	Color f = g::Black;
+	int count = 0;
+	for (int i = 0; i < SIZE; i++)
+	{
+		Point sp = MultiJittered::instance()->sample_hemisphere();
+		Vec3 wi = sp.x() * u + sp.y() * v + sp.z() * w;			// reflected ray direction
+		Ray r(info.position, wi);
+		ShadeInfo rInfo(info.world->intersection(r));
+		if (rInfo.valid())
+		{
+			f += rInfo.material->getColor(rInfo);
+			count++;
+		}
+	}
+
+	if (count)
+	{
+		f /= count;
+	}
+		
+	Color c = val + f;
+
+	return c.clamp(0, 1);
+}
+
+Color Phong::getColor(ShadeInfo& info)
+{
+	return _diffuseColor / PI;
+
+	Vec3 lightDir(-info.position + Vec3(0, 2, -4.5));
 	lightDir.normalize();
 
-	float NdotL = r.normal * lightDir;
-	Vec3 H = lightDir - r.ray.dir;
+	float NdotL = info.normal * lightDir;
+	Vec3 H = lightDir - info.ray.dir;
 	H.normalize();
 
-	float NdotH = r.normal * H;
+	float NdotH = info.normal * H;
 
-	Vec3 diffItem = _diffuseColor * max(NdotL, 0.f);
-	Vec3 speculaItem = _specularColor * pow(max(NdotL, .0f), _shiness);
-	Vec3 val = (diffItem + speculaItem + g::White * .1);
-
-	return val.clamp(0.f, 255.f) / 255.0;
+	const float FACTOR = .7;
+	Vec3 diffItem = _diffuseColor * max(NdotL, 0.f) * FACTOR;
+	Vec3 speculaItem = _specularColor * pow(max(NdotL, .0f), _shiness) * (1 - FACTOR);
+	Vec3 val = (diffItem + speculaItem);
+	return val.clamp(0, 1);
 }

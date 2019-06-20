@@ -23,6 +23,7 @@
     <ClCompile Include="BRDF.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Cylinder.cpp" />
+    <ClCompile Include="Emissive.cpp" />
     <ClCompile Include="GlossyReflector.cpp" />
     <ClCompile Include="GlossySpecular.cpp" />
     <ClCompile Include="main.cpp" />
@@ -48,6 +49,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="common.h" />
     <ClInclude Include="Cylinder.h" />
+    <ClInclude Include="Emissive.h" />
     <ClInclude Include="GlossyReflector.h" />
     <ClInclude Include="GlossySpecular.h" />
     <ClInclude Include="Material.h" />
@@ -75,7 +77,7 @@
     <ProjectGuid>{4E54969E-48E5-4823-9693-D85FE3FB9607}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>LearnRayTrace</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

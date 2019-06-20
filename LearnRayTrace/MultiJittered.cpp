@@ -6,6 +6,22 @@
 #include "MultiJittered.h"
 #include <algorithm>
 
+
+MultiJittered* MultiJittered::instance()
+{
+	const int kSamples = 1024;
+	static MultiJittered s_MultiJittered(1024);
+	static bool flag = false;
+
+	if (!flag)
+	{
+		s_MultiJittered.map_samples_to_hemisphere(3);
+		flag = true;
+	}
+
+	return &s_MultiJittered;
+}
+
 // ---------------------------------------------------------------- default constructor
 
 MultiJittered::MultiJittered(void)

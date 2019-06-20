@@ -50,6 +50,7 @@ ShadeInfo Box::intersect(const Ray& r)
 
 	info.setShape(this);
 	info.distance = tmin;
+	info.ray = r;
 
 	return info;
 }

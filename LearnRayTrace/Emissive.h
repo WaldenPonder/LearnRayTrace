@@ -1,18 +1,15 @@
 #pragma once
 #include "Material.h"
 
-class BRDF;
-
-class Phong : public Material
+class Emissive : public Material
 {
 public:
-	Phong();
-	Phong(const Color& c);
-	~Phong();
+	Emissive();
+	~Emissive();
 
 	virtual Color shade(ShadeInfo& r) override;
 	virtual Color getColor(ShadeInfo& r) override;
 
-	BRDF* _brdf = nullptr;
+	Color _light = g::White;
 };
 

@@ -16,7 +16,10 @@
 
 #include "Vec2.h"
 #include "Math.h"
+#include <string>
 #include <algorithm>
+
+using std::string;
 
 class Vec3
 {
@@ -225,7 +228,7 @@ inline Vec3 operator*(float f, const Vec3& v)
 
 inline  std::ostream& operator<< (std::ostream& stm, const Vec3& v)
 {
-	stm << "  [" << v[0] << " , " << v[1] << " , " << v[2]  << "] ";
+	stm << std::string("  [") << v[0] << " , " << v[1] << " , " << v[2]  << "] ";
 
 	return stm;
 }

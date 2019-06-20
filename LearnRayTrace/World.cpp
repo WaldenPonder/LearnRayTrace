@@ -9,6 +9,11 @@
 #include "Cylinder.h"
 #include "Box.h"
 #include "GlossyReflector.h"
+#include "Emissive.h"
+
+#define MATERIAL Phong
+//#define only_botttom 
+
 
 World::World() : _camera(*this)
 {
@@ -21,58 +26,64 @@ World::~World()
 {
 }
 
-//Y 向上， 右手
+//--------------------------------------------------Y 向上， 右手
 void World::buildScene()
 {
 	Plane* plane = nullptr;
 	
+#ifndef only_botttom
 	plane = new Plane(Vec3(0, 2, 0), Vec3(0, -1, 0)); //上
-	plane->_material = new GlossyReflector(g::Cyan);
+	plane->_material = new MATERIAL(g::Cyan);
 	_shapes.push_back(plane);
+
+	plane = new Plane(Vec3(0, 1.99, 0), Vec3(0, -1, 0)); //灯
+	plane->_material = new Emissive;
+	plane->x_min = -.5, plane->x_max = .5;
+	plane->z_min = -5, plane->z_max = -4;
+	_shapes.push_back(plane);
+
+#endif // !only_botttom
 
 	plane = new Plane(Vec3(0, -2, 0), Vec3(0, 1, 0)); //下
-	plane->_material = new GlossyReflector(g::Blue);
+	plane->_material = new MATERIAL(g::Blue);
+	plane->_material->_indirect_factor = .4;
 	_shapes.push_back(plane);
 
+#ifndef only_botttom
+
 	plane = new Plane(Vec3(-2, 0, 0), Vec3(1, 0, 0)); //左
-	plane->_material = new GlossyReflector(g::Green);
+	plane->_material = new MATERIAL(g::Green);
 	_shapes.push_back(plane);
 
 	plane = new Plane(Vec3(0, 0, -6), Vec3(0, 0, 1)); //后
-	plane->_material = new GlossyReflector(g::Yellow);
+	plane->_material = new MATERIAL(g::Yellow);
 	_shapes.push_back(plane);
 
 	plane = new Plane(Vec3(2, 0, 0), Vec3(-1, 0, 0)); //右
-	plane->_material = new GlossyReflector(g::Cyan);
+	plane->_material = new MATERIAL(g::Cyan);
 	_shapes.push_back(plane);
 
-	Cylinder* cy = new Cylinder;
-	cy->_material = new GlossyReflector(g::Bronze);
-	//_shapes.push_back(cy);
+#endif // !only_botttom
 
 #pragma region Sphere
 
 	Sphere* sphere = new Sphere(Vec3(0, -1.5, -5), .5);
-	sphere->_material = new GlossyReflector(g::Red);
+	sphere->_material = new MATERIAL(g::Red);
 	_shapes.push_back(sphere);
 
 	sphere = new Sphere(Vec3(-1, -1.5, -5), .5);
-	sphere->_material = new GlossyReflector(g::Red);
+	sphere->_material = new MATERIAL(g::Red);
 	_shapes.push_back(sphere);
 
 	sphere = new Sphere(Vec3(1, -1.5, -5), .5);
-	sphere->_material = new GlossyReflector(g::Red);
+	sphere->_material = new MATERIAL(g::Red);
 	_shapes.push_back(sphere);
 
 	sphere = new Sphere(Vec3(0, -1.5, -4), .5);
-	sphere->_material = new GlossyReflector(g::Yellow);
+	sphere->_material = new MATERIAL(g::Yellow);
 	_shapes.push_back(sphere);
 
 #pragma endregion Sphere
-
-	Box* box = new Box(Vec3(3, .5, -30), 2);
-	box->_material = new GlossyReflector(g::Cyan);
-	//_shapes.push_back(box);
 }
 
 ShadeInfo World::intersection(const Ray& ray)
@@ -98,19 +109,20 @@ Color World::trace_ray(const Ray ray, int depth)
 {
 	if (depth > _max_depth)
 	{
-		return Vec3(1);
+		return g::White;
 		//return g::Black;
 	}
 	else
 	{
 		ShadeInfo info(this->intersection(ray));
 
-		if (info)
+		if (info.valid())
 		{
 			info.depth = depth;
 			info.ray = ray;
 
-			return info.material->shade(info);
+			Color c = info.material->shade(info);
+			return c;
 		}		
 	}
 

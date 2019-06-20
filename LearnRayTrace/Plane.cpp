@@ -20,25 +20,7 @@ Plane::~Plane()
 ShadeInfo Plane::intersect(const Ray& ray)
 {
 	ShadeInfo info;
-
-#if 0
-   float denom = ray.dir * _normal;
-
-   if (denom > 1e-6)
-   {
-	   Vec3 p0l0 = ray.orig - _position;
-	   p0l0.normalize();
-
-	   float t = (p0l0 * _normal) / denom;
-
-	   if (t >= 0)
-	   {
-		   result.shape = this;
-		   result.normal = _normal;
-	   }
-   }
-#else
-
+	
 	float t = (_position - ray.orig) * _normal / (ray.dir * _normal);
 
 	if (t > 1e-4)
@@ -49,9 +31,26 @@ ShadeInfo Plane::intersect(const Ray& ray)
 		info.material = this->_material;
 		info.shape = this;
 		info.ray = ray;
+
+		if (x_min != x_max)
+		{
+			if (info.position.x() < x_min || info.position.x() > x_max)
+				return ShadeInfo();
+		}
+
+		if (y_min != y_max)
+		{
+			if (info.position.y() < y_min || info.position.y() > y_max)
+				return ShadeInfo();
+		}
+
+		if (z_min != z_max)
+		{
+			if (info.position.z() < z_min || info.position.z() > z_max)
+				return ShadeInfo();
+		}
 	}
-	   
-#endif
+
 
    return info;
 }

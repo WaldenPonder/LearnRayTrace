@@ -27,5 +27,5 @@ public:
 
 	void setShape(Shape* s);
 
-	operator bool() const;
+	bool valid();
 };
