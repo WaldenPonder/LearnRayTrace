@@ -16,6 +16,8 @@ Camera::~Camera()
 {
 }
 
+#define SIZE 100
+
 void Camera::render()
 {
 	float ratio = _width / (float)_height;
@@ -41,9 +43,9 @@ void Camera::render()
 				cout << int(pre_out * 100) << "%" << endl;
 			}
 
-			int n = 10;
 			Color c;
 		
+			for(int k = 0; k < SIZE; k++)
 			{
 				float px = (2 * (i + .5) / _width - 1) * fov * ratio;
 				float py = (1 - 2 * ((j + .5) / _height)) * fov;
@@ -52,7 +54,7 @@ void Camera::render()
 				dir.normalize();
 
 				Ray ray(Vec3(0.), dir);
-				c = _world.trace_ray(ray, 0);
+				c += _world.trace_ray(ray, 0) / (float)SIZE;
 			}
 
 			c *= 255;

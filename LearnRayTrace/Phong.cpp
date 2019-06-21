@@ -19,38 +19,43 @@ Phong::~Phong()
 {
 }
 
-#define SIZE 200
-
 Color Phong::shade(ShadeInfo& info)
 {
 	Color val = getColor(info);
 
+	if (info.depth > 5)
+	{
+		float f = max(_diffuseColor.x(), _diffuseColor.y());
+		f = max(f, _diffuseColor.z());
+
+		if (rand_float() < f) val /= f;
+		else return Color();
+	}
+
+	if (info.depth > 100)
+		return Color();
+	
 	Vec3 w = info.normal;
 	Vec3 u = Vec3(0.00424, 1, 0.00764) ^ w;
 	u.normalize();
 	Vec3 v = u ^ w;
 
 	Color f = g::Black;
-	int count = 0;
-	for (int i = 0; i < SIZE; i++)
-	{
-		Point sp = MultiJittered::instance()->sample_hemisphere();
-		Vec3 wi = sp.x() * u + sp.y() * v + sp.z() * w;			// reflected ray direction
-		Ray r(info.position, wi);
 
-		f += info.world->trace_ray(r, info.depth + 1);
-		count++;
-	}
+	Point sp = MultiJittered::instance()->sample_hemisphere();
+	Vec3 wi = sp.x() * u + sp.y() * v + sp.z() * w;			// reflected ray direction
+	Ray r(info.position, wi);
 
-	f /= count;
-	Color c = val + f; // componentMultiply(val, f);
+	f = info.world->trace_ray(r, info.depth + 1);
+	//float factor = max(0, info.normal * wi);
+	Color c = componentMultiply(val, f);
 
-	return c.clamp(0, 1);
+	return c;// .clamp(0, 1);
 }
 
 Color Phong::getColor(ShadeInfo& info)
 {
-	return _diffuseColor / PI;
+	return _diffuseColor;
 
 	Vec3 lightDir(-info.position + Vec3(0, 2, -4.5));
 	lightDir.normalize();

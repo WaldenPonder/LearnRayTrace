@@ -13,10 +13,10 @@ Emissive::~Emissive()
 
 Color Emissive::shade(ShadeInfo& r)
 {
-	return _light;
+	return _light * 10;
 }
 
 Color Emissive::getColor(ShadeInfo& r)
 {
-	return _light;
+	return _light * 10;
 }

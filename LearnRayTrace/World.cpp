@@ -34,7 +34,7 @@ void World::buildScene()
 	plane->_material = new MATERIAL(g::Cyan);
 	_shapes.push_back(plane);
 
-	plane = new Plane(Vec3(0, 1.99, 0), Vec3(0, -1, 0)); //灯
+	plane = new Plane(Vec3(0, 2 - 1e-8, 0), Vec3(0, -1, 0)); //灯
 	plane->_material = new Emissive;
 	plane->x_min = -.5, plane->x_max = .5;
 	plane->z_min = -5, plane->z_max = -4;
@@ -42,7 +42,6 @@ void World::buildScene()
 
 	plane = new Plane(Vec3(0, -2, 0), Vec3(0, 1, 0)); //下
 	plane->_material = new MATERIAL(g::Blue);
-	plane->_material->_indirect_factor = .4;
 	_shapes.push_back(plane);
 
 	plane = new Plane(Vec3(-2, 0, 0), Vec3(1, 0, 0)); //左
@@ -97,23 +96,15 @@ ShadeInfo World::intersection(const Ray& ray)
 //返回最终颜色
 Color World::trace_ray(const Ray ray, int depth)
 {
-	if (depth > _max_depth)
-	{
-		//return g::White;
-		return g::Black;
-	}
-	else
-	{
-		ShadeInfo info(this->intersection(ray));
+	ShadeInfo info(this->intersection(ray));
 
-		if (info.valid())
-		{
-			info.depth = depth;
-			info.ray = ray;
+	if (info.valid())
+	{
+		info.depth = depth;
+		info.ray = ray;
 
-			Color c = info.material->shade(info);
-			return c;
-		}		
+		Color c = info.material->shade(info);
+		return c;
 	}
 
 	return _bgColor;

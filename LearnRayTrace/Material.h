@@ -15,6 +15,5 @@ public:
 	Vec3  _specularColor;
 	Vec3  _diffuseColor;
 	float _shiness = 32;
-	float _indirect_factor = .3f; //间接光贡献比
 };
 
