@@ -47,10 +47,9 @@ Color Phong::shade(ShadeInfo& info)
 	Ray r(info.position, wi);
 
 	f = info.world->trace_ray(r, info.depth + 1);
-	//float factor = max(0, info.normal * wi);
-	Color c = componentMultiply(val, f);
 
-	return c;// .clamp(0, 1);
+	Color c = componentMultiply(val, f);
+	return c;
 }
 
 Color Phong::getColor(ShadeInfo& info)

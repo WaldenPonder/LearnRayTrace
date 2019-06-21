@@ -16,7 +16,7 @@ Camera::~Camera()
 {
 }
 
-#define SIZE 100
+#define SIZE 50
 
 void Camera::render()
 {
@@ -54,7 +54,8 @@ void Camera::render()
 				dir.normalize();
 
 				Ray ray(Vec3(0.), dir);
-				c += _world.trace_ray(ray, 0) / (float)SIZE;
+				Color f = _world.trace_ray(ray, 0);
+				c = c + f / (float)SIZE;
 			}
 
 			c *= 255;

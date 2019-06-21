@@ -34,7 +34,7 @@ void World::buildScene()
 	plane->_material = new MATERIAL(g::Cyan);
 	_shapes.push_back(plane);
 
-	plane = new Plane(Vec3(0, 2 - 1e-8, 0), Vec3(0, -1, 0)); //µÆ
+	plane = new Plane(Vec3(0, 2 - 1e-5, 0), Vec3(0, -1, 0)); //µÆ
 	plane->_material = new Emissive;
 	plane->x_min = -.5, plane->x_max = .5;
 	plane->z_min = -5, plane->z_max = -4;
