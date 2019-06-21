@@ -52,13 +52,7 @@ void Camera::render()
 				dir.normalize();
 
 				Ray ray(Vec3(0.), dir);
-
-				ShadeInfo info(_world.intersection(ray));
-
-				if (info.valid())
-				{
-					c = info.material->shade(info);
-				}
+				c = _world.trace_ray(ray, 0);
 			}
 
 			c *= 255;

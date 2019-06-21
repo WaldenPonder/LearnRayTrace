@@ -18,6 +18,6 @@ public:
 	std::vector<Shape*> _shapes;
 	Camera              _camera;
 	int                 _max_depth;
-	Color				_bgColor = Color(58, 179, 255);
+	Color				_bgColor = Color(58, 179, 255) / 255.f;
 };
 

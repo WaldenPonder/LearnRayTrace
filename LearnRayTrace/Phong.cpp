@@ -19,7 +19,7 @@ Phong::~Phong()
 {
 }
 
-#define SIZE 50
+#define SIZE 200
 
 Color Phong::shade(ShadeInfo& info)
 {
@@ -37,27 +37,20 @@ Color Phong::shade(ShadeInfo& info)
 		Point sp = MultiJittered::instance()->sample_hemisphere();
 		Vec3 wi = sp.x() * u + sp.y() * v + sp.z() * w;			// reflected ray direction
 		Ray r(info.position, wi);
-		ShadeInfo rInfo(info.world->intersection(r));
-		if (rInfo.valid())
-		{
-			f += rInfo.material->getColor(rInfo);
-			count++;
-		}
+
+		f += info.world->trace_ray(r, info.depth + 1);
+		count++;
 	}
 
-	if (count)
-	{
-		f /= count;
-	}
-		
-	Color c = val + f;
+	f /= count;
+	Color c = val + f; // componentMultiply(val, f);
 
 	return c.clamp(0, 1);
 }
 
 Color Phong::getColor(ShadeInfo& info)
 {
-	//return _diffuseColor / PI;
+	return _diffuseColor / PI;
 
 	Vec3 lightDir(-info.position + Vec3(0, 2, -4.5));
 	lightDir.normalize();

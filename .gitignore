@@ -13,3 +13,4 @@
 *.ilk
 .vs/LearnRayTrace/v15/.suo
 *.opendb
+/.vs/config/applicationhost.config

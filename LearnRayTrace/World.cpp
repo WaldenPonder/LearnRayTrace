@@ -13,8 +13,6 @@
 #include "PerfectReflect.h"
 
 #define MATERIAL Phong
-//#define only_botttom 
-
 
 World::World() : _camera(*this)
 {
@@ -31,8 +29,7 @@ World::~World()
 void World::buildScene()
 {
 	Plane* plane = nullptr;
-	
-#ifndef only_botttom
+
 	plane = new Plane(Vec3(0, 2, 0), Vec3(0, -1, 0)); //上
 	plane->_material = new MATERIAL(g::Cyan);
 	_shapes.push_back(plane);
@@ -43,14 +40,10 @@ void World::buildScene()
 	plane->z_min = -5, plane->z_max = -4;
 	_shapes.push_back(plane);
 
-#endif // !only_botttom
-
 	plane = new Plane(Vec3(0, -2, 0), Vec3(0, 1, 0)); //下
 	plane->_material = new MATERIAL(g::Blue);
 	plane->_material->_indirect_factor = .4;
 	_shapes.push_back(plane);
-
-#ifndef only_botttom
 
 	plane = new Plane(Vec3(-2, 0, 0), Vec3(1, 0, 0)); //左
 	plane->_material = new MATERIAL(g::Green);
@@ -64,10 +57,7 @@ void World::buildScene()
 	plane->_material = new MATERIAL(g::Cyan);
 	_shapes.push_back(plane);
 
-#endif // !only_botttom
-
-#pragma region Sphere
-
+	//--------------------------------------------------Sphere
 	Sphere* sphere = new Sphere(Vec3(0, -1.5, -5), .5);
 	sphere->_material = new MATERIAL(g::Red);
 	_shapes.push_back(sphere);
@@ -77,14 +67,12 @@ void World::buildScene()
 	_shapes.push_back(sphere);
 
 	sphere = new Sphere(Vec3(1, -1.5, -5), .5);
-	sphere->_material = new PerfectReflect(g::Red);
+	sphere->_material = new MATERIAL(g::Red);
 	_shapes.push_back(sphere);
 
 	sphere = new Sphere(Vec3(0, -1.5, -4), .5);
 	sphere->_material = new MATERIAL(g::Yellow);
 	_shapes.push_back(sphere);
-
-#pragma endregion Sphere
 }
 
 ShadeInfo World::intersection(const Ray& ray)
@@ -106,12 +94,13 @@ ShadeInfo World::intersection(const Ray& ray)
 	return info;
 }
 
+//返回最终颜色
 Color World::trace_ray(const Ray ray, int depth)
 {
 	if (depth > _max_depth)
 	{
-		return g::White;
-		//return g::Black;
+		//return g::White;
+		return g::Black;
 	}
 	else
 	{

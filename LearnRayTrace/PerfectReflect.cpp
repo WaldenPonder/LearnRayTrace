@@ -23,24 +23,15 @@ Color PerfectReflect::shade(ShadeInfo& info)
 {
 	Color val = getColor(info);
 
-	Vec3 w = info.normal;
-	Vec3 u = Vec3(0.00424, 1, 0.00764) ^ w;
-	u.normalize();
-	Vec3 v = u ^ w;
-
 	Color f = g::Black;
-	int count = 0;
 
 	Vec3 wi = info.ray.dir - 2 * info.normal * info.ray.dir * info.normal;
 	Ray r(info.position, wi);
-	ShadeInfo rInfo(info.world->intersection(r));
-	if (rInfo.valid())
-	{
-		f = rInfo.material->getColor(rInfo);
-		count++;
-	}
 		
-	Color c = f + val;// componentMultiply(f, val);
+	ShadeInfo rInfo = info.world->intersection(r);
+	f = rInfo.material->getColor(rInfo);
+	//f = info.world->trace_ray(r, info.depth + 1);
+	Color c = f + val; //componentMultiply(f, val);
 
 	return c.clamp(0, 1);
 }
