@@ -31,9 +31,11 @@ void Camera::render()
 	float count = 0;
 	float pre_out = 0;
 
-	for (float j = 0; j < _height; j+= 1)
+//#pragma omp parallel for schedule(dynamic, 1)       // OpenMP
+
+	for (int j = 0; j < _height; j+= 1)
 	{
-		for (float i = 0; i < _width; i+= 1)
+		for (int i = 0; i < _width; i+= 1)
 		{
 			count++;
 
