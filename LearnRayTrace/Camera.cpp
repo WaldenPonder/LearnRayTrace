@@ -9,7 +9,8 @@
 
 Camera::Camera(World& world) : _world(world)
 {
-
+	_width *= .8;
+	_height *= .8;
 }
 
 Camera::~Camera()
@@ -18,8 +19,6 @@ Camera::~Camera()
 
 void Camera::render()
 {
-	long t = clock();
-
 	float ratio = _width / (float)_height;
 	float fov = tan(60. / 2 * PI / 180);
 
@@ -39,6 +38,8 @@ void Camera::render()
 	std::cin >> SIZE;
 
 	OF << "#\t SAMPES\t" << SIZE << "\n";
+
+	long t = clock();
 
 	for (int j = 0; j < _height; j+= 1)
 	{
