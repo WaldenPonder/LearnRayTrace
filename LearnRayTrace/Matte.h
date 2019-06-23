@@ -3,12 +3,12 @@
 
 class BRDF;
 
-class Phong : public Material
+class Matte : public Material
 {
 public:
-	Phong();
-	Phong(const Color& c);
-	~Phong();
+	Matte();
+	Matte(const Color& c);
+	~Matte();
 
 	virtual Color shade(ShadeInfo& r) override;
 	virtual Color getColor(ShadeInfo& r) override;

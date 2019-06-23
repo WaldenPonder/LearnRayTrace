@@ -1,25 +1,25 @@
 #include "stdafx.h"
-#include "Phong.h"
+#include "Matte.h"
 #include <cmath>
 #include "BRDF.h"
 #include "MultiJittered.h"
 #include "World.h"
 
-Phong::Phong()
+Matte::Matte()
 {
 }
 
 
-Phong::Phong(const Color& c) 
+Matte::Matte(const Color& c) 
 {
 	_specularColor = _diffuseColor = c;
 }
 
-Phong::~Phong()
+Matte::~Matte()
 {
 }
 
-Color Phong::shade(ShadeInfo& info)
+Color Matte::shade(ShadeInfo& info)
 {
 	Color val = getColor(info);
 
@@ -52,7 +52,7 @@ Color Phong::shade(ShadeInfo& info)
 	return c;
 }
 
-Color Phong::getColor(ShadeInfo& info)
+Color Matte::getColor(ShadeInfo& info)
 {
 	return _diffuseColor;
 

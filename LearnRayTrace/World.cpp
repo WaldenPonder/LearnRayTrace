@@ -5,14 +5,15 @@
 #include "ShadeInfo.h"
 #include "Material.h"
 #include "Ray.h"
-#include "Phong.h"
+#include "Matte.h"
 #include "Cylinder.h"
 #include "Box.h"
 #include "GlossyReflector.h"
 #include "Emissive.h"
 #include "PerfectReflect.h"
 
-#define MATERIAL Phong
+
+#define MATERIAL Matte
 
 World::World() : _camera(*this)
 {
@@ -24,6 +25,9 @@ World::World() : _camera(*this)
 World::~World()
 {
 }
+
+
+
 
 //--------------------------------------------------Y œÚ…œ£¨ ”“ ÷
 void World::buildScene()

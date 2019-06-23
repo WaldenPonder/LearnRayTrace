@@ -1,8 +1,8 @@
 #pragma once
-#include "Phong.h"
+#include "Matte.h"
 #include "Vec3.h"   // for Color
 
-class GlossyReflector : public Phong
+class GlossyReflector : public Matte
 {
 public:
 	GlossyReflector();

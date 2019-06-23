@@ -29,16 +29,15 @@ Color PerfectReflect::shade(ShadeInfo& info)
 	Ray r(info.position, wi);
 		
 	ShadeInfo rInfo = info.world->intersection(r);
-	f = rInfo.material->getColor(rInfo);
-	//f = info.world->trace_ray(r, info.depth + 1);
-	Color c = f + val; //componentMultiply(f, val);
-
-	return c.clamp(0, 1);
+	f = info.world->trace_ray(r, info.depth + 1);
+	
+	Color c = componentMultiply(f, val);
+	return c;
 }
 
 Color PerfectReflect::getColor(ShadeInfo& info)
 {
-	return _diffuseColor / PI;
+	return _diffuseColor;
 
 	Vec3 lightDir(-info.position + Vec3(0, 2, -4.5));
 	lightDir.normalize();

@@ -9,7 +9,7 @@ GlossyReflector::GlossyReflector() {
   _brdf->_material = this;
 }
 
-GlossyReflector::GlossyReflector(const Color &c) : Phong(c) {
+GlossyReflector::GlossyReflector(const Color &c) : Matte(c) {
   _brdf = new GlossySpecular;
   _brdf->_material = this;
 }

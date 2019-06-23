@@ -5,7 +5,7 @@
 #include "Sphere.h"
 #include "Plane.h"
 #include "World.h"
-#include "Phong.h"
+#include "Matte.h"
 
 Camera::Camera(World& world) : _world(world)
 {
@@ -16,10 +16,10 @@ Camera::~Camera()
 {
 }
 
-#define SIZE 50
-
 void Camera::render()
 {
+	long t = clock();
+
 	float ratio = _width / (float)_height;
 	float fov = tan(60. / 2 * PI / 180);
 
@@ -32,6 +32,13 @@ void Camera::render()
 	float pre_out = 0;
 
 //#pragma omp parallel for schedule(dynamic, 1)       // OpenMP
+
+	int SIZE = 100;
+
+	std::cout << "输入采样数\n";
+	std::cin >> SIZE;
+
+	OF << "#\t SAMPES\t" << SIZE << "\n";
 
 	for (int j = 0; j < _height; j+= 1)
 	{
@@ -69,5 +76,9 @@ void Camera::render()
 		}
 	}
 
+	OF << "# " << (clock() - t) / CLOCKS_PER_SEC << "   sample\t" << SIZE;
+
 	OF.close();
+
+	cout << "finish " << (clock() - t) << endl;
 }

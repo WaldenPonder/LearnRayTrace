@@ -51,9 +51,6 @@
     <ClCompile Include="Material.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Phong.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="ShadeInfo.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -82,6 +79,15 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="PerfectReflect.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Matte.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshObject.cpp">
+      <Filter>Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="tiny_obj_loader.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -134,9 +140,6 @@
     <ClInclude Include="Material.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Phong.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="ShadeInfo.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -163,6 +166,15 @@
     </ClInclude>
     <ClInclude Include="PerfectReflect.h">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Matte.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="tiny_obj_loader.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshObject.h">
+      <Filter>Shape</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
