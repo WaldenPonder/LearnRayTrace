@@ -39,6 +39,7 @@ class Vec4
 
         /** Constructor that sets all components of the vector to zero */
         Vec4() { _v[0]=0.0f; _v[1]=0.0f; _v[2]=0.0f; _v[3]=0.0f;}
+		explicit Vec4(value_type x) { _v[0] = _v[1] = _v[2] = _v[3] = x; }
 
         Vec4(value_type x, value_type y, value_type z, value_type w)
         {

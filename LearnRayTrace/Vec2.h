@@ -40,7 +40,7 @@ class Vec2
         /** Constructor that sets all components of the vector to zero */
         Vec2() {_v[0]=0.0; _v[1]=0.0;}
         Vec2(value_type x,value_type y) { _v[0]=x; _v[1]=y; }
-
+		explicit Vec2(value_type x) { _v[0] = _v[1] = x; }
 
         inline bool operator == (const Vec2& v) const { return _v[0]==v._v[0] && _v[1]==v._v[1]; }
 

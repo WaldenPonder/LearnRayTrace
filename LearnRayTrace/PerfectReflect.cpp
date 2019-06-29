@@ -21,7 +21,7 @@ PerfectReflect::~PerfectReflect()
 
 Color PerfectReflect::shade(ShadeInfo& info)
 {
-	Color val = getColor(info);
+	Color val = _diffuseColor;
 
 	Color f = g::Black;
 
@@ -37,8 +37,6 @@ Color PerfectReflect::shade(ShadeInfo& info)
 
 Color PerfectReflect::getColor(ShadeInfo& info)
 {
-	return _diffuseColor;
-
 	Vec3 lightDir(-info.position + Vec3(0, 2, -4.5));
 	lightDir.normalize();
 

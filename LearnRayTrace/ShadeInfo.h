@@ -2,7 +2,7 @@
 #include "Vec3.h"
 #include "Ray.h"
 
-    //  #define  USING_COUT
+//  #define  USING_COUT
 
 class Shape;
 class World;
@@ -22,6 +22,8 @@ public:
 	World*    world = nullptr;
 	Vec3      color;
 	Ray       ray;
+	float u = 0;
+	float v = 0;
 
 	Material* material = nullptr;
 

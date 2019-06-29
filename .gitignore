@@ -15,3 +15,5 @@
 *.opendb
 /.vs/config/applicationhost.config
 *.bin
+/LearnRayTrace/Triangle.h
+/LearnRayTrace/Triangle.cpp

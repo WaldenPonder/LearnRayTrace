@@ -6,11 +6,11 @@
 #include "Plane.h"
 #include "World.h"
 #include "Matte.h"
+#include "MultiJittered.h"
 
 Camera::Camera(World& world) : _world(world)
 {
-	_width *= .8;
-	_height *= .8;
+
 }
 
 Camera::~Camera()
@@ -30,12 +30,10 @@ void Camera::render()
 	float count = 0;
 	float pre_out = 0;
 
-//#pragma omp parallel for schedule(dynamic, 1)       // OpenMP
-
-	int SIZE = 100;
+	int SIZE = 1;
 
 	std::cout << "输入采样数\n";
-	std::cin >> SIZE;
+	//std::cin >> SIZE;
 
 	OF << "#\t SAMPES\t" << SIZE << "\n";
 
@@ -57,16 +55,21 @@ void Camera::render()
 		
 			for(int k = 0; k < SIZE; k++)
 			{
-				float px = (2 * (i + .5) / _width - 1) * fov * ratio;
-				float py = (1 - 2 * ((j + .5) / _height)) * fov;
+				//Point2D pt = MultiJittered::instance()->sample_unit_square();
+				Point2D pt(.5);
+				float px = (2 * (i + pt.x()) / _width - 1) * fov * ratio;
+				float py = (1 - 2 * ((j + pt.y()) / _height)) * fov;
 
 				Vec3 dir = Vec3(px, py, -1) - Vec3(0.);
 				dir.normalize();
 
 				Ray ray(Vec3(0.), dir);
-				Color f = _world.trace_ray(ray, 0);
+				Color f = _world.trace_ray_direct(ray, 0);
 				c = c + f / (float)SIZE;
 			}
+
+			_world.max_to_one(c);
+			c.clamp(0, 1);
 
 			c *= 255;
 			int ir   = c[0];

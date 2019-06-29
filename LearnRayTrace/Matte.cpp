@@ -21,7 +21,7 @@ Matte::~Matte()
 
 Color Matte::shade(ShadeInfo& info)
 {
-	Color val = getColor(info);
+	Color val = _diffuseColor;
 
 	if (info.depth > 5)
 	{
@@ -54,9 +54,7 @@ Color Matte::shade(ShadeInfo& info)
 
 Color Matte::getColor(ShadeInfo& info)
 {
-	return _diffuseColor;
-
-	Vec3 lightDir(-info.position + Vec3(0, 2, -4.5));
+	Vec3 lightDir(-info.position + Vec3(0, 1, -4.5));
 	lightDir.normalize();
 
 	float NdotL = info.normal * lightDir;

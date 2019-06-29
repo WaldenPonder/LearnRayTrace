@@ -30,10 +30,9 @@ ShadeInfo Sphere::intersect(const Ray& ray)
 
 		if (discr >= 0)
 		{
-			info.shape    = this;
-			info.material = this->_material;
+			info.setShape(this);
 			info.distance = -DdotV - sqrt(discr);
-			info.position = ray.orig + ray.dir *info.distance;
+			info.position = ray.distance(info.distance);
 			info.normal   = info.position - _center;
 			info.normal.normalize();
 			info.ray      = ray;

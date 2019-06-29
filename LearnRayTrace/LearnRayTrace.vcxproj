@@ -22,6 +22,7 @@
     <ClCompile Include="Box.cpp" />
     <ClCompile Include="BRDF.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Checker.cpp" />
     <ClCompile Include="Cylinder.cpp" />
     <ClCompile Include="Emissive.cpp" />
     <ClCompile Include="GlossyReflector.cpp" />
@@ -50,6 +51,7 @@
     <ClInclude Include="Box.h" />
     <ClInclude Include="BRDF.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Checker.h" />
     <ClInclude Include="common.h" />
     <ClInclude Include="Cylinder.h" />
     <ClInclude Include="Emissive.h" />
