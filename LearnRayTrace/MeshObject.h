@@ -14,6 +14,7 @@ public:
 
 private:
 	void load();
+	void computBBox();
 
 	struct Impl;
 	Impl* impl;

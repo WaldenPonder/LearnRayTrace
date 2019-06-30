@@ -7,7 +7,7 @@
 #include "Ray.h"
 #include "Matte.h"
 #include "Cylinder.h"
-#include "Box.h"
+#include "BoundingBox.h"
 #include "GlossyReflector.h"
 #include "Emissive.h"
 #include "PerfectReflect.h"

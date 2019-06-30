@@ -42,9 +42,6 @@
     <ClCompile Include="Camera.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Box.cpp">
-      <Filter>Shape</Filter>
-    </ClCompile>
     <ClCompile Include="Plane.cpp">
       <Filter>Shape</Filter>
     </ClCompile>
@@ -102,6 +99,9 @@
     <ClCompile Include="Checker.cpp">
       <Filter>Material</Filter>
     </ClCompile>
+    <ClCompile Include="BoundingBox.cpp">
+      <Filter>Shape</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Math.h">
@@ -130,9 +130,6 @@
     </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Box.h">
-      <Filter>Shape</Filter>
     </ClInclude>
     <ClInclude Include="Plane.h">
       <Filter>Shape</Filter>
@@ -190,6 +187,9 @@
     </ClInclude>
     <ClInclude Include="Checker.h">
       <Filter>Material</Filter>
+    </ClInclude>
+    <ClInclude Include="BoundingBox.h">
+      <Filter>Shape</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

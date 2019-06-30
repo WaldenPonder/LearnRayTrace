@@ -2,6 +2,7 @@
 #include "MeshObject.h"
 #include "tiny_obj_loader.h"
 #include "util.h"
+#include "BoundingBox.h"
 
 struct MeshObject::Impl
 {
@@ -10,6 +11,7 @@ struct MeshObject::Impl
 	std::vector<tinyobj::material_t> materials;
 	bool triangulate = true;
 	string filename;
+	BoundingBox bbox;
 };
 
 MeshObject::MeshObject(const string& filename) : impl(new Impl)
@@ -37,44 +39,74 @@ void MeshObject::load()
 	}
 }
 
+void MeshObject::computBBox()
+{
+	for (tinyobj::shape_t& shape : impl->shapes)
+	{
+		std::vector<tinyobj::index_t>& index = shape.mesh.indices;
+		std::vector<tinyobj::real_t>& vertices = impl->attrib.vertices;
+
+		for (int i = 0; i < index.size(); i++)
+		{
+			int in = index[i].vertex_index;
+			Point p1(vertices[in * 3], vertices[in * 3 + 1], vertices[in * 3 + 2]);
+			impl->bbox.expandBy(p1* magnify + offset);
+		}
+	}
+}
+
+//https://blog.csdn.net/xiaobaitu389/article/details/75523018
+
 ShadeInfo MeshObject::intersect(const Ray& ray)
 {
-	std::vector<tinyobj::index_t>& index = impl->shapes[0].mesh.indices;
-	std::vector<tinyobj::real_t>& vertices = impl->attrib.vertices;
-
 	ShadeInfo info;
 	info.distance = FLT_MAX;
 
-	float t, u, v;
-	for (int i = 0; i < index.size(); i+= 3)
+	if (!impl->bbox.valid())
+		this->computBBox();
+
+	if (!impl->bbox.intersect(ray))
 	{
-		int in = index[i].vertex_index;
-		Point p1(vertices[in * 3], vertices[in * 3 + 1], vertices[in * 3 + 2]);
-		in = index[i+1].vertex_index;
-		Point p2(vertices[in * 3], vertices[in * 3 + 1], vertices[in * 3 + 2]);
-		in = index[i+2].vertex_index;
-		Point p3(vertices[in * 3], vertices[in * 3 + 1], vertices[in * 3 + 2]);
+		return info;
+	}
+	
+	float t, u, v;
+	
+	for (tinyobj::shape_t& shape : impl->shapes)
+	{
+		std::vector<tinyobj::index_t>& index = shape.mesh.indices;
+		std::vector<tinyobj::real_t>& vertices = impl->attrib.vertices;
 
-		if (util::rayTriangleIntersect(ray, p1 * magnify + offset, p2* magnify + offset, p3* magnify + offset, t, u, v))
+		for (int i = 0; i < index.size(); i += 3)
 		{
-			if (t < info.distance)
+			int in = index[i].vertex_index;
+			Point p1(vertices[in * 3], vertices[in * 3 + 1], vertices[in * 3 + 2]);
+			in = index[i + 1].vertex_index;
+			Point p2(vertices[in * 3], vertices[in * 3 + 1], vertices[in * 3 + 2]);
+			in = index[i + 2].vertex_index;
+			Point p3(vertices[in * 3], vertices[in * 3 + 1], vertices[in * 3 + 2]);
+
+			if (util::rayTriangleIntersect(ray, p1 * magnify + offset, p2* magnify + offset, p3* magnify + offset, t, u, v))
 			{
-				Vec3 v0v1 = p2 - p1;
-				Vec3 v0v2 = p3 - p1;
+				if (t < info.distance)
+				{
+					Vec3 v0v1 = p2 - p1;
+					Vec3 v0v2 = p3 - p1;
 
-				info.setShape(this);
-				info.distance = t;
-				info.u = u;
-				info.v = v;
-				info.position = ray.distance(t);
-				//cout << info.position << "\t";
+					info.setShape(this);
+					info.distance = t;
+					info.u = u;
+					info.v = v;
+					info.position = ray.distance(t);
+					//cout << info.position << "\t";
 
-				info.ray = ray;
-				info.normal = v0v1 ^ v0v2;
-				info.normal.normalize();
+					info.ray = ray;
+					info.normal = v0v1 ^ v0v2;
+					info.normal.normalize();
+				}
 			}
 		}
 	}
-
+	
 	return info;
 }

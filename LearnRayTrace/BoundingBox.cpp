@@ -1,20 +1,39 @@
 #include "stdafx.h"
-#include "Box.h"
+#include "BoundingBox.h"
 
-Box::Box(const Vec3& loPt, int size)
+BoundingBox::BoundingBox()
 {
-	_minPt = loPt;
-	_maxPt = loPt + Vec3(size);
+
 }
 
-Box::~Box()
+BoundingBox::~BoundingBox()
 {
 }
 
-ShadeInfo Box::intersect(const Ray& r)
+void BoundingBox::reset()
 {
-	ShadeInfo info;
+	_minPt = Vec3(FLT_MAX);
+	_maxPt = Vec3(-.9 * FLT_MAX);
+}
 
+bool BoundingBox::valid() const
+{
+	return _minPt.x() < _maxPt.x() && _minPt.y() < _maxPt.y() && _minPt.z() < _maxPt.z();
+}
+
+void BoundingBox::expandBy(const Vec3& pt)
+{
+	_minPt.x() = std::min(_minPt.x(), pt.x());
+	_minPt.y() = std::min(_minPt.y(), pt.y());
+	_minPt.z() = std::min(_minPt.z(), pt.z());
+
+	_maxPt.x() = std::max(_maxPt.x(), pt.x());
+	_maxPt.y() = std::max(_maxPt.y(), pt.y());
+	_maxPt.z() = std::max(_maxPt.z(), pt.z());
+}
+
+bool BoundingBox::intersect(const Ray& r)
+{
 	float tmin = (_minPt.x() - r.orig.x()) / r.dir.x();
 	float tmax = (_maxPt.x() - r.orig.x()) / r.dir.x();
 
@@ -26,7 +45,7 @@ ShadeInfo Box::intersect(const Ray& r)
 	if (tymin > tymax) std::swap(tymin, tymax);
 
 	if ((tmin > tymax) || (tymin > tmax))
-		return info;
+		return false;
 
 	if (tymin > tmin)
 		tmin = tymin;
@@ -40,7 +59,7 @@ ShadeInfo Box::intersect(const Ray& r)
 	if (tzmin > tzmax) std::swap(tzmin, tzmax);
 
 	if ((tmin > tzmax) || (tzmin > tmax))
-		return info;
+		return false;
 
 	if (tzmin > tmin)
 		tmin = tzmin;
@@ -48,9 +67,5 @@ ShadeInfo Box::intersect(const Ray& r)
 	if (tzmax < tmax)
 		tmax = tzmax;
 
-	info.setShape(this);
-	info.distance = tmin;
-	info.ray = r;
-
-	return info;
+	return true;
 }

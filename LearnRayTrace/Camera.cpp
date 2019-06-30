@@ -32,7 +32,7 @@ void Camera::render()
 
 	int SIZE = 1;
 
-	std::cout << "输入采样数\n";
+	//std::cout << "输入采样数\n";
 	//std::cin >> SIZE;
 
 	OF << "#\t SAMPES\t" << SIZE << "\n";
@@ -80,7 +80,7 @@ void Camera::render()
 		}
 	}
 
-	OF << "# " << (clock() - t) / CLOCKS_PER_SEC << "   sample\t" << SIZE;
+	OF << "# " << float(clock() - t) / (float)CLOCKS_PER_SEC << "   sample\t" << SIZE;
 
 	OF.close();
 
