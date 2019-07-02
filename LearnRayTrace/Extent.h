@@ -14,7 +14,7 @@ public:
 	virtual ~Extent();
 	
 	virtual bool intersect(const Ray& ray) override;
-	Vec3 center() const;
+	virtual Vec3 center() const override;
 	void extendBy(const Extent& pbb);
 
 	MeshObject* mesh_ = nullptr;

@@ -1,71 +1,70 @@
-#include "stdafx.h"
 #include "BoundingBox.h"
+#include "stdafx.h"
 
-BoundingBox::BoundingBox()
-{
+BoundingBox::BoundingBox() {}
 
+BoundingBox::~BoundingBox() {}
+
+void BoundingBox::reset() {
+    _minPt = Vec3( FLT_MAX );
+    _maxPt = Vec3( -FLT_MAX );
 }
 
-BoundingBox::~BoundingBox()
-{
+bool BoundingBox::valid() const {
+    return _minPt.x() < _maxPt.x() && _minPt.y() < _maxPt.y() && _minPt.z() < _maxPt.z();
 }
 
-void BoundingBox::reset()
-{
-	_minPt = Vec3(FLT_MAX);
-	_maxPt = Vec3(-.9 * FLT_MAX);
+void BoundingBox::expandBy( const Vec3& pt ) {
+    _minPt.x() = std::min( _minPt.x(), pt.x() );
+    _minPt.y() = std::min( _minPt.y(), pt.y() );
+    _minPt.z() = std::min( _minPt.z(), pt.z() );
+
+    _maxPt.x() = std::max( _maxPt.x(), pt.x() );
+    _maxPt.y() = std::max( _maxPt.y(), pt.y() );
+    _maxPt.z() = std::max( _maxPt.z(), pt.z() );
 }
 
-bool BoundingBox::valid() const
+Vec3 BoundingBox::center() const
 {
-	return _minPt.x() < _maxPt.x() && _minPt.y() < _maxPt.y() && _minPt.z() < _maxPt.z();
+	return (_minPt + _maxPt) / 2.f;
 }
 
-void BoundingBox::expandBy(const Vec3& pt)
-{
-	_minPt.x() = std::min(_minPt.x(), pt.x());
-	_minPt.y() = std::min(_minPt.y(), pt.y());
-	_minPt.z() = std::min(_minPt.z(), pt.z());
+bool BoundingBox::intersect( const Ray& r ) {
+    float tmin = ( _minPt.x() - r.orig.x() ) / r.dir.x();
+    float tmax = ( _maxPt.x() - r.orig.x() ) / r.dir.x();
 
-	_maxPt.x() = std::max(_maxPt.x(), pt.x());
-	_maxPt.y() = std::max(_maxPt.y(), pt.y());
-	_maxPt.z() = std::max(_maxPt.z(), pt.z());
-}
+    if ( tmin > tmax )
+        std::swap( tmin, tmax );
 
-bool BoundingBox::intersect(const Ray& r)
-{
-	float tmin = (_minPt.x() - r.orig.x()) / r.dir.x();
-	float tmax = (_maxPt.x() - r.orig.x()) / r.dir.x();
+    float tymin = ( _minPt.y() - r.orig.y() ) / r.dir.y();
+    float tymax = ( _maxPt.y() - r.orig.y() ) / r.dir.y();
 
-	if (tmin > tmax) std::swap(tmin, tmax);
+    if ( tymin > tymax )
+        std::swap( tymin, tymax );
 
-	float tymin = (_minPt.y() - r.orig.y()) / r.dir.y();
-	float tymax = (_maxPt.y() - r.orig.y()) / r.dir.y();
+    if ( ( tmin > tymax ) || ( tymin > tmax ) )
+        return false;
 
-	if (tymin > tymax) std::swap(tymin, tymax);
+    if ( tymin > tmin )
+        tmin = tymin;
 
-	if ((tmin > tymax) || (tymin > tmax))
-		return false;
+    if ( tymax < tmax )
+        tmax = tymax;
 
-	if (tymin > tmin)
-		tmin = tymin;
+    float tzmin = ( _minPt.z() - r.orig.z() ) / r.dir.z();
+    float tzmax = ( _maxPt.z() - r.orig.z() ) / r.dir.z();
 
-	if (tymax < tmax)
-		tmax = tymax;
+    if ( tzmin > tzmax )
+        std::swap( tzmin, tzmax );
 
-	float tzmin = (_minPt.z() - r.orig.z()) / r.dir.z();
-	float tzmax = (_maxPt.z() - r.orig.z()) / r.dir.z();
+    if ( ( tmin > tzmax ) || ( tzmin > tmax ) )
+        return false;
 
-	if (tzmin > tzmax) std::swap(tzmin, tzmax);
+    if ( tzmin > tmin )
+        tmin = tzmin;
 
-	if ((tmin > tzmax) || (tzmin > tmax))
-		return false;
+    if ( tzmax < tmax )
+        tmax = tzmax;
 
-	if (tzmin > tmin)
-		tmin = tzmin;
-
-	if (tzmax < tmax)
-		tmax = tzmax;
-
-	return true;
+    return true;
 }
