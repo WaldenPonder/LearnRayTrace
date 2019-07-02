@@ -3,6 +3,7 @@
 #include "tiny_obj_loader.h"
 #include "util.h"
 #include "BoundingBox.h"
+#include "Extent.h"
 
 struct MeshObject::Impl
 {
@@ -109,4 +110,28 @@ ShadeInfo MeshObject::intersect(const Ray& ray)
 	}
 	
 	return info;
+}
+
+void MeshObject::init_polytope_boundingbox(Extent& pbb) const
+{
+	for (int j = 0; j < 7; j++)
+	{
+		for (tinyobj::shape_t& shape : impl->shapes)
+		{
+			std::vector<tinyobj::index_t>& index = shape.mesh.indices;
+			std::vector<tinyobj::real_t>& vertices = impl->attrib.vertices;
+
+			for (int i = 0; i < index.size(); i++)
+			{
+				int in = index[i].vertex_index;
+				Vec3 p1(vertices[in * 3], vertices[in * 3 + 1], vertices[in * 3 + 2]);
+
+				float d = g::planeSetNormals[j] * p1;
+				// set dNEar and dFar
+				if (d < pbb.slabs_[j][0]) pbb.slabs_[j][0] = d;
+				if (d > pbb.slabs_[j][1]) pbb.slabs_[j][1] = d;
+			}
+		}
+	}
+
 }

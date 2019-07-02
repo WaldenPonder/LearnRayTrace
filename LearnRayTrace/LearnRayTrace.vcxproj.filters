@@ -25,6 +25,9 @@
     <Filter Include="Light">
       <UniqueIdentifier>{7f8322cf-9262-4db0-9f8a-21de0ddae837}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Acceleration">
+      <UniqueIdentifier>{92092fc8-4c1a-4aa0-ada5-658aae207e6c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Math.cpp">
@@ -101,6 +104,15 @@
     </ClCompile>
     <ClCompile Include="BoundingBox.cpp">
       <Filter>Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="Acceleration.cpp">
+      <Filter>Acceleration</Filter>
+    </ClCompile>
+    <ClCompile Include="BVH.cpp">
+      <Filter>Acceleration</Filter>
+    </ClCompile>
+    <ClCompile Include="Extent.cpp">
+      <Filter>Acceleration</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -190,6 +202,18 @@
     </ClInclude>
     <ClInclude Include="BoundingBox.h">
       <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="BVH.h">
+      <Filter>Acceleration</Filter>
+    </ClInclude>
+    <ClInclude Include="Acceleration.h">
+      <Filter>Acceleration</Filter>
+    </ClInclude>
+    <ClInclude Include="BBox.h">
+      <Filter>Acceleration</Filter>
+    </ClInclude>
+    <ClInclude Include="Extent.h">
+      <Filter>Acceleration</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

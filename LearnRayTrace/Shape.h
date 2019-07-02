@@ -9,8 +9,8 @@ class Material;
 
 class Shape
 {
-
 public:
+	meta_name(Shape);
 	Shape();
 	~Shape();
 

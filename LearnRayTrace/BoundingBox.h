@@ -1,11 +1,14 @@
 #pragma once
-#include "Shape.h"
+#include "BBox.h"
 
-class BoundingBox
+class BoundingBox : public BBox
 {
 public:
 	BoundingBox();
 	~BoundingBox();
+
+	Vec3& operator [] (bool i) { return _minPt; }
+	const Vec3 operator [] (bool i) const { return _maxPt; }
 
 	void reset();
 
@@ -13,7 +16,7 @@ public:
 
 	void expandBy(const Vec3& pt);
 
-	bool intersect(const Ray& ray);
+	virtual bool intersect(const Ray& ray) override;
 
 	Vec3 _minPt = Vec3(FLT_MAX);
 	Vec3 _maxPt = Vec3(-FLT_MAX);

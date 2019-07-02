@@ -247,7 +247,7 @@ const Vec3 Z_AXIS(0.0,0.0,1.0);
 
 using Color = Vec3;
 using Point = Vec3;
-
+using Vec3f = Vec3;
 
 namespace g{
 const Color  White(255 / 255.f, 255 / 255.f, 255 / 255.f);

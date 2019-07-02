@@ -11,6 +11,7 @@ class Material;
 class ShadeInfo
 {
 public:
+	meta_name(ShadeInfo);
 	ShadeInfo();
 
 	float     distance = 0;
