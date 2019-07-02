@@ -543,14 +543,14 @@ class BVH : public AccelerationStructure
 {
     static const uint8_t kNumPlaneSetNormals = 7;
     static const Vec3f planeSetNormals[kNumPlaneSetNormals];
-    struct Extents
+    struct Extent
     {
-        Extents()
+        Extent()
         {
             for (uint8_t i = 0;  i < kNumPlaneSetNormals; ++i) 
                 d[i][0] = kInfinity, d[i][1] = -kInfinity;
         }
-        void extendBy(const Extents& e)
+        void extendBy(const Extent& e)
         {
             
             for (uint8_t i = 0;  i < kNumPlaneSetNormals; ++i) {
@@ -573,16 +573,16 @@ class BVH : public AccelerationStructure
 
     struct Octree
     {
-        Octree(const Extents& sceneExtents)
+        Octree(const Extent& sceneExtent)
         {
-            float xDiff = sceneExtents.d[0][1] - sceneExtents.d[0][0];
-            float yDiff = sceneExtents.d[1][1] - sceneExtents.d[1][0];
-            float zDiff = sceneExtents.d[2][1] - sceneExtents.d[2][0];
+            float xDiff = sceneExtent.d[0][1] - sceneExtent.d[0][0];
+            float yDiff = sceneExtent.d[1][1] - sceneExtent.d[1][0];
+            float zDiff = sceneExtent.d[2][1] - sceneExtent.d[2][0];
             float maxDiff = std::max(xDiff, std::max(yDiff, zDiff));
             Vec3f minPlusMax(
-                sceneExtents.d[0][0] + sceneExtents.d[0][1],
-                sceneExtents.d[1][0] + sceneExtents.d[1][1],
-                sceneExtents.d[2][0] + sceneExtents.d[2][1]);
+                sceneExtent.d[0][0] + sceneExtent.d[0][1],
+                sceneExtent.d[1][0] + sceneExtent.d[1][1],
+                sceneExtent.d[2][0] + sceneExtent.d[2][1]);
             bbox[0] = (minPlusMax - maxDiff) * 0.5;
             bbox[1] = (minPlusMax + maxDiff) * 0.5;
             root = new OctreeNode;
@@ -590,14 +590,14 @@ class BVH : public AccelerationStructure
         
         ~Octree() { deleteOctreeNode(root); }
     
-        void insert(const Extents* extents) { insert(root, extents, bbox, 0); }
+        void insert(const Extent* extent) { insert(root, extent, bbox, 0); }
         void build() { build(root, bbox); };
         
         struct OctreeNode
         {
             OctreeNode* child[8] = { nullptr };
-            std::vector<const Extents *> nodeExtentsList; // pointer to the objects extents
-            Extents nodeExtents; // extents of the octree node itself
+            std::vector<const Extent *> nodeExtentList; // pointer to the objects extents
+            Extent nodeExtent; // extents of the octree node itself
             bool isLeaf = true;
         };
         
@@ -625,32 +625,32 @@ class BVH : public AccelerationStructure
             delete node;
         }
     
-        void insert(OctreeNode*& node, const Extents* extents, const BBox<>& bbox, uint32_t depth)
+        void insert(OctreeNode*& node, const Extent* extent, const BBox<>& bbox, uint32_t depth)
         {
             if (node->isLeaf) {
-                if (node->nodeExtentsList.size() == 0 || depth == 16) {
-                    node->nodeExtentsList.push_back(extents);
+                if (node->nodeExtentList.size() == 0 || depth == 16) {
+                    node->nodeExtentList.push_back(extent);
                 }
                 else {
                     node->isLeaf = false;
                     // Re-insert extents held by this node
-                    while (node->nodeExtentsList.size()) {
-                        insert(node, node->nodeExtentsList.back(), bbox, depth);
-                        node->nodeExtentsList.pop_back();
+                    while (node->nodeExtentList.size()) {
+                        insert(node, node->nodeExtentList.back(), bbox, depth);
+                        node->nodeExtentList.pop_back();
                     }
                     // Insert new extent
-                    insert(node, extents, bbox, depth);
+                    insert(node, extent, bbox, depth);
                 }
             }
             else {
                 // Need to compute in which child of the current node this extents should
                 // be inserted into
-                Vec3f extentsCentroid = extents->centroid();
+                Vec3f extentCentroid = extent->centroid();
                 Vec3f nodeCentroid = (bbox[0] + bbox[1]) * 0.5;
                 BBox<> childBBox;
                 uint8_t childIndex = 0;
                 // x-axis
-                if (extentsCentroid.x > nodeCentroid.x) {
+                if (extentCentroid.x > nodeCentroid.x) {
                     childIndex = 4;
                     childBBox[0].x = nodeCentroid.x;
                     childBBox[1].x = bbox[1].x;
@@ -660,7 +660,7 @@ class BVH : public AccelerationStructure
                     childBBox[1].x = nodeCentroid.x;
                 }
                 // y-axis
-                if (extentsCentroid.y > nodeCentroid.y) {
+                if (extentCentroid.y > nodeCentroid.y) {
                     childIndex += 2;
                     childBBox[0].y = nodeCentroid.y;
                     childBBox[1].y = bbox[1].y;
@@ -670,7 +670,7 @@ class BVH : public AccelerationStructure
                     childBBox[1].y = nodeCentroid.y;
                 }
                 // z-axis
-                if (extentsCentroid.z > nodeCentroid.z) {
+                if (extentCentroid.z > nodeCentroid.z) {
                     childIndex += 1;
                     childBBox[0].z = nodeCentroid.z;
                     childBBox[1].z = bbox[1].z;
@@ -683,15 +683,15 @@ class BVH : public AccelerationStructure
                 // Create the child node if it doesn't exsit yet and then insert the extents in it
                 if (node->child[childIndex] == nullptr)
                     node->child[childIndex] = new OctreeNode;
-                insert(node->child[childIndex], extents, childBBox, depth + 1);
+                insert(node->child[childIndex], extent, childBBox, depth + 1);
             }
         }
         
         void build(OctreeNode*& node, const BBox<>& bbox)
         {
             if (node->isLeaf) {
-                for (const auto& e: node->nodeExtentsList) {
-                    node->nodeExtents.extendBy(*e);
+                for (const auto& e: node->nodeExtentList) {
+                    node->nodeExtent.extendBy(*e);
                 }
             }
             else {
@@ -713,14 +713,14 @@ class BVH : public AccelerationStructure
                         build(node->child[i], childBBox);
                         
                         // Expand extents with extents of child
-                        node->nodeExtents.extendBy(node->child[i]->nodeExtents);
+                        node->nodeExtent.extendBy(node->child[i]->nodeExtent);
                     }
                 }
             }
         }
     };
 
-    std::vector<Extents> extentsList;
+    std::vector<Extent> extentList;
     Octree* octree = nullptr;
 public:
     BVH(std::vector<std::unique_ptr<const Mesh>>& m);
@@ -740,34 +740,34 @@ const Vec3f BVH::planeSetNormals[BVH::kNumPlaneSetNormals] = {
 
 BVH::BVH(std::vector<std::unique_ptr<const Mesh>>& m) : AccelerationStructure(m)
 {
-    Extents sceneExtents; // that's the extent of the entire scene which we need to compute for the octree
-    extentsList.reserve(meshes.size());
+    Extent sceneExtent; // that's the extent of the entire scene which we need to compute for the octree
+    extentList.reserve(meshes.size());
     for (uint32_t i = 0; i < meshes.size(); ++i) {
         for (uint8_t j = 0; j < kNumPlaneSetNormals; ++j) {
             for (const auto vtx : meshes[i]->vertexPool) {
                 float d = dot(planeSetNormals[j], vtx);
                 // set dNEar and dFar
-                if (d < extentsList[i].d[j][0]) extentsList[i].d[j][0] = d;
-                if (d > extentsList[i].d[j][1]) extentsList[i].d[j][1] = d;
+                if (d < extentList[i].d[j][0]) extentList[i].d[j][0] = d;
+                if (d > extentList[i].d[j][1]) extentList[i].d[j][1] = d;
             }
         }
-        sceneExtents.extendBy(extentsList[i]); // expand the scene extent of this object's extent
-        extentsList[i].mesh = meshes[i].get(); // the extent itself needs to keep a pointer to the object its holds
+        sceneExtent.extendBy(extentList[i]); // expand the scene extent of this object's extent
+        extentList[i].mesh = meshes[i].get(); // the extent itself needs to keep a pointer to the object its holds
     }
 
     // Now that we have the extent of the scene we can start building our octree
     // Using C++ make_unique function here but you don't need to, just to learn something... 
-    octree = new Octree(sceneExtents);
+    octree = new Octree(sceneExtent);
 
     for (uint32_t i = 0; i < meshes.size(); ++i) {
-        octree->insert(&extentsList[i]);
+        octree->insert(&extentList[i]);
     }
 
     // Build from bottom up
     octree->build();
 }
 
-bool BVH::Extents::intersect(
+bool BVH::Extent::intersect(
     const float* precomputedNumerator,
     const float* precomputedDenominator,
     float& tNear,   // tn and tf in this method need to be contained
@@ -816,7 +816,7 @@ bool BVH::intersect(const Vec3f& orig, const Vec3f& dir, const uint32_t& rayId, 
     
     uint8_t planeIndex;
     float tNear = 0, tFar = kInfinity; // tNear, tFar for the intersected extents
-    if (!octree->root->nodeExtents.intersect(precomputedNumerator, precomputedDenominator, tNear, tFar, planeIndex) || tFar < 0)
+    if (!octree->root->nodeExtent.intersect(precomputedNumerator, precomputedDenominator, tNear, tFar, planeIndex) || tFar < 0)
         return false;
     tHit = tFar;
     std::priority_queue<BVH::Octree::QueueElement> queue;
@@ -825,7 +825,7 @@ bool BVH::intersect(const Vec3f& orig, const Vec3f& dir, const uint32_t& rayId, 
         const Octree::OctreeNode *node = queue.top().node;
         queue.pop();
         if (node->isLeaf) {
-            for (const auto& e: node->nodeExtentsList) {
+            for (const auto& e: node->nodeExtentList) {
                 float t = kInfinity;
                 if (e->mesh->intersect(orig, dir, t) && t < tHit) {
                     tHit = t;
@@ -837,7 +837,7 @@ bool BVH::intersect(const Vec3f& orig, const Vec3f& dir, const uint32_t& rayId, 
             for (uint8_t i = 0; i < 8; ++i) {
                 if (node->child[i] != nullptr) {
                     float tNearChild = 0, tFarChild = tFar;
-                    if (node->child[i]->nodeExtents.intersect(precomputedNumerator, precomputedDenominator, tNearChild, tFarChild, planeIndex)) {
+                    if (node->child[i]->nodeExtent.intersect(precomputedNumerator, precomputedDenominator, tNearChild, tFarChild, planeIndex)) {
                         float t = (tNearChild < 0 && tFarChild >= 0) ? tFarChild : tNearChild;
                         queue.push(BVH::Octree::QueueElement(node->child[i], t));
                     }
@@ -849,6 +849,7 @@ bool BVH::intersect(const Vec3f& orig, const Vec3f& dir, const uint32_t& rayId, 
     return (intersectedMesh != nullptr);
 }
 
+#if 0
 // [comment]
 // Implementation of the Grid acceleration structure
 // [/comment]
@@ -1035,6 +1036,7 @@ bool Grid::intersect(const Vec3f& orig, const Vec3f& dir, const uint32_t& rayId,
 
     return (intersectedMesh != nullptr);
 }
+#endif
 
 // [comment]
 // Main Render() function. Loop over each pixel in the image and trace a primary

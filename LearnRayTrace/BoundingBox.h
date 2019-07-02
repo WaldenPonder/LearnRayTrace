@@ -16,5 +16,5 @@ public:
 	bool intersect(const Ray& ray);
 
 	Vec3 _minPt = Vec3(FLT_MAX);
-	Vec3 _maxPt = Vec3(-.9 * FLT_MAX);
+	Vec3 _maxPt = Vec3(-FLT_MAX);
 };
