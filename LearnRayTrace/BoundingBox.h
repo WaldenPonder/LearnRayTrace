@@ -16,6 +16,8 @@ public:
 
 	void expandBy(const Vec3& pt);
 
+	virtual Vec3 center() const override;
+
 	virtual bool intersect(const Ray& ray) override;
 
 	Vec3 _minPt = Vec3(FLT_MAX);

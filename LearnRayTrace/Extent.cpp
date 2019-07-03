@@ -1,24 +1,18 @@
 #include "Extent.h"
 #include "stdafx.h"
 
-Extent::Extent(MeshObject* mesh) : mesh_(mesh)
-{
-	mesh->init_polytope_boundingbox(*this);
+Extent::Extent( MeshObject* mesh ) : mesh_( mesh ) {
+    mesh->init_polytope_boundingbox( *this );
 }
 
-Extent::Extent(const Extent& pbb) : mesh_(pbb.mesh_)
-{
-	for (int i = 0; i < 7; i++)
-	{
-		slabs_[i][0] = pbb.slabs_[i][0];
-		slabs_[i][1] = pbb.slabs_[i][1];
-	}
+Extent::Extent( const Extent& pbb ) : mesh_( pbb.mesh_ ) {
+    for ( int i = 0; i < 7; i++ ) {
+        slabs_[ i ][ 0 ] = pbb.slabs_[ i ][ 0 ];
+        slabs_[ i ][ 1 ] = pbb.slabs_[ i ][ 1 ];
+    }
 }
 
-Extent::Extent()
-{
-
-}
+Extent::Extent() {}
 
 Extent::~Extent() {}
 
@@ -54,10 +48,11 @@ Vec3 Extent::center() const {
     return Vec3( slabs_[ 0 ][ 0 ] + slabs_[ 0 ][ 1 ] * 0.5, slabs_[ 1 ][ 0 ] + slabs_[ 1 ][ 1 ] * 0.5, slabs_[ 2 ][ 0 ] + slabs_[ 2 ][ 1 ] * 0.5 );
 }
 
-void Extent::extendBy( const Extent& pbb ) 
-{
-	for (uint8_t i = 0; i < 7; ++i) {
-		if (pbb.slabs_[i][0] < slabs_[i][0]) slabs_[i][0] = pbb.slabs_[i][0];
-		if (pbb.slabs_[i][1] > slabs_[i][1]) slabs_[i][1] = pbb.slabs_[i][1];
-	}
+void Extent::extendBy( const Extent& pbb ) {
+    for ( uint8_t i = 0; i < 7; ++i ) {
+        if ( pbb.slabs_[ i ][ 0 ] < slabs_[ i ][ 0 ] )
+            slabs_[ i ][ 0 ] = pbb.slabs_[ i ][ 0 ];
+        if ( pbb.slabs_[ i ][ 1 ] > slabs_[ i ][ 1 ] )
+            slabs_[ i ][ 1 ] = pbb.slabs_[ i ][ 1 ];
+    }
 }
