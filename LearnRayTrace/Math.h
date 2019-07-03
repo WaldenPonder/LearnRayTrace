@@ -35,8 +35,8 @@ const float PI_4f = 0.78539816339744830962f;
 const float LN_2f = 0.69314718055994530942f;
 const float INVLN_2f = 1.0f / LN_2f;
 
-const float 	invRAND_MAX = 1.0 / (float)RAND_MAX;
-const float kEpsilon = 1e-5;
+const float 	invRAND_MAX = 1.0f / (float)RAND_MAX;
+const float kEpsilon = 1e-5f;
 
 namespace util {
 

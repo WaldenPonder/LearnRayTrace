@@ -102,9 +102,6 @@
     <ClCompile Include="Checker.cpp">
       <Filter>Material</Filter>
     </ClCompile>
-    <ClCompile Include="BoundingBox.cpp">
-      <Filter>Shape</Filter>
-    </ClCompile>
     <ClCompile Include="Acceleration.cpp">
       <Filter>Acceleration</Filter>
     </ClCompile>
@@ -112,6 +109,9 @@
       <Filter>Acceleration</Filter>
     </ClCompile>
     <ClCompile Include="Extent.cpp">
+      <Filter>Acceleration</Filter>
+    </ClCompile>
+    <ClCompile Include="BoundingBox.cpp">
       <Filter>Acceleration</Filter>
     </ClCompile>
   </ItemGroup>
@@ -200,9 +200,6 @@
     <ClInclude Include="Checker.h">
       <Filter>Material</Filter>
     </ClInclude>
-    <ClInclude Include="BoundingBox.h">
-      <Filter>Shape</Filter>
-    </ClInclude>
     <ClInclude Include="BVH.h">
       <Filter>Acceleration</Filter>
     </ClInclude>
@@ -213,6 +210,9 @@
       <Filter>Acceleration</Filter>
     </ClInclude>
     <ClInclude Include="Extent.h">
+      <Filter>Acceleration</Filter>
+    </ClInclude>
+    <ClInclude Include="BoundingBox.h">
       <Filter>Acceleration</Filter>
     </ClInclude>
   </ItemGroup>

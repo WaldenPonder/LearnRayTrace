@@ -8,4 +8,6 @@ public:
 	meta_name(Acceleration);
 	Acceleration();
 	~Acceleration();
+
+	virtual ShadeInfo intersect(const Ray& ray) { return ShadeInfo(); }
 };

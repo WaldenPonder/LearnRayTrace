@@ -9,8 +9,8 @@ public:
 	BVH();
 	virtual ~BVH();
 
-	void build();
-	virtual bool intersect(const Ray& ray) override;
+	void init();
+	virtual ShadeInfo intersect(const Ray& ray) override;
 
 	struct Octree;
 	Octree* octree_;

@@ -4,6 +4,7 @@
 #include "Singleton.h"
 #include "Camera.h"
 
+class Acceleration;
 class World : public Singleton<World>
 {
 public:
@@ -21,9 +22,10 @@ public:
 	void clamp_to_color(Color& c, const Color& clamto = g::Red) const;
 
 public:
-	std::vector<Shape*> _shapes;
-	Camera              _camera;
-	int                 _max_depth;
-	Color				_bgColor = Color(58, 179, 255) / 255.f;
+	std::vector<Shape*> shapes_;
+	Camera              camera_;
+	int                 max_depth_;
+	Color				bgColor_ = Color(58, 179, 255) / 255.f;
+	Acceleration* accel_ = nullptr;
 };
 

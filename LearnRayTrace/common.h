@@ -40,4 +40,4 @@ VECTOR.erase(std::remove(VECTOR.begin(), VECTOR.end(), DATA), VECTOR.end());
  public:\
  static  std::string class_name() { return #CLASS; }/*¿‡–Õ*/\
  virtual std::string  className(){  return #CLASS; }\
-virtual std::string  className() const { return #CLASS; }\
+virtual std::string  className() const { return #CLASS; }

@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "World.h"
 #include "BoundingBox.h"
 #include "Checker.h"
@@ -12,12 +13,12 @@
 #include "Ray.h"
 #include "ShadeInfo.h"
 #include "Sphere.h"
-#include "stdafx.h"
+#include "Acceleration.h"
 
 #define MATERIAL Matte
 
-World::World() : _camera( *this ) {
-    _max_depth = 2;
+World::World() : camera_( *this ) {
+    max_depth_ = 2;
     buildScene2();
 }
 
@@ -29,46 +30,46 @@ void World::buildScene1() {
 
     plane            = new Plane( Vec3( 0, 2, 0 ), Vec3( 0, -1, 0 ) );  //上
     plane->_material = new MATERIAL( g::Cyan );
-    _shapes.push_back( plane );
+    shapes_.push_back( plane );
 
     plane            = new Plane( Vec3( 0, 2 - 1e-5, 0 ), Vec3( 0, -1, 0 ) );  //灯
     plane->_material = new Emissive;
     plane->x_min = -.5, plane->x_max = .5;
     plane->z_min = -5, plane->z_max = -4;
-    _shapes.push_back( plane );
+    shapes_.push_back( plane );
 
     plane            = new Plane( Vec3( 0, -2, 0 ), Vec3( 0, 1, 0 ) );  //下
     plane->_material = new MATERIAL( g::Blue );
-    _shapes.push_back( plane );
+    shapes_.push_back( plane );
 
     plane            = new Plane( Vec3( -2, 0, 0 ), Vec3( 1, 0, 0 ) );  //左
     plane->_material = new MATERIAL( g::Green );
-    _shapes.push_back( plane );
+    shapes_.push_back( plane );
 
     plane            = new Plane( Vec3( 0, 0, -6 ), Vec3( 0, 0, 1 ) );  //后
     plane->_material = new MATERIAL( g::Yellow );
-    _shapes.push_back( plane );
+    shapes_.push_back( plane );
 
     plane            = new Plane( Vec3( 2, 0, 0 ), Vec3( -1, 0, 0 ) );  //右
     plane->_material = new MATERIAL( g::Cyan );
-    _shapes.push_back( plane );
+    shapes_.push_back( plane );
 
     //--------------------------------------------------Sphere
     Sphere* sphere    = new Sphere( Vec3( 0, -1.5, -5 ), .5 );
     sphere->_material = new MATERIAL( g::Red );
-    _shapes.push_back( sphere );
+    shapes_.push_back( sphere );
 
     sphere            = new Sphere( Vec3( -1, -1.5, -5 ), .5 );
     sphere->_material = new MATERIAL( g::Red );
-    _shapes.push_back( sphere );
+    shapes_.push_back( sphere );
 
     sphere            = new Sphere( Vec3( 1, -1.5, -5 ), .5 );
     sphere->_material = new MATERIAL( g::Red );
-    _shapes.push_back( sphere );
+    shapes_.push_back( sphere );
 
     sphere            = new Sphere( Vec3( 0, -1.5, -4 ), .5 );
     sphere->_material = new MATERIAL( g::Yellow );
-    _shapes.push_back( sphere );
+    shapes_.push_back( sphere );
 }
 
 //--------------------------------------------------Y 向上， 右手
@@ -77,7 +78,7 @@ void World::buildScene2() {
 
     plane            = new Plane( Vec3( 0, -25, 0 ), Vec3( 0, 1, 0 ) );
     plane->_material = new Checker();
-    //_shapes.push_back(plane);
+    //shapes_.push_back(plane);
 
     //--------------------------------------------------Sphere
     Shape* shape = new Sphere( Vec3( 0, -1.5, -11 ), .5 );
@@ -96,17 +97,44 @@ void World::buildScene2() {
     // shape->_material = new MATERIAL(g::Yellow);
     //_shapes.push_back(shape);
 
-    MeshObject* bunny = new MeshObject( "../bunny.obj" );
-    bunny->offset     = Vec3( 0, -10, -40 );
-    bunny->magnify    = 100;
-    bunny->_material  = new MATERIAL( g::Blue );
-    _shapes.push_back( bunny );
+	int i = 1;
+	for (i = 0; i < 2; i++)
+	{
+		{
+			MeshObject* bunny = new MeshObject("../bunny.obj");
+			bunny->offset = Vec3(-10, -10, -40 + i * 2);
+			bunny->magnify = 50;
+			bunny->_material = new MATERIAL(g::Blue);
+			shapes_.push_back(bunny);
+		}
+
+		{
+			MeshObject* bunny = new MeshObject("../bunny.obj");
+			bunny->offset = Vec3(0, -10, -40 + i * 3);
+			bunny->magnify = 50;
+			bunny->_material = new MATERIAL(g::Blue);
+			shapes_.push_back(bunny);
+		}
+
+		{
+			MeshObject* bunny = new MeshObject("../bunny.obj");
+			bunny->offset = Vec3(10, -10, -40 + i);
+			bunny->magnify = 50;
+			bunny->_material = new MATERIAL(g::Blue);
+			shapes_.push_back(bunny);
+		}
+	}
+
 }
 
 ShadeInfo World::intersection( const Ray& ray ) {
+
+	if (accel_)
+		return accel_->intersect(ray);
+
     ShadeInfo info;
 
-    for ( Shape* s : _shapes ) {
+    for ( Shape* s : shapes_ ) {
         ShadeInfo value = s->intersect( ray );
         if ( value.shape ) {
             if ( value.distance < info.distance ) {
@@ -130,7 +158,7 @@ Color World::trace_ray( const Ray ray, int depth ) {
         return c;
     }
 
-    return _bgColor;
+    return bgColor_;
 }
 
 Color World::trace_ray_direct( const Ray ray, int depth ) {
@@ -144,7 +172,7 @@ Color World::trace_ray_direct( const Ray ray, int depth ) {
         return c;
     }
 
-    return _bgColor;
+    return bgColor_;
 }
 
 void World::max_to_one( Color& c ) const {

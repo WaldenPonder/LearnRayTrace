@@ -15,13 +15,13 @@ bool BoundingBox::valid() const {
 }
 
 void BoundingBox::expandBy( const Vec3& pt ) {
-    _minPt.x() = std::min( _minPt.x(), pt.x() );
-    _minPt.y() = std::min( _minPt.y(), pt.y() );
-    _minPt.z() = std::min( _minPt.z(), pt.z() );
+    _minPt.x() = min( _minPt.x(), pt.x() );
+    _minPt.y() = min( _minPt.y(), pt.y() );
+    _minPt.z() = min( _minPt.z(), pt.z() );
 
-    _maxPt.x() = std::max( _maxPt.x(), pt.x() );
-    _maxPt.y() = std::max( _maxPt.y(), pt.y() );
-    _maxPt.z() = std::max( _maxPt.z(), pt.z() );
+    _maxPt.x() = max( _maxPt.x(), pt.x() );
+    _maxPt.y() = max( _maxPt.y(), pt.y() );
+    _maxPt.z() = max( _maxPt.z(), pt.z() );
 }
 
 Vec3 BoundingBox::center() const

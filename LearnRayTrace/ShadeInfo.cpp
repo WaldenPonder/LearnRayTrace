@@ -1,5 +1,5 @@
-#include "World.h"
 #include "stdafx.h"
+#include "World.h"
 
 ShadeInfo::ShadeInfo() {
   world = World::Instance();
