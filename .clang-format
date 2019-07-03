@@ -1,8 +1,9 @@
 # 语言: None, Cpp, Java, JavaScript, ObjC, Proto, TableGen, TextProto
 Language:	Cpp
-# BasedOnStyle:	LLVM
+#Google  LLVM   Chromium  Mozilla  WebKit 
+BasedOnStyle:	LLVM
 # 访问说明符(public、private等)的偏移
-AccessModifierOffset:	-4
+AccessModifierOffset:	-3
 # 开括号(开圆括号、开尖括号、开方括号)后的对齐: Align, DontAlign, AlwaysBreak(总是在开括号后换行)
 AlignAfterOpenBracket:	Align
 # 连续赋值时，对齐所有等号
@@ -15,18 +16,20 @@ AlignEscapedNewlinesLeft:	true
 AlignOperands:	true
 # 对齐连续的尾随的注释
 AlignTrailingComments:	true
+#一个固定的表达式，它描述了具有特殊意义的注释，不应该被分裂成行或以其他方式改变。
+#CommentPragmas : [begin_name_space, Q_OBJECT meta_object, meta_data, meta_osg_object]
 # 允许函数声明的所有参数在放在下一行
 AllowAllParametersOfDeclarationOnNextLine:	true
 # 允许短的块放在同一行
-AllowShortBlocksOnASingleLine:	false
+AllowShortBlocksOnASingleLine:	true
 # 允许短的case标签放在同一行
-AllowShortCaseLabelsOnASingleLine:	false
+AllowShortCaseLabelsOnASingleLine:	true
 # 允许短的函数放在同一行: None, InlineOnly(定义在类中), Empty(空函数), Inline(定义在类中，空函数), All
-AllowShortFunctionsOnASingleLine:	Empty
+AllowShortFunctionsOnASingleLine:	All
 # 允许短的if语句保持在同一行
-AllowShortIfStatementsOnASingleLine:	false
+AllowShortIfStatementsOnASingleLine:	true
 # 允许短的循环保持在同一行
-AllowShortLoopsOnASingleLine:	false
+AllowShortLoopsOnASingleLine:	true
 # 总是在定义返回类型后换行(deprecated)
 AlwaysBreakAfterDefinitionReturnType:	None
 # 总是在返回类型后换行: None, All, TopLevel(顶级函数，不包括在类中的函数), 
@@ -35,7 +38,7 @@ AlwaysBreakAfterReturnType:	None
 # 总是在多行string字面量前换行
 AlwaysBreakBeforeMultilineStrings:	false
 # 总是在template声明后换行
-AlwaysBreakTemplateDeclarations:	false
+AlwaysBreakTemplateDeclarations:	true
 # false表示函数实参要么都在同一行，要么都各自一行
 BinPackArguments:	true
 # false表示所有形参要么都在同一行，要么都各自一行
@@ -43,21 +46,21 @@ BinPackParameters:	true
 # 大括号换行，只有当BreakBeforeBraces设置为Custom时才有效
 BraceWrapping:   
   # class定义后面
-  AfterClass:	false
+  AfterClass:	true
   # 控制语句后面
-  AfterControlStatement:	false
+  AfterControlStatement:	true
   # enum定义后面
-  AfterEnum:	false
+  AfterEnum:	true
   # 函数定义后面
-  AfterFunction:	false
+  AfterFunction:	true
   # 命名空间定义后面
-  AfterNamespace:	false
+  AfterNamespace:	true
   # ObjC定义后面
-  AfterObjCDeclaration:	false
+  AfterObjCDeclaration:	true
   # struct定义后面
-  AfterStruct:	false
+  AfterStruct:	true
   # union定义后面
-  AfterUnion:	false
+  AfterUnion:	true
   # catch之前
   BeforeCatch:	true
   # else之前
@@ -76,7 +79,7 @@ BreakBeforeTernaryOperators:	true
 # 在构造函数的初始化列表的逗号前换行
 BreakConstructorInitializersBeforeComma:	false
 # 每行字符的限制，0表示没有限制
-ColumnLimit:	200
+ColumnLimit:	0
 # 描述具有特殊意义的注释的正则表达式，它不应该被分割为多行或以其它方式改变
 CommentPragmas:	'^ IWYU pragma:'
 # 构造函数的初始化列表要么都在同一行，要么都各自一行
@@ -94,7 +97,7 @@ DisableFormat:	false
 # 自动检测函数的调用和定义是否被格式为每行一个参数(Experimental)
 ExperimentalAutoDetectBinPacking:	false
 # 需要被解读为foreach循环而不是函数调用的宏
-ForEachMacros:	[ foreach, Q_FOREACH, BOOST_FOREACH ]
+ForEachMacros:	[ foreach, Q_FOREACH, BOOST_FOREACH]
 # 对#include进行排序，匹配了某正则表达式的#include拥有对应的优先级，匹配不到的则默认优先级为INT_MAX(优先级越小排序越靠前)，
 #   可以定义负数优先级从而保证某些#include永远在最前面
 IncludeCategories: 
@@ -119,7 +122,7 @@ MacroBlockEnd:	''
 # 连续空行的最大数量
 MaxEmptyLinesToKeep:	1
 # 命名空间的缩进: None, Inner(缩进嵌套的命名空间中的内容), All
-NamespaceIndentation:	Inner
+NamespaceIndentation:	All
 # 使用ObjC块时缩进宽度
 ObjCBlockIndentWidth:	4
 # 在ObjC的@property后添加一个空格
@@ -143,7 +146,7 @@ PointerAlignment:	Left
 # 允许重新排版注释
 ReflowComments:	true
 # 允许排序#include
-SortIncludes:	true
+SortIncludes:	false
 # 在C风格类型转换后添加空格
 SpaceAfterCStyleCast:	false
 # 在赋值运算符之前添加空格
@@ -155,18 +158,18 @@ SpaceInEmptyParentheses:	false
 # 在尾随的评论前添加的空格数(只适用于//)
 SpacesBeforeTrailingComments:	2
 # 在尖括号的<后和>前添加空格
-SpacesInAngles:	true
+SpacesInAngles:	false
 # 在容器(ObjC和JavaScript的数组和字典等)字面量中添加空格
 SpacesInContainerLiterals:	true
 # 在C风格类型转换的括号中添加空格
 SpacesInCStyleCastParentheses:	true
 # 在圆括号的(后和)前添加空格
-SpacesInParentheses:	true
+SpacesInParentheses:	false
 # 在方括号的[后和]前添加空格，lamda表达式和未指明大小的数组的声明不受影响
-SpacesInSquareBrackets:	true
+SpacesInSquareBrackets:	false
 # 标准: Cpp03, Cpp11, Auto
 Standard:	Cpp11
 # tab宽度
 TabWidth:	4
 # 使用tab字符: Never, ForIndentation, ForContinuationAndIndentation, Always
-UseTab:	Never
+UseTab:	Always
