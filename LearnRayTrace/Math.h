@@ -17,6 +17,10 @@
 #include <cmath>
 #include <cfloat>
 
+
+#undef max
+#undef min
+
 #ifdef PI
 #undef PI
 #undef PI_2

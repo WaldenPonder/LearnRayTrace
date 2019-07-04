@@ -1,16 +1,18 @@
 #include "stdafx.h"
-#include "World.h"
+#include "Shape.h"
 
-ShadeInfo::ShadeInfo() {
-  world = World::Instance();
-  distance = FLT_MAX;
+ShadeInfo::ShadeInfo()
+{
+	dis = FLT_MAX;
 }
 
-void ShadeInfo::setShape(Shape *s) {
-  if (s) {
-    shape = s;
-    material = s->_material;
-  }
+void ShadeInfo::setShape(Shape* s)
+{
+	if (s)
+	{
+		shape	= s;
+		material = s->_material;
+	}
 }
 
 bool ShadeInfo::valid()

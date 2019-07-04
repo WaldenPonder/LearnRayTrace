@@ -1,7 +1,7 @@
 #pragma once
 #include "Shape.h"
 
-class Extent;
+
 class MeshObject : public Shape
 {
 public:
@@ -11,7 +11,7 @@ public:
 
 	virtual ShadeInfo intersect(const Ray& ray) override;
 
-	void init_polytope_boundingbox(Extent& pbb) const;
+	void init_polytope_boundingbox(Extent& extent) const;
 
 	Point offset;
 	float magnify = 1.f;

@@ -32,7 +32,7 @@ Color GlossyReflector::shade(ShadeInfo &info) {
 		float ndowi = info.normal * wi;
 		Ray reflected_ray(info.position, wi);
 
-		Color c1 = info.world->trace_ray(reflected_ray, info.depth + 1);
+		Color c1 = World::Instance()->trace_ray(reflected_ray, info.depth + 1);
 		rtn += (componentMultiply(f, c1)) *ndowi / pdf;
 	}
 

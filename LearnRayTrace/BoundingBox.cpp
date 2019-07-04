@@ -1,5 +1,5 @@
-#include "BoundingBox.h"
 #include "stdafx.h"
+#include "BoundingBox.h"
 
 BoundingBox::BoundingBox() {}
 

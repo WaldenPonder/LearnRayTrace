@@ -1,11 +1,5 @@
 #pragma once
 #include "Vec3.h"
-#include "Ray.h"
-#include "ShadeInfo.h"
-
-class Shape;
-class World;
-class Material;
 
 class Shape
 {

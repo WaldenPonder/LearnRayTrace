@@ -6,6 +6,7 @@
 #include <array>
 #include <queue>
 
+
 struct OctreeNode
 {
 	Extent					   nodeExtent;
@@ -33,7 +34,7 @@ struct BVH::Octree
 
 	BoundingBox	bbox;
 	Extent		   nodeExtent;
-	vector<Extent> nodeExtentList;  //所有的extent集合
+	vector<Extent> allExtent;  //所有的extent集合
 	OctreeNode	 root;
 };
 
@@ -161,7 +162,7 @@ void BVH::init()
 		{
 			MeshObject* mesh = dynamic_cast<MeshObject*>(shape);
 			Extent		extent(mesh);
-			octree_->nodeExtentList.push_back(extent);
+			octree_->allExtent.push_back(extent);
 			octree_->nodeExtent.extendBy(extent);
 		}
 	}
@@ -177,7 +178,7 @@ void BVH::init()
 	octree_->bbox._maxPt = (minPlusMax + Vec3(maxDiff)) * 0.5;
 
 	//--------------------------------------------------insert and building
-	for (auto& extent : octree_->nodeExtentList)
+	for (auto& extent : octree_->allExtent)
 	{
 		octree_->insert(&octree_->root, &extent, octree_->bbox, 0);
 	}
@@ -215,11 +216,11 @@ ShadeInfo BVH::intersect(const Ray& ray)
 			{
 				float	 t		  = FLT_MAX;
 				ShadeInfo tmpInfo = e->mesh_->intersect(ray);
-				if (tmpInfo.valid() && tmpInfo.distance < tHit)
+				if (tmpInfo.valid() && tmpInfo.dis < tHit)
 				{
 					info		  = tmpInfo;
 					tHit		  = t;
-					info.distance = t;
+					info.dis = t;
 					info.setShape(e->mesh_);
 				}
 			}

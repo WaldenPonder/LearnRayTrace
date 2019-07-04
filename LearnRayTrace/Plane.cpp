@@ -1,16 +1,13 @@
 #include "stdafx.h"
 #include "Plane.h"
 
-
 Plane::Plane()
 {
 }
 
-
 Plane::Plane(const Vec3& position, const Vec3& normal)
 	: _position(position), _normal(normal)
 {
-
 }
 
 Plane::~Plane()
@@ -20,17 +17,17 @@ Plane::~Plane()
 ShadeInfo Plane::intersect(const Ray& ray)
 {
 	ShadeInfo info;
-	
+
 	float t = (_position - ray.orig) * _normal / (ray.dir * _normal);
 
 	if (t > 1e-4)
 	{
-		info.normal = _normal;
+		info.normal   = _normal;
 		info.position = ray.orig + ray.dir * t;
-		info.distance = t;
+		info.dis	  = t;
 		info.material = this->_material;
-		info.shape = this;
-		info.ray = ray;
+		info.shape	= this;
+		info.ray	  = ray;
 
 		if (x_min != x_max)
 		{
@@ -51,6 +48,5 @@ ShadeInfo Plane::intersect(const Ray& ray)
 		}
 	}
 
-
-   return info;
+	return info;
 }

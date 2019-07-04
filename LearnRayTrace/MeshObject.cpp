@@ -61,7 +61,7 @@ void MeshObject::computBBox()
 ShadeInfo MeshObject::intersect(const Ray& ray)
 {
 	ShadeInfo info;
-	info.distance = FLT_MAX;
+	info.dis = FLT_MAX;
 
 	if (!impl->bbox.valid())
 		this->computBBox();
@@ -89,13 +89,13 @@ ShadeInfo MeshObject::intersect(const Ray& ray)
 
 			if (util::rayTriangleIntersect(ray, p1 * magnify + offset, p2* magnify + offset, p3* magnify + offset, t, u, v))
 			{
-				if (t < info.distance)
+				if (t < info.dis)
 				{
 					Vec3 v0v1 = p2 - p1;
 					Vec3 v0v2 = p3 - p1;
 
 					info.setShape(this);
-					info.distance = t;
+					info.dis = t;
 					info.u = u;
 					info.v = v;
 					info.position = ray.distance(t);
@@ -112,7 +112,7 @@ ShadeInfo MeshObject::intersect(const Ray& ray)
 	return info;
 }
 
-void MeshObject::init_polytope_boundingbox(Extent& pbb) const
+void MeshObject::init_polytope_boundingbox(Extent& extent) const
 {
 	for (int j = 0; j < 7; j++)
 	{
@@ -125,11 +125,12 @@ void MeshObject::init_polytope_boundingbox(Extent& pbb) const
 			{
 				int in = index[i].vertex_index;
 				Vec3 p1(vertices[in * 3], vertices[in * 3 + 1], vertices[in * 3 + 2]);
+				p1 = p1 * magnify + offset;
 
 				float d = g::planeSetNormals[j] * p1;
 				// set dNEar and dFar
-				if (d < pbb.slabs_[j][0]) pbb.slabs_[j][0] = d;
-				if (d > pbb.slabs_[j][1]) pbb.slabs_[j][1] = d;
+				if (d < extent.slabs_[j][0]) extent.slabs_[j][0] = d;
+				if (d > extent.slabs_[j][1]) extent.slabs_[j][1] = d;
 			}
 		}
 	}

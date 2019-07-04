@@ -1,6 +1,8 @@
 #pragma once
 #include "Shape.h"
 
+class Ray;
+
 class BBox
 {
 public:

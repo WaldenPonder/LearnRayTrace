@@ -1,7 +1,6 @@
 #pragma once
 #include "Vec3.h"
 #include "ShadeInfo.h"
-#include "common.h"
 
 class Material
 {

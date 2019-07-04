@@ -28,8 +28,8 @@ Color PerfectReflect::shade(ShadeInfo& info)
 	Vec3 wi = info.ray.dir - 2 * info.normal * info.ray.dir * info.normal;
 	Ray r(info.position, wi);
 		
-	ShadeInfo rInfo = info.world->intersection(r);
-	f = info.world->trace_ray(r, info.depth + 1);
+	ShadeInfo rInfo = World::Instance()->intersection(r);
+	f = World::Instance()->trace_ray(r, info.depth + 1);
 	
 	Color c = componentMultiply(f, val);
 	return c;

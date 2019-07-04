@@ -9,5 +9,5 @@ public:
 	Acceleration();
 	~Acceleration();
 
-	virtual ShadeInfo intersect(const Ray& ray) { return ShadeInfo(); }
+	virtual ShadeInfo intersect(const Ray& ray);
 };

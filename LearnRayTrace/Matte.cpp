@@ -46,7 +46,7 @@ Color Matte::shade(ShadeInfo& info)
 	Vec3 wi = sp.x() * u + sp.y() * v + sp.z() * w;			// reflected ray direction
 	Ray r(info.position, wi);
 
-	f = info.world->trace_ray(r, info.depth + 1);
+	f = World::Instance()->trace_ray(r, info.depth + 1);
 
 	Color c = componentMultiply(val, f);
 	return c;

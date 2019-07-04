@@ -1,6 +1,5 @@
 #pragma once
 #include "BBox.h"
-#include "MeshObject.h"
 
 //14ÃæÌå
 class Extent : public BBox
@@ -9,7 +8,7 @@ class Extent : public BBox
 	meta_name(Extent);
 	Extent();
 	Extent(MeshObject* mesh);
-	Extent(const Extent& pbb);
+	Extent(const Extent& extent);
 
 	virtual ~Extent();
 
@@ -23,6 +22,8 @@ class Extent : public BBox
 
 	virtual Vec3 center() const override;
 	void		 extendBy(const Extent& pbb);
+
+	void init();
 
 	MeshObject* mesh_ = nullptr;
 	float		slabs_[7][2];

@@ -9,3 +9,8 @@ Acceleration::Acceleration()
 Acceleration::~Acceleration()
 {
 }
+
+ShadeInfo Acceleration::intersect(const Ray& ray)
+{
+	return ShadeInfo();
+}

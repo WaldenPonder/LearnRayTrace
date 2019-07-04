@@ -1,11 +1,10 @@
 #pragma once
-#include "common.h"
 #include "Ray.h"
 
-begin_name_space(util)
+begin_name_space(util);
 
-string  getDesktopPath();
+string getDesktopPath();
 
-bool rayTriangleIntersect(const Ray& ray, const Point &v0, const Point &v1, const Point &v2, float &t, float &u, float &v);
+bool rayTriangleIntersect(const Ray& ray, const Point& v0, const Point& v1, const Point& v2, float& t, float& u, float& v);
 
-end_name_space
+end_name_space;

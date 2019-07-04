@@ -1,8 +1,7 @@
 #pragma once
-#include "Shape.h"
-#include <vector>
 #include "Singleton.h"
 #include "Camera.h"
+#include <vector>
 
 class Acceleration;
 class World : public Singleton<World>

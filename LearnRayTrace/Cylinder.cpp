@@ -34,9 +34,9 @@ ShadeInfo Cylinder::intersect(const Ray& ray)
 		float t1 = (-B + sqrt(delta)) / (2 * A);
 		float t2 = (-B - sqrt(delta)) / (2 * A);
 
-		info.distance = max(t1, t2);
+		info.dis = max(t1, t2);
 		info.setShape(this);
-		info.position = ray.distance(info.distance);
+		info.position = ray.distance(info.dis);
 		info.normal = info.position;
 		info.normal.normalize();
 		info.ray = ray;
