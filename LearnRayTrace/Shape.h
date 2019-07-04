@@ -10,8 +10,9 @@ public:
 
 	virtual ShadeInfo intersect(const Ray& ray) = 0;
 
-	Vec3      _color;
+	Vec3      color_;
 
-	Material* _material = nullptr;
+	Material* material_ = nullptr;
+	Shape* parent_ = nullptr;
 };
 

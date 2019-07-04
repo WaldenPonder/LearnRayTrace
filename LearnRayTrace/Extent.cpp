@@ -1,5 +1,5 @@
-#include "Extent.h"
 #include "stdafx.h"
+#include "Extent.h"
 #include "MeshObject.h"
 
 Extent::Extent()

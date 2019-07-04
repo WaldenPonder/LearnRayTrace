@@ -209,6 +209,7 @@ class  Matrix
         // basic utility functions to create new matrices
         inline static Matrix identity( void );
         inline static Matrix scale( const Vec3& sv);
+		inline static Matrix scale(float sv);
         inline static Matrix scale( value_type sx, value_type sy, value_type sz);
         inline static Matrix translate( const Vec3& dv);
 
@@ -351,6 +352,13 @@ inline Matrix Matrix::scale(value_type sx, value_type sy, value_type sz)
 inline Matrix Matrix::scale(const Vec3& v )
 {
     return scale(v.x(), v.y(), v.z() );
+}
+
+inline Matrix Matrix::scale(float v)
+{
+	Matrix m;
+	m.makeScale(v, v, v);
+	return m;
 }
 
 inline Matrix Matrix::translate(value_type tx, value_type ty, value_type tz)

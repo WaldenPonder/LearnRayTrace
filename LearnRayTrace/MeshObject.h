@@ -1,26 +1,39 @@
 #pragma once
 #include "Shape.h"
+#include "Matrix.h"
+#include "BoundingBox.h"
 
+class Mesh
+{
+ public:
+	meta_name(Mesh);
+	Mesh(const string& filename);
+	~Mesh();
+
+ private:
+	void load();
+
+	struct Impl;
+	Impl* impl;
+	friend class MeshObject;
+};
 
 class MeshObject : public Shape
 {
-public:
+ public:
 	meta_name(MeshObject);
-	MeshObject(const string& filename);
+	MeshObject(const Mesh& mesh);
 	virtual ~MeshObject();
 
 	virtual ShadeInfo intersect(const Ray& ray) override;
 
 	void init_polytope_boundingbox(Extent& extent) const;
 
-	Point offset;
-	float magnify = 1.f;
+	Matrix matrix_;
 
-private:
-	void load();
+ private:
 	void computBBox();
 
-	struct Impl;
-	Impl* impl;
+	BoundingBox bbox_;
+	const Mesh& mesh_;
 };
-

@@ -25,7 +25,7 @@ ShadeInfo Plane::intersect(const Ray& ray)
 		info.normal   = _normal;
 		info.position = ray.orig + ray.dir * t;
 		info.dis	  = t;
-		info.material = this->_material;
+		info.material = this->material_;
 		info.shape	= this;
 		info.ray	  = ray;
 

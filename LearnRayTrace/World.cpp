@@ -28,46 +28,46 @@ void World::buildScene1()
 	Plane* plane = nullptr;
 
 	plane			 = new Plane(Vec3(0, 2, 0), Vec3(0, -1, 0));  //ÉÏ
-	plane->_material = new MATERIAL(g::Cyan);
+	plane->material_ = new MATERIAL(g::Cyan);
 	shapes_.push_back(plane);
 
 	plane			 = new Plane(Vec3(0, 2 - 1e-5, 0), Vec3(0, -1, 0));  //µÆ
-	plane->_material = new Emissive;
+	plane->material_ = new Emissive;
 	plane->x_min = -.5, plane->x_max = .5;
 	plane->z_min = -5, plane->z_max = -4;
 	shapes_.push_back(plane);
 
 	plane			 = new Plane(Vec3(0, -2, 0), Vec3(0, 1, 0));  //ÏÂ
-	plane->_material = new MATERIAL(g::Blue);
+	plane->material_ = new MATERIAL(g::Blue);
 	shapes_.push_back(plane);
 
 	plane			 = new Plane(Vec3(-2, 0, 0), Vec3(1, 0, 0));  //×ó
-	plane->_material = new MATERIAL(g::Green);
+	plane->material_ = new MATERIAL(g::Green);
 	shapes_.push_back(plane);
 
 	plane			 = new Plane(Vec3(0, 0, -6), Vec3(0, 0, 1));  //ºó
-	plane->_material = new MATERIAL(g::Yellow);
+	plane->material_ = new MATERIAL(g::Yellow);
 	shapes_.push_back(plane);
 
 	plane			 = new Plane(Vec3(2, 0, 0), Vec3(-1, 0, 0));  //ÓÒ
-	plane->_material = new MATERIAL(g::Cyan);
+	plane->material_ = new MATERIAL(g::Cyan);
 	shapes_.push_back(plane);
 
 	//--------------------------------------------------Sphere
 	Sphere* sphere	= new Sphere(Vec3(0, -1.5, -5), .5);
-	sphere->_material = new MATERIAL(g::Red);
+	sphere->material_ = new MATERIAL(g::Red);
 	shapes_.push_back(sphere);
 
 	sphere			  = new Sphere(Vec3(-1, -1.5, -5), .5);
-	sphere->_material = new MATERIAL(g::Red);
+	sphere->material_ = new MATERIAL(g::Red);
 	shapes_.push_back(sphere);
 
 	sphere			  = new Sphere(Vec3(1, -1.5, -5), .5);
-	sphere->_material = new MATERIAL(g::Red);
+	sphere->material_ = new MATERIAL(g::Red);
 	shapes_.push_back(sphere);
 
 	sphere			  = new Sphere(Vec3(0, -1.5, -4), .5);
-	sphere->_material = new MATERIAL(g::Yellow);
+	sphere->material_ = new MATERIAL(g::Yellow);
 	shapes_.push_back(sphere);
 }
 
@@ -77,8 +77,8 @@ void World::buildScene2()
 	Plane* plane = nullptr;
 
 	plane			 = new Plane(Vec3(0, -25, 0), Vec3(0, 1, 0));
-	plane->_material = new Checker();
-	//shapes_.push_back(plane);
+	plane->material_ = new Checker();
+	shapes_.push_back(plane);
 
 	//--------------------------------------------------Sphere
 	Shape* shape = new Sphere(Vec3(0, -1.5, -11), .5);
@@ -97,44 +97,25 @@ void World::buildScene2()
 	// shape->_material = new MATERIAL(g::Yellow);
 	//_shapes.push_back(shape);
 
-	std::default_random_engine gen(time(NULL));
+	std::default_random_engine			  gen(time(NULL));
 	std::uniform_real_distribution<float> distri_x(-40, 40);
-	std::uniform_real_distribution<float> distri_y(-30, -300);
+	std::uniform_real_distribution<float> distri_z(-300, -30);
 
-	int i = 0; 
+	int   i = 0;
 	float x, z;
 
-	for (i = 0; i < 300; i++)
+	static Mesh bunyMesh("../3rd/bunny.objt");
+
+	for (i = 0; i < 50; i++)
 	{
-		{
-			MeshObject* bunny = new MeshObject("../3rd/bunny.obj");
-			x = distri_x(gen);
-			z = distri_y(gen);
-			bunny->offset	 = Vec3(x, -10, z);
-			bunny->magnify	= 50;
-			bunny->_material  = new MATERIAL(g::Blue);
-			shapes_.push_back(bunny);
-		}
+		MeshObject* bunny = new MeshObject(bunyMesh);
 
-		{
-			MeshObject* bunny = new MeshObject("../3rd/bunny.obj");
-			x = distri_x(gen);
-			z = distri_y(gen);
-			bunny->offset = Vec3(x, -10, z);
-			bunny->magnify	= 50;
-			bunny->_material  = new MATERIAL(g::Blue);
-			shapes_.push_back(bunny);
-		}
-
-		{
-			MeshObject* bunny = new MeshObject("../3rd/bunny.obj");
-			x = distri_x(gen);
-			z = distri_y(gen);
-			bunny->offset = Vec3(x, -10, z);
-			bunny->magnify	= 50;
-			bunny->_material  = new MATERIAL(g::Blue);
-			shapes_.push_back(bunny);
-		}
+		x				 = distri_x(gen);
+		z				 = distri_z(gen);
+		
+		bunny->matrix_   = Matrix::rotate(z, Vec3(0,1,0)) * Matrix::scale(50) * Matrix::translate(x, -10, z);
+		bunny->material_ = new MATERIAL(g::Blue);
+		shapes_.push_back(bunny);
 	}
 }
 

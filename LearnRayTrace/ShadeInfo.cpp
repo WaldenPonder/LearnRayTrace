@@ -11,7 +11,7 @@ void ShadeInfo::setShape(Shape* s)
 	if (s)
 	{
 		shape	= s;
-		material = s->_material;
+		material = s->material_;
 	}
 }
 
