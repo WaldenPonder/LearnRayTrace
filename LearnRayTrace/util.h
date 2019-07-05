@@ -1,7 +1,7 @@
 #pragma once
 #include "Ray.h"
 
-begin_name_space(util);
+begin_name_space(g);
 
 string getDesktopPath();
 

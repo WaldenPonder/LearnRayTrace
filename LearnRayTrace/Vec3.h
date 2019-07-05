@@ -93,7 +93,7 @@ class Vec3
         /** Returns true if all components have values that are not NaN. */
         inline bool valid() const { return !isNaN(); }
         /** Returns true if at least one component has value NaN. */
-        inline bool isNaN() const { return util::isNaN(_v[0]) || util::isNaN(_v[1]) || util::isNaN(_v[2]); }
+        inline bool isNaN() const { return g::isNaN(_v[0]) || g::isNaN(_v[1]) || g::isNaN(_v[2]); }
 
         /** Dot product. */
         inline value_type operator * (const Vec3& rhs) const  
@@ -207,9 +207,9 @@ class Vec3
 
 		inline Vec3 clamp(float lo, float hi)
 		{
-			_v[0] = util::clampTo(_v[0], lo, hi);
-			_v[1] = util::clampTo(_v[1], lo, hi);
-			_v[2] = util::clampTo(_v[2], lo, hi);
+			_v[0] = g::clampTo(_v[0], lo, hi);
+			_v[1] = g::clampTo(_v[1], lo, hi);
+			_v[2] = g::clampTo(_v[2], lo, hi);
 
 			return Vec3(_v[0], _v[1], _v[2]);
 		}

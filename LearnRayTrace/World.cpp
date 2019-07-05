@@ -14,6 +14,49 @@
 
 #define MATERIAL Matte
 
+void RANDOM_PT(vector<float>& xVec, vector<float>& zVec)
+{
+	std::default_random_engine			  gen(time(NULL));
+	std::uniform_real_distribution<float> distri_x(-40, 40);
+	std::uniform_real_distribution<float> distri_z(-300, -30);
+
+#if 0
+
+	std::ofstream OFILE;
+	OFILE.open("../3rd/random_pt.txt");
+
+	int i = 0;
+	float x, z;
+
+	for (i = 0; i < 5000; i++)
+	{
+		x = distri_x(gen);
+		z = distri_z(gen);
+		OFILE << x << "\t" << z << "\n";
+	}
+	OFILE.close();
+
+#else
+
+	std::ifstream IFILE;
+	IFILE.open("../3rd/random_pt.txt");
+
+	int i = 0;
+	float x, z;
+
+	while (!IFILE.eof())
+	{
+		IFILE >> x >> z;
+		xVec.push_back(x);
+		zVec.push_back(z);
+	}
+
+	IFILE.close();
+
+#endif
+
+}
+
 World::World() : camera_(*this)
 {
 	max_depth_ = 2;
@@ -96,24 +139,20 @@ void World::buildScene2()
 	// shape = new Sphere(Vec3(0, -1.5, -8), .5);
 	// shape->_material = new MATERIAL(g::Yellow);
 	//_shapes.push_back(shape);
-
-	std::default_random_engine			  gen(time(NULL));
-	std::uniform_real_distribution<float> distri_x(-40, 40);
-	std::uniform_real_distribution<float> distri_z(-300, -30);
-
+	
 	int   i = 0;
 	float x, z;
 
 	static Mesh bunyMesh("../3rd/bunny.objt");
 
-	for (i = 0; i < 50; i++)
+	vector<float> xVec, zVec;
+	RANDOM_PT(xVec, zVec);
+
+	for (i = 0; i < 100; i++)
 	{
 		MeshObject* bunny = new MeshObject(bunyMesh);
 
-		x				 = distri_x(gen);
-		z				 = distri_z(gen);
-		
-		bunny->matrix_   = Matrix::rotate(z, Vec3(0,1,0)) * Matrix::scale(50) * Matrix::translate(x, -10, z);
+		bunny->matrix_   = Matrix::rotate(xVec[i], Vec3(0,1,0)) * Matrix::scale(50) * Matrix::translate(xVec[i], -10, zVec[i]);
 		bunny->material_ = new MATERIAL(g::Blue);
 		shapes_.push_back(bunny);
 	}
@@ -121,8 +160,8 @@ void World::buildScene2()
 
 ShadeInfo World::intersection(const Ray& ray)
 {
-	//if (accel_)
-	//	return accel_->intersect(ray);
+	if (accel_)
+		return accel_->intersect(ray);
 
 	ShadeInfo info;
 

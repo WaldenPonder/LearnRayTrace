@@ -7,8 +7,10 @@ class Extent : public BBox
  public:
 	meta_name(Extent);
 	Extent();
-	Extent(MeshObject* mesh);
+	explicit Extent(MeshObject* mesh);
 	Extent(const Extent& extent);
+
+	void operator= (const Extent& extent);
 
 	virtual ~Extent();
 
@@ -24,6 +26,7 @@ class Extent : public BBox
 	void		 extendBy(const Extent& pbb);
 
 	void init();
+	bool valid() const;
 
 	MeshObject* mesh_ = nullptr;
 	float		slabs_[7][2];

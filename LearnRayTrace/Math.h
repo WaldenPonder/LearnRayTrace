@@ -42,7 +42,7 @@ const float INVLN_2f = 1.0f / LN_2f;
 const float 	invRAND_MAX = 1.0f / (float)RAND_MAX;
 const float kEpsilon = 1e-5f;
 
-namespace util {
+namespace g {
 
 	// define the standard trig values
 

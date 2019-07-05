@@ -34,6 +34,6 @@ class MeshObject : public Shape
  private:
 	void computBBox();
 
-	BoundingBox bbox_;
-	const Mesh& mesh_;
+	struct Impl;
+	Impl* impl;
 };

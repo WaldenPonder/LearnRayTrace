@@ -13,5 +13,8 @@ public:
 public:
 	Vec3 orig;
 	Vec3 dir;
+
+	float precomputedNumerator[7];
+	float precomputedDenominator[7];
 };
 

@@ -4,6 +4,7 @@
 #include "util.h"
 #include "BoundingBox.h"
 #include "Extent.h"
+#include "World.h"
 
 struct Mesh::Impl
 {
@@ -12,6 +13,16 @@ struct Mesh::Impl
 	std::vector<tinyobj::material_t> materials;
 	bool							 triangulate = true;
 	string							 filename;	
+};
+
+struct MeshObject::Impl
+{
+	Impl(const Mesh& mesh) : mesh_(mesh) {}
+	BoundingBox bbox_;
+	Extent extent_;
+	const Mesh& mesh_;
+
+	bool uesExtent = true;
 };
 
 Mesh::Mesh(const string& filename) : impl(new Impl)
@@ -39,8 +50,9 @@ void Mesh::load()
 	}
 }
 
-MeshObject::MeshObject(const Mesh& mesh) : mesh_(mesh)
+MeshObject::MeshObject(const Mesh& mesh) : impl(new Impl(mesh))
 {
+	impl->extent_.mesh_ = this;
 }
 
 MeshObject::~MeshObject()
@@ -49,16 +61,17 @@ MeshObject::~MeshObject()
 
 void MeshObject::computBBox()
 {
-	for (tinyobj::shape_t& shape : mesh_.impl->shapes)
+	const Mesh& mesh = impl->mesh_;
+	for (tinyobj::shape_t& shape : mesh.impl->shapes)
 	{
 		std::vector<tinyobj::index_t>& index	= shape.mesh.indices;
-		std::vector<tinyobj::real_t>&  vertices = mesh_.impl->attrib.vertices;
+		std::vector<tinyobj::real_t>&  vertices = mesh.impl->attrib.vertices;
 
 		for (int i = 0; i < index.size(); i++)
 		{
 			int   in = index[i].vertex_index;
 			Point p1(vertices[in * 3], vertices[in * 3 + 1], vertices[in * 3 + 2]);
-			bbox_.expandBy(p1 * matrix_);
+			impl->bbox_.expandBy(p1 * matrix_);
 		}
 	}
 }
@@ -70,20 +83,32 @@ ShadeInfo MeshObject::intersect(const Ray& ray)
 	ShadeInfo info;
 	info.dis = FLT_MAX;
 
-	if (!bbox_.valid())
-		this->computBBox();
-
-	if (!bbox_.intersect(ray))
+	if (impl->uesExtent || World::Instance()->accel_)
 	{
-		return info;
+		if (!impl->extent_.valid())
+			this->init_polytope_boundingbox(impl->extent_);
+
+		if (!impl->extent_.intersect(ray))
+			return info;
 	}
+	else
+	{
+		if (!impl->bbox_.valid())
+			this->computBBox();
 
+		if (!impl->bbox_.intersect(ray))
+		{
+			return info;
+		}
+	}
+	
 	float t, u, v;
+	const Mesh& mesh = impl->mesh_;
 
-	for (tinyobj::shape_t& shape : mesh_.impl->shapes)
+	for (tinyobj::shape_t& shape : impl->mesh_.impl->shapes)
 	{
 		std::vector<tinyobj::index_t>& index	= shape.mesh.indices;
-		std::vector<tinyobj::real_t>&  vertices = mesh_.impl->attrib.vertices;
+		std::vector<tinyobj::real_t>&  vertices = mesh.impl->attrib.vertices;
 
 		for (int i = 0; i < index.size(); i += 3)
 		{
@@ -94,7 +119,7 @@ ShadeInfo MeshObject::intersect(const Ray& ray)
 			in = index[i + 2].vertex_index;
 			Point p3(vertices[in * 3], vertices[in * 3 + 1], vertices[in * 3 + 2]);
 
-			if (util::rayTriangleIntersect(ray, p1 * matrix_, p2 * matrix_, p3 * matrix_, t, u, v))
+			if (g::rayTriangleIntersect(ray, p1 * matrix_, p2 * matrix_, p3 * matrix_, t, u, v))
 			{
 				if (t < info.dis)
 				{
@@ -121,12 +146,14 @@ ShadeInfo MeshObject::intersect(const Ray& ray)
 
 void MeshObject::init_polytope_boundingbox(Extent& extent) const
 {
+	const Mesh& mesh = impl->mesh_;
+
 	for (int j = 0; j < 7; j++)
 	{
-		for (tinyobj::shape_t& shape : mesh_.impl->shapes)
+		for (tinyobj::shape_t& shape : mesh.impl->shapes)
 		{
 			std::vector<tinyobj::index_t>& index	= shape.mesh.indices;
-			std::vector<tinyobj::real_t>&  vertices = mesh_.impl->attrib.vertices;
+			std::vector<tinyobj::real_t>&  vertices = mesh.impl->attrib.vertices;
 
 			for (int i = 0; i < index.size(); i++)
 			{
@@ -141,4 +168,7 @@ void MeshObject::init_polytope_boundingbox(Extent& extent) const
 			}
 		}
 	}
+
+	if(extent.mesh_ == this)
+	   impl->extent_ = extent;
 }

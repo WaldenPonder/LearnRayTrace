@@ -57,7 +57,7 @@ Color Matte::getColor(ShadeInfo& info)
 	Vec3 lightDir(-info.position + Vec3(0, 1, -4.5));
 	lightDir.normalize();
 
-	float NdotL = info.normal * lightDir;
+	float NdotL = fabs(info.normal * lightDir);
 	Vec3 H = lightDir - info.ray.dir;
 	H.normalize();
 

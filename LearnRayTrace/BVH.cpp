@@ -191,13 +191,6 @@ ShadeInfo BVH::intersect(const Ray& ray)
 	ShadeInfo		  info;
 	float			  tHit			  = FLT_MAX;
 	const MeshObject* intersectedMesh = nullptr;
-	float			  precomputedNumerator[7];
-	float			  precomputedDenominator[7];
-	for (uint8_t i = 0; i < 7; ++i)
-	{
-		precomputedNumerator[i]   = g::planeSetNormals[i] * ray.orig;
-		precomputedDenominator[i] = g::planeSetNormals[i] * ray.dir;
-	}
 
 	uint8_t planeIndex;
 	float   tNear = 0, tFar = FLT_MAX;  // tNear, tFar for the intersected extents
@@ -232,7 +225,7 @@ ShadeInfo BVH::intersect(const Ray& ray)
 				if (node->children[i] != nullptr)
 				{
 					float tNearChild = 0, tFarChild = tFar;
-					if (node->children[i]->nodeExtent.intersect(precomputedNumerator, precomputedDenominator, tNearChild, tFarChild, planeIndex))
+					if (node->children[i]->nodeExtent.intersect(ray.precomputedNumerator, ray.precomputedDenominator, tNearChild, tFarChild, planeIndex))
 					{
 						float t = (tNearChild < 0 && tFarChild >= 0) ? tFarChild : tNearChild;
 						queue.push(QueueElement(node->children[i], t));

@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "util.h"
 
-begin_name_space(util);
+begin_name_space(g);
 
 string getDesktopPath()
 {

@@ -22,34 +22,40 @@ Extent::Extent(const Extent& extent) : mesh_(extent.mesh_)
 	}
 }
 
+void Extent::operator=(const Extent& extent)
+{
+	mesh_ = extent.mesh_;
+	for (int i = 0; i < 7; i++)
+	{
+		slabs_[i][0] = extent.slabs_[i][0];
+		slabs_[i][1] = extent.slabs_[i][1];
+	}
+}
+
 Extent::~Extent() {}
 
 bool Extent::intersect(const Ray& ray)
 {
-	float precomputedNumerator[7];
-	float precomputedDenominator[7];
-	for (uint8_t i = 0; i < 7; ++i)
-	{
-		precomputedNumerator[i]   = g::planeSetNormals[i] * ray.orig;  //  dot(planeSetNormals[i], orig);
-		precomputedDenominator[i] = g::planeSetNormals[i] * ray.dir;   // dot(planeSetNormals[i], dir);
-	}
-
 	uint8_t planeIndex;
 
 	float tNear = 0, tFar = FLT_MAX;  // tNear, tFar for the intersected extents
 
 	for (uint8_t i = 0; i < 7; ++i)
 	{
-		float tNearExtents = (slabs_[i][0] - precomputedNumerator[i]) / precomputedDenominator[i];
-		float tFarExtents  = (slabs_[i][1] - precomputedNumerator[i]) / precomputedDenominator[i];
-		if (precomputedDenominator[i] < 0)
+		float tNearExtents = (slabs_[i][0] - ray.precomputedNumerator[i]) / ray.precomputedDenominator[i];
+		float tFarExtents  = (slabs_[i][1] - ray.precomputedNumerator[i]) / ray.precomputedDenominator[i];
+		if (ray.precomputedDenominator[i] < 0)
 			std::swap(tNearExtents, tFarExtents);
 		if (tNearExtents > tNear)
 			tNear = tNearExtents, planeIndex = i;
 		if (tFarExtents < tFar)
 			tFar = tFarExtents;
 		if (tNear > tFar)
+		{
+			//cout << "AAA\n";
 			return false;
+		}
+			
 	}
 
 	return true;
@@ -67,7 +73,11 @@ bool Extent::intersect(const float* precomputedNumerator, const float* precomput
 		if (precomputedDenominator[i] < 0) std::swap(tNearExtents, tFarExtents);
 		if (tNearExtents > tNear) tNear = tNearExtents, planeIndex = i;
 		if (tFarExtents < tFar) tFar = tFarExtents;
-		if (tNear > tFar) return false;
+		if (tNear > tFar)
+		{
+			//cout << "BBB\n";
+			return false;
+		}
 	}
 
 	return true;
@@ -93,7 +103,21 @@ void Extent::init()
 {
 	for (int i = 0; i < 7; i++)
 	{
-		slabs_[i][0] = 0;
-		slabs_[i][1] = 0;
+		slabs_[i][0] = FLT_MAX;
+		slabs_[i][1] = -FLT_MAX;
 	}
+}
+
+bool Extent::valid() const
+{
+	for (int i = 0; i < 7; i++)
+	{
+		if (g::equivalent(slabs_[i][0], FLT_MAX))
+			return false;
+
+		if (g::equivalent(slabs_[i][0], -FLT_MAX))
+			return false;
+	}
+
+	return true;
 }

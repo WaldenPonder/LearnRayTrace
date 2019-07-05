@@ -3,7 +3,7 @@
 
 #include <string.h>
 
-begin_name_space(util)
+begin_name_space(g)
 
 double asciiToDouble(const char* str)
 {

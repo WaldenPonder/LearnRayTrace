@@ -71,7 +71,7 @@ class Vec2
         /** Returns true if all components have values that are not NaN. */
         inline bool valid() const { return !isNaN(); }
         /** Returns true if at least one component has value NaN. */
-        inline bool isNaN() const { return util::isNaN(_v[0]) || util::isNaN(_v[1]); }
+        inline bool isNaN() const { return g::isNaN(_v[0]) || g::isNaN(_v[1]); }
 
         /** Dot product. */
         inline value_type operator * (const Vec2& rhs) const

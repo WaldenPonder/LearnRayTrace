@@ -105,24 +105,24 @@ class Vec4
 
         inline unsigned int asABGR() const
         {
-            return (unsigned int)util::clampTo((_v[0]*255.0f),0.0f,255.0f)<<24 |
-                   (unsigned int)util::clampTo((_v[1]*255.0f),0.0f,255.0f)<<16 |
-                   (unsigned int)util::clampTo((_v[2]*255.0f),0.0f,255.0f)<<8  |
-                   (unsigned int)util::clampTo((_v[3]*255.0f),0.0f,255.0f);
+            return (unsigned int)g::clampTo((_v[0]*255.0f),0.0f,255.0f)<<24 |
+                   (unsigned int)g::clampTo((_v[1]*255.0f),0.0f,255.0f)<<16 |
+                   (unsigned int)g::clampTo((_v[2]*255.0f),0.0f,255.0f)<<8  |
+                   (unsigned int)g::clampTo((_v[3]*255.0f),0.0f,255.0f);
         }
 
         inline unsigned int asRGBA() const
         {
-            return (unsigned int)util::clampTo((_v[3]*255.0f),0.0f,255.0f)<<24 |
-                   (unsigned int)util::clampTo((_v[2]*255.0f),0.0f,255.0f)<<16 |
-                   (unsigned int)util::clampTo((_v[1]*255.0f),0.0f,255.0f)<<8  |
-                   (unsigned int)util::clampTo((_v[0]*255.0f),0.0f,255.0f);
+            return (unsigned int)g::clampTo((_v[3]*255.0f),0.0f,255.0f)<<24 |
+                   (unsigned int)g::clampTo((_v[2]*255.0f),0.0f,255.0f)<<16 |
+                   (unsigned int)g::clampTo((_v[1]*255.0f),0.0f,255.0f)<<8  |
+                   (unsigned int)g::clampTo((_v[0]*255.0f),0.0f,255.0f);
         }
 
         /** Returns true if all components have values that are not NaN. */
         inline bool valid() const { return !isNaN(); }
         /** Returns true if at least one component has value NaN. */
-        inline bool isNaN() const { return util::isNaN(_v[0]) || util::isNaN(_v[1]) || util::isNaN(_v[2]) || util::isNaN(_v[3]); }
+        inline bool isNaN() const { return g::isNaN(_v[0]) || g::isNaN(_v[1]) || g::isNaN(_v[2]) || g::isNaN(_v[3]); }
 
         /** Dot product. */
         inline value_type operator * (const Vec4& rhs) const

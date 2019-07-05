@@ -22,7 +22,7 @@ void Camera::render()
 	float ratio = _width / (float)_height;
 	float fov = tan(60. / 2 * PI / 180);
 
-	std::ofstream OF(util::getDesktopPath() + "/out.ppm");
+	std::ofstream OF(g::getDesktopPath() + "/out.ppm");
 	
 	OF << "P3\n" << _width << " " << _height << "\n255\n";
 	

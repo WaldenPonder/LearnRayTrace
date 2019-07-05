@@ -17,9 +17,9 @@
 #include <stdlib.h>
 #include <float.h>
 
-using util::equivalent;
-using util::square;
-using util::DegreesToRadians;
+using g::equivalent;
+using g::square;
+using g::DegreesToRadians;
 
 #define SET_ROW(row, v1, v2, v3, v4 )    \
     _mat[(row)][0] = (v1); \
@@ -862,7 +862,7 @@ bool Matrix::getPerspective(Matrix::value_type& fovy, Matrix::value_type& aspect
 	bool r = getFrustum(left, right, bottom, top, temp_near, temp_far);
 	if (r)
 	{
-		fovy = util::RadiansToDegrees(atan(top / temp_near) - atan(bottom / temp_near));
+		fovy = g::RadiansToDegrees(atan(top / temp_near) - atan(bottom / temp_near));
 		aspectRatio = (right - left) / (top - bottom);
 	}
 	zNear = temp_near;
