@@ -148,7 +148,7 @@ void World::buildScene2()
 	vector<float> xVec, zVec;
 	RANDOM_PT(xVec, zVec);
 
-	for (i = 0; i < 100; i++)
+	for (i = 0; i < 10; i++)
 	{
 		MeshObject* bunny = new MeshObject(bunyMesh);
 

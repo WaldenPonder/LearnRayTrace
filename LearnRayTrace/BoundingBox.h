@@ -20,6 +20,9 @@ public:
 
 	virtual bool intersect(const Ray& ray) override;
 
+	float max_len() const;
+	float min_len() const;
+
 	Vec3 _minPt = Vec3(FLT_MAX);
 	Vec3 _maxPt = Vec3(-FLT_MAX);
 };

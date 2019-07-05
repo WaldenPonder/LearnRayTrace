@@ -68,3 +68,13 @@ bool BoundingBox::intersect( const Ray& r ) {
 
     return true;
 }
+
+float BoundingBox::max_len() const
+{
+	return max({ fabs(_minPt.x() - _maxPt.x()), fabs(_minPt.y() - _maxPt.y()),  fabs(_minPt.z() - _maxPt.z()) });
+}
+
+float BoundingBox::min_len() const
+{
+	return min({ fabs(_minPt.x() - _maxPt.x()), fabs(_minPt.y() - _maxPt.y()),  fabs(_minPt.z() - _maxPt.z()) });
+}
