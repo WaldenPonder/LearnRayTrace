@@ -1,8 +1,8 @@
 #pragma once
-#include "BBox.h"
+#include "IBox.h"
 
 //14ÃæÌå
-class Extent : public BBox
+class Extent : public IBox
 {
  public:
 	meta_name(Extent);
@@ -10,7 +10,7 @@ class Extent : public BBox
 	explicit Extent(MeshObject* mesh);
 	Extent(const Extent& extent);
 
-	void operator= (const Extent& extent);
+	void operator=(const Extent& extent);
 
 	virtual ~Extent();
 

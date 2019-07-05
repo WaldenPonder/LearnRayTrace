@@ -41,7 +41,7 @@ void RANDOM_PT(vector<float>& xVec, vector<float>& zVec)
 	std::ifstream IFILE;
 	IFILE.open("../3rd/random_pt.txt");
 
-	int i = 0;
+	int   i = 0;
 	float x, z;
 
 	while (!IFILE.eof())
@@ -54,7 +54,6 @@ void RANDOM_PT(vector<float>& xVec, vector<float>& zVec)
 	IFILE.close();
 
 #endif
-
 }
 
 World::World() : camera_(*this)
@@ -114,32 +113,16 @@ void World::buildScene1()
 	shapes_.push_back(sphere);
 }
 
+
 //--------------------------------------------------Y ÏòÉÏ£¬ ÓÒÊÖ
 void World::buildScene2()
 {
 	Plane* plane = nullptr;
-
+	
 	plane			 = new Plane(Vec3(0, -25, 0), Vec3(0, 1, 0));
 	plane->material_ = new Checker();
-	shapes_.push_back(plane);
+	shapes_ << plane;
 
-	//--------------------------------------------------Sphere
-	Shape* shape = new Sphere(Vec3(0, -1.5, -11), .5);
-	// shape->_material = new MATERIAL(g::Red);
-	//_shapes.push_back(shape);
-
-	// shape = new Sphere(Vec3(-1, -1.5, -10), .5);
-	// shape->_material = new MATERIAL(g::Red);
-	//_shapes.push_back(shape);
-
-	// shape = new Sphere(Vec3(1, -1.5, -9), .5);
-	// shape->_material = new MATERIAL(g::Red);
-	//_shapes.push_back(shape);
-
-	// shape = new Sphere(Vec3(0, -1.5, -8), .5);
-	// shape->_material = new MATERIAL(g::Yellow);
-	//_shapes.push_back(shape);
-	
 	int   i = 0;
 	float x, z;
 
@@ -148,27 +131,68 @@ void World::buildScene2()
 	vector<float> xVec, zVec;
 	RANDOM_PT(xVec, zVec);
 
-	for (i = 0; i < 10; i++)
+	//-------------------------------------------------bunny
+	for (i = 0; i < 1; i++)
 	{
 		MeshObject* bunny = new MeshObject(bunyMesh);
 
-		bunny->matrix_   = Matrix::rotate(xVec[i], Vec3(0,1,0)) * Matrix::scale(50) * Matrix::translate(xVec[i], -10, zVec[i]);
+		bunny->matrix_   = Matrix::rotate(0, Vec3(0, 1, 0)) * Matrix::scale(50) * Matrix::translate(xVec[i], -10, zVec[i]);
 		bunny->material_ = new MATERIAL(g::Blue);
-		shapes_.push_back(bunny);
+		shapes_ << bunny;
 	}
+
+	//-------------------------------------------------venusm
+	static Mesh venusmMesh("../3rd/venusm.objt");
+	MeshObject* venusm = new MeshObject(venusmMesh);
+
+	venusm->matrix_ = Matrix::rotate(0, Vec3(0, 1, 0)) * Matrix::scale(.01) * Matrix::translate(0, -10, -100);
+	venusm->material_ = new MATERIAL(g::Blue);
+	shapes_ << venusm;
 }
 
-ShadeInfo World::intersection(const Ray& ray)
+ShadeInfo World::intersection(const Ray& ray) const
 {
-	if (accel_)
-		return accel_->intersect(ray);
-
 	ShadeInfo info;
+
+	if (accel_)
+	{
+		info			  = accel_->intersect(ray);
+		ShadeInfo tmpInfo = intersection_without_meshobject(ray);
+
+		if (tmpInfo.valid() && tmpInfo.dis < info.dis)
+		{
+			info = tmpInfo;
+		}
+
+		return info;
+	}
 
 	for (Shape* s : shapes_)
 	{
 		ShadeInfo value = s->intersect(ray);
-		if (value.shape)
+		if (value.valid())
+		{
+			if (value.dis < info.dis)
+			{
+				info = value;
+			}
+		}
+	}
+
+	return info;
+}
+
+ShadeInfo World::intersection_without_meshobject(const Ray& ray) const
+{
+	ShadeInfo info;
+
+	for (Shape* s : shapes_)
+	{
+		if (s->className() == MeshObject::class_name())
+			continue;
+
+		ShadeInfo value = s->intersect(ray);
+		if (value.valid())
 		{
 			if (value.dis < info.dis)
 			{

@@ -206,13 +206,11 @@ ShadeInfo BVH::intersect(const Ray& ray)
 		{
 			for (const auto& e : node->nodeExtentList)
 			{
-				float	 t		  = FLT_MAX;
 				ShadeInfo tmpInfo = e->mesh_->intersect(ray);
 				if (tmpInfo.valid() && tmpInfo.dis < tHit)
 				{
 					info	 = tmpInfo;
-					tHit	 = t;
-					info.dis = t;
+					info.dis = tHit = tmpInfo.dis;
 					info.setShape(e->mesh_);
 				}
 			}

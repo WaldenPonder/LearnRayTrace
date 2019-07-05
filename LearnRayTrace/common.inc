@@ -1,12 +1,5 @@
 
 
-inline  std::ostream& operator<< (std::ostream& stm, const Vec3& v)
-{
-	stm << std::string("  [") << v[0] << " , " << v[1] << " , " << v[2] << "] ";
-
-	return stm;
-}
-
 const Vec3 X_AXIS(1.0, 0.0, 0.0);
 const Vec3 Y_AXIS(0.0, 1.0, 0.0);
 const Vec3 Z_AXIS(0.0, 0.0, 1.0);
@@ -121,6 +114,7 @@ namespace g {
 using std::string;
 using std::cout;
 using std::endl;
+using std::vector;
 
 class ShadeInfo;
 
@@ -162,3 +156,34 @@ class ShadeInfo;
 class Ray;
 class Extent;
 class MeshObject;
+
+
+
+template<typename T>
+vector<T>& operator <<(vector<T>& v, const T& i)
+{
+	v.push_back(i);
+	return v;
+}
+
+template<typename T, typename T2>
+vector<T*>& operator <<(vector<T*>& v, T2* i)
+{
+	v.push_back(i);
+	return v;
+}
+
+template<typename T>
+vector<T*>& operator <<(vector<T*>& v, nullptr_t i)
+{
+	v.push_back(i);
+	return v;
+}
+
+
+inline  std::ostream& operator<< (std::ostream& stm, const Vec3& v)
+{
+	stm << std::string("  [") << v[0] << " , " << v[1] << " , " << v[2] << "] ";
+
+	return stm;
+}

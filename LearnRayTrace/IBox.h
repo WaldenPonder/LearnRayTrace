@@ -3,10 +3,10 @@
 
 class Ray;
 
-class BBox
+class IBox
 {
 public:
-	meta_name(BBox);
+	meta_name(IBox);
 
 	virtual Vec3 center() const { return Vec3(); }
 	virtual bool intersect(const Ray& ray) = 0;

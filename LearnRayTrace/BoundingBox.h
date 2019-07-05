@@ -1,7 +1,7 @@
 #pragma once
-#include "BBox.h"
+#include "IBox.h"
 
-class BoundingBox : public BBox
+class BoundingBox : public IBox
 {
 public:
 	BoundingBox();

@@ -13,7 +13,9 @@ public:
 	void buildScene1();
 	void buildScene2();
 
-	ShadeInfo intersection(const Ray& ray);
+	ShadeInfo intersection(const Ray& ray) const;
+	ShadeInfo intersection_without_meshobject(const Ray& ray) const;
+
 	Color trace_ray(const Ray ray, int depth);
 	Color trace_ray_direct(const Ray ray, int depth); //÷±Ω”π‚’’
 

@@ -203,9 +203,6 @@
     <ClInclude Include="Acceleration.h">
       <Filter>Acceleration</Filter>
     </ClInclude>
-    <ClInclude Include="BBox.h">
-      <Filter>Acceleration</Filter>
-    </ClInclude>
     <ClInclude Include="Extent.h">
       <Filter>Acceleration</Filter>
     </ClInclude>
@@ -226,6 +223,9 @@
     </ClInclude>
     <ClInclude Include="Matrix.h">
       <Filter>osg</Filter>
+    </ClInclude>
+    <ClInclude Include="IBox.h">
+      <Filter>Acceleration</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
