@@ -6,7 +6,6 @@
 #include <array>
 #include <queue>
 
-
 struct OctreeNode
 {
 	Extent					   nodeExtent;
@@ -211,8 +210,8 @@ ShadeInfo BVH::intersect(const Ray& ray)
 				ShadeInfo tmpInfo = e->mesh_->intersect(ray);
 				if (tmpInfo.valid() && tmpInfo.dis < tHit)
 				{
-					info		  = tmpInfo;
-					tHit		  = t;
+					info	 = tmpInfo;
+					tHit	 = t;
 					info.dis = t;
 					info.setShape(e->mesh_);
 				}
