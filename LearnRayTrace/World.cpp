@@ -122,11 +122,11 @@ void World::buildScene2()
 	plane			 = new Plane(Vec3(0, -25, 0), Vec3(0, 1, 0));
 	plane->material_ = new Checker();
 	shapes_ << plane;
-
+	
 	int   i = 0;
 	float x, z;
 
-	static Mesh bunyMesh("../3rd/bunny.objt");
+	static Mesh bunyMesh("../3rd/bunny.obj");
 
 	vector<float> xVec, zVec;
 	RANDOM_PT(xVec, zVec);
@@ -142,10 +142,10 @@ void World::buildScene2()
 	}
 
 	//-------------------------------------------------venusm
-	static Mesh venusmMesh("../3rd/venusm.objt");
+	static Mesh venusmMesh("../3rd/venusm.obj");
 	MeshObject* venusm = new MeshObject(venusmMesh);
 
-	venusm->matrix_ = Matrix::rotate(0, Vec3(0, 1, 0)) * Matrix::scale(.01) * Matrix::translate(0, -10, -100);
+	venusm->matrix_ = Matrix::rotate(0, Vec3(0, 1, 0)) * Matrix::scale(.01) * Matrix::translate(0, -10, -50);
 	venusm->material_ = new MATERIAL(g::Blue);
 	shapes_ << venusm;
 }

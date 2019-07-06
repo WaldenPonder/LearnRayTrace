@@ -2,7 +2,6 @@
 *.ipch
 *.db
 *.tlog
-*.obj
 *.pch
 *.pdb
 *.log
@@ -15,5 +14,5 @@
 *.opendb
 /.vs/config/applicationhost.config
 *.bin
-/LearnRayTrace/Triangle.h
-/LearnRayTrace/Triangle.cpp
+LearnRayTrace/x64/Debug/*.obj
+LearnRayTrace/x64/Release/*.obj
