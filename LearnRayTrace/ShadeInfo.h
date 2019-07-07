@@ -9,7 +9,7 @@ public:
 	meta_name(ShadeInfo);
 	ShadeInfo();
 
-	float     dis = 0;
+	float     dis = FLT_MAX;
 	Shape*    shape = nullptr;
 	int       depth = 0;
 	Vec3      normal;

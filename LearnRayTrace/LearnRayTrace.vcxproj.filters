@@ -22,9 +22,6 @@
     <Filter Include="BRDF">
       <UniqueIdentifier>{80f8f6c5-1f6a-4591-bb8d-a0e5c2bab864}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Light">
-      <UniqueIdentifier>{7f8322cf-9262-4db0-9f8a-21de0ddae837}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Acceleration">
       <UniqueIdentifier>{92092fc8-4c1a-4aa0-ada5-658aae207e6c}</UniqueIdentifier>
     </Filter>
@@ -122,6 +119,12 @@
     </ClCompile>
     <ClCompile Include="Matrix.cpp">
       <Filter>osg</Filter>
+    </ClCompile>
+    <ClCompile Include="Light.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Lambert.cpp">
+      <Filter>BRDF</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -226,6 +229,12 @@
     </ClInclude>
     <ClInclude Include="IBox.h">
       <Filter>Acceleration</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Lambert.h">
+      <Filter>BRDF</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

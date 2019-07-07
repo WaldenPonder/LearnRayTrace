@@ -81,7 +81,6 @@ void MeshObject::computBBox()
 ShadeInfo MeshObject::intersect(const Ray& ray)
 {
 	ShadeInfo info;
-	info.dis = FLT_MAX;
 
 	if (impl->uesExtent || World::Instance()->accel_)
 	{

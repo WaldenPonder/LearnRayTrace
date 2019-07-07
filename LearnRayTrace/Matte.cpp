@@ -4,43 +4,36 @@
 #include "BRDF.h"
 #include "MultiJittered.h"
 #include "World.h"
+#include "Light.h"
 
 Matte::Matte()
 {
-}
-
-
-Matte::Matte(const Color& c) 
-{
-	_specularColor = _diffuseColor = c;
 }
 
 Matte::~Matte()
 {
 }
 
-Color Matte::shade(ShadeInfo& info)
+Vec3 Matte::shade(ShadeInfo& info)
 {
-	Color val = _diffuseColor;
+	Vec3 val = diffuse_brdf.f();
 
 	if (info.depth > 5)
 	{
-		float f = max(_diffuseColor.x(), _diffuseColor.y());
-		f = max(f, _diffuseColor.z());
-
+		float f = max({ val.x(), val.y(), val.z()} );
 		if (rand_float() < f) val /= f;
-		else return Color();
+		else return Vec3();
 	}
 
 	if (info.depth > 100)
-		return Color();
+		return Vec3();
 	
 	Vec3 w = info.normal;
 	Vec3 u = Vec3(0.00424, 1, 0.00764) ^ w;
 	u.normalize();
 	Vec3 v = u ^ w;
 
-	Color f = g::Black;
+	Vec3 f = g::Black;
 
 	Point sp = MultiJittered::instance()->sample_hemisphere();
 	Vec3 wi = sp.x() * u + sp.y() * v + sp.z() * w;			// reflected ray direction
@@ -48,24 +41,22 @@ Color Matte::shade(ShadeInfo& info)
 
 	f = World::Instance()->trace_ray(r, info.depth + 1);
 
-	Color c = componentMultiply(val, f);
+	Vec3 c = componentMultiply(val, f);
 	return c;
 }
 
-Color Matte::getColor(ShadeInfo& info)
+Vec3 Matte::getColor(ShadeInfo& info)
 {
-	Vec3 lightDir(-info.position + Vec3(0, 1, -4.5));
-	lightDir.normalize();
+	Vec3 val = World::Instance()->get_ambient();
 
-	float NdotL = fabs(info.normal * lightDir);
-	Vec3 H = lightDir - info.ray.dir;
-	H.normalize();
+	for (Light* light : Light::pool())
+	{
+		Vec3 lightDir = light->getDir(info);
+		float NdotL = fabs(info.normal * lightDir);
 
-	float NdotH = info.normal * H;
-
-	const float FACTOR = .7;
-	Vec3 diffItem = _diffuseColor * max(NdotL, 0.f) * FACTOR;
-	Vec3 speculaItem = _specularColor * pow(max(NdotL, .0f), _shiness) * (1 - FACTOR);
-	Vec3 val = (diffItem + speculaItem);
+		Vec3 diffItem = diffuse_brdf.f() * max(NdotL, 0.f);
+		val += diffItem;
+	}
+	
 	return val.clamp(0, 1);
 }

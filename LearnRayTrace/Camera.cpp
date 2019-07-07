@@ -51,7 +51,7 @@ void Camera::render()
 				cout << int(pre_out * 100) << "%" << endl;
 			}
 
-			Color c;
+			Vec3 c;
 		
 			for(int k = 0; k < SIZE; k++)
 			{
@@ -64,7 +64,7 @@ void Camera::render()
 				dir.normalize();
 
 				Ray ray(Vec3(0.), dir);
-				Color f = _world.trace_ray_direct(ray, 0);
+				Vec3 f = _world.trace_ray_direct(ray, 0);
 				c = c + f / (float)SIZE;
 			}
 

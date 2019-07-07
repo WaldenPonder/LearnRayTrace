@@ -11,13 +11,13 @@ Checker::~Checker()
 {
 }
 
-Color Checker::shade(ShadeInfo& r)
+Vec3 Checker::shade(ShadeInfo& r)
 {
 	return getColor(r);
 }
 
-Color Checker::getColor(ShadeInfo& r)
+Vec3 Checker::getColor(ShadeInfo& r)
 {
 	static float factor = .05;
-	return fabs((int)(floor(r.position.x() * factor) + floor(r.position.z() * factor)) % 2) < 1 ? g::Black : g::White;
+	return fabs((int)(floor(r.position.x() * factor) + floor(r.position.z() * factor)) % 2) < 1 ? g::SummerSky : g::White;
 }

@@ -6,6 +6,8 @@ class World;
 class Camera
 {
 public:
+	meta_name(Camera);
+
 	Camera(World& world);
 	~Camera();
 

@@ -7,9 +7,9 @@ public:
 	Emissive();
 	~Emissive();
 
-	virtual Color shade(ShadeInfo& r) override;
-	virtual Color getColor(ShadeInfo& r) override;
+	virtual Vec3 shade(ShadeInfo& r) override;
+	virtual Vec3 getColor(ShadeInfo& r) override;
 
-	Color _light = g::White;
+	Vec3 _light = g::White;
 };
 

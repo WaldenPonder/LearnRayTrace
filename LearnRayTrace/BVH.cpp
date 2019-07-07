@@ -1,8 +1,8 @@
+#include "stdafx.h"
 #include "BVH.h"
 #include "BoundingBox.h"
 #include "MeshObject.h"
 #include "World.h"
-#include "stdafx.h"
 #include <array>
 #include <queue>
 

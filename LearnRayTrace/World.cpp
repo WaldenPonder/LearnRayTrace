@@ -11,8 +11,36 @@
 #undef max
 #undef min
 #include <random>
+#include "Light.h"
+#include <assert.h>
 
 #define MATERIAL Matte
+
+begin_name_space(g);
+
+bool inShadow(ShadeInfo& info)
+{
+	for (PointLight* pl : Light::get_type<PointLight>())
+	{
+		Ray shadowRay;
+		shadowRay.orig = info.position;
+		shadowRay.dir = pl->pt_ - info.position;
+		shadowRay.dir.normalize();
+
+		if (!World::Instance()->intersection(shadowRay).valid())
+		{
+			return false;
+		}
+	}
+
+	for (DirectionLight* pl : Light::get_type<DirectionLight>())
+	{
+		if (info.normal * pl->dir_ > 0) //说明能被光线照射到
+			return false;
+	}
+
+	return true;
+}
 
 void RANDOM_PT(vector<float>& xVec, vector<float>& zVec)
 {
@@ -56,6 +84,8 @@ void RANDOM_PT(vector<float>& xVec, vector<float>& zVec)
 #endif
 }
 
+end_name_space
+
 World::World() : camera_(*this)
 {
 	max_depth_ = 2;
@@ -70,7 +100,7 @@ void World::buildScene1()
 	Plane* plane = nullptr;
 
 	plane			 = new Plane(Vec3(0, 2, 0), Vec3(0, -1, 0));  //上
-	plane->material_ = new MATERIAL(g::Cyan);
+	plane->material_ = new MATERIAL;
 	shapes_.push_back(plane);
 
 	plane			 = new Plane(Vec3(0, 2 - 1e-5, 0), Vec3(0, -1, 0));  //灯
@@ -80,56 +110,57 @@ void World::buildScene1()
 	shapes_.push_back(plane);
 
 	plane			 = new Plane(Vec3(0, -2, 0), Vec3(0, 1, 0));  //下
-	plane->material_ = new MATERIAL(g::Blue);
+	plane->material_ = new MATERIAL;
 	shapes_.push_back(plane);
 
 	plane			 = new Plane(Vec3(-2, 0, 0), Vec3(1, 0, 0));  //左
-	plane->material_ = new MATERIAL(g::Green);
+	plane->material_ = new MATERIAL;
 	shapes_.push_back(plane);
 
 	plane			 = new Plane(Vec3(0, 0, -6), Vec3(0, 0, 1));  //后
-	plane->material_ = new MATERIAL(g::Yellow);
+	plane->material_ = new MATERIAL;
 	shapes_.push_back(plane);
 
 	plane			 = new Plane(Vec3(2, 0, 0), Vec3(-1, 0, 0));  //右
-	plane->material_ = new MATERIAL(g::Cyan);
+	plane->material_ = new MATERIAL;
 	shapes_.push_back(plane);
 
 	//--------------------------------------------------Sphere
 	Sphere* sphere	= new Sphere(Vec3(0, -1.5, -5), .5);
-	sphere->material_ = new MATERIAL(g::Red);
+	sphere->material_ = new MATERIAL;
 	shapes_.push_back(sphere);
 
 	sphere			  = new Sphere(Vec3(-1, -1.5, -5), .5);
-	sphere->material_ = new MATERIAL(g::Red);
+	sphere->material_ = new MATERIAL;
 	shapes_.push_back(sphere);
 
 	sphere			  = new Sphere(Vec3(1, -1.5, -5), .5);
-	sphere->material_ = new MATERIAL(g::Red);
+	sphere->material_ = new MATERIAL;
 	shapes_.push_back(sphere);
 
 	sphere			  = new Sphere(Vec3(0, -1.5, -4), .5);
-	sphere->material_ = new MATERIAL(g::Yellow);
+	sphere->material_ = new MATERIAL;
 	shapes_.push_back(sphere);
 }
-
 
 //--------------------------------------------------Y 向上， 右手
 void World::buildScene2()
 {
 	Plane* plane = nullptr;
-	
+
 	plane			 = new Plane(Vec3(0, -25, 0), Vec3(0, 1, 0));
 	plane->material_ = new Checker();
 	shapes_ << plane;
-	
-	int   i = 0;
-	float x, z;
+
+	int i = 0;
 
 	static Mesh bunyMesh("../3rd/bunny.obj");
 
 	vector<float> xVec, zVec;
-	RANDOM_PT(xVec, zVec);
+	g::RANDOM_PT(xVec, zVec);
+
+	Matte* matte				   = new Matte;
+	matte->diffuse_brdf.diffuse_.k = .95;
 
 	//-------------------------------------------------bunny
 	for (i = 0; i < 1; i++)
@@ -137,17 +168,33 @@ void World::buildScene2()
 		MeshObject* bunny = new MeshObject(bunyMesh);
 
 		bunny->matrix_   = Matrix::rotate(0, Vec3(0, 1, 0)) * Matrix::scale(50) * Matrix::translate(xVec[i], -10, zVec[i]);
-		bunny->material_ = new MATERIAL(g::Blue);
-		shapes_ << bunny;
+		bunny->material_ = matte;
+		//shapes_ << bunny;
 	}
 
 	//-------------------------------------------------venusm
 	static Mesh venusmMesh("../3rd/venusm.obj");
 	MeshObject* venusm = new MeshObject(venusmMesh);
 
-	venusm->matrix_ = Matrix::rotate(0, Vec3(0, 1, 0)) * Matrix::scale(.01) * Matrix::translate(0, -10, -50);
-	venusm->material_ = new MATERIAL(g::Blue);
-	shapes_ << venusm;
+	venusm->matrix_   = Matrix::rotate(0, Vec3(0, 1, 0)) * Matrix::scale(.01) * Matrix::translate(30, -10, -50);
+	venusm->material_ = matte;
+	//shapes_ << venusm;
+
+	//-------------------------------------------------ateneam
+	static Mesh ateneammMesh("../3rd/ateneam.obj");
+	MeshObject* ateneam = new MeshObject(ateneammMesh);
+
+	ateneam->matrix_   = Matrix::rotate(0, Vec3(0, 1, 0)) * Matrix::scale(.01) * Matrix::translate(-30, -5, -100);
+	ateneam->material_ = matte;
+	shapes_ << ateneam;
+
+	//-------------------------------------------------Sphere
+	Sphere* sphere = new Sphere(Vec3(0, -18, -100), 8);
+	sphere->material_ = matte;
+	shapes_ << sphere;
+
+	PointLight* pLight = new PointLight;
+	pLight->pt_		   = Vec3(0, 60, -30);
 }
 
 ShadeInfo World::intersection(const Ray& ray) const
@@ -205,7 +252,7 @@ ShadeInfo World::intersection_without_meshobject(const Ray& ray) const
 }
 
 //返回最终颜色
-Color World::trace_ray(const Ray ray, int depth)
+Vec3 World::trace_ray(const Ray ray, int depth)
 {
 	ShadeInfo info(this->intersection(ray));
 
@@ -214,14 +261,14 @@ Color World::trace_ray(const Ray ray, int depth)
 		info.depth = depth;
 		info.ray   = ray;
 
-		Color c = info.material->shade(info);
+		Vec3 c = info.material->shade(info);
 		return c;
 	}
 
 	return bgColor_;
 }
 
-Color World::trace_ray_direct(const Ray ray, int depth)
+Vec3 World::trace_ray_direct(const Ray ray, int depth)
 {
 	ShadeInfo info(this->intersection(ray));
 
@@ -230,14 +277,18 @@ Color World::trace_ray_direct(const Ray ray, int depth)
 		info.depth = depth;
 		info.ray   = ray;
 
-		Color c = info.material->getColor(info);
+		Vec3 c = info.material->getColor(info);
+
+		if (g::inShadow(info))
+			c *= .1;
+
 		return c;
 	}
 
 	return bgColor_;
 }
 
-void World::max_to_one(Color& c) const
+void World::max_to_one(Vec3& c) const
 {
 	if (c.r() > 1 || c.g() > 1 || c.b() > 1)
 	{
@@ -247,10 +298,15 @@ void World::max_to_one(Color& c) const
 	}
 }
 
-void World::clamp_to_color(Color& c, const Color& clamto /*= g::Red*/) const
+void World::clamp_to_color(Vec3& c, const Vec3& clamto /*= g::Red*/) const
 {
 	if (c.r() > 1 || c.g() > 1 || c.b() > 1)
 	{
 		c = clamto;
 	}
+}
+
+Vec3 World::get_ambient() const
+{
+	return Vec3(.05);
 }

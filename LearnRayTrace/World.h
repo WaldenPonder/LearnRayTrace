@@ -7,6 +7,7 @@ class Acceleration;
 class World : public Singleton<World>
 {
 public:
+	meta_name(World);
 	World();
 	~World();
 
@@ -16,17 +17,19 @@ public:
 	ShadeInfo intersection(const Ray& ray) const;
 	ShadeInfo intersection_without_meshobject(const Ray& ray) const;
 
-	Color trace_ray(const Ray ray, int depth);
-	Color trace_ray_direct(const Ray ray, int depth); //直接光照
+	Vec3 trace_ray(const Ray ray, int depth);
+	Vec3 trace_ray_direct(const Ray ray, int depth); //直接光照
 
-	void max_to_one(Color& c) const;
-	void clamp_to_color(Color& c, const Color& clamto = g::Red) const;
+	void max_to_one(Vec3& c) const;
+	void clamp_to_color(Vec3& c, const Vec3& clamto = g::Red) const;
+
+	Vec3 get_ambient() const;
 
 public:
 	std::vector<Shape*> shapes_;
 	Camera              camera_;
 	int                 max_depth_;
-	Color				bgColor_ = Color(58, 179, 255) / 255.f;
+	Vec3				bgColor_ = Vec3(58, 179, 255) / 255.f;
 	Acceleration* accel_ = nullptr;
 };
 

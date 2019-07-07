@@ -11,12 +11,12 @@ Emissive::~Emissive()
 {
 }
 
-Color Emissive::shade(ShadeInfo& r)
+Vec3 Emissive::shade(ShadeInfo& r)
 {
 	return _light * 10;
 }
 
-Color Emissive::getColor(ShadeInfo& r)
+Vec3 Emissive::getColor(ShadeInfo& r)
 {
 	return _light * 10;
 }

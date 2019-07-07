@@ -7,7 +7,7 @@ public:
 	Checker();
 	~Checker();
 
-	virtual Color shade(ShadeInfo& r) override;
-	virtual Color getColor(ShadeInfo& r) override;
+	virtual Vec3 shade(ShadeInfo& r) override;
+	virtual Vec3 getColor(ShadeInfo& r) override;
 };
 

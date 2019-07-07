@@ -7,12 +7,9 @@ class PerfectReflect : public Material
 {
 public:
 	PerfectReflect();
-	PerfectReflect(const Color& c);
 	~PerfectReflect();
 
-	virtual Color shade(ShadeInfo& r) override;
-	virtual Color getColor(ShadeInfo& r) override;
-
-	BRDF* _brdf = nullptr;
+	virtual Vec3 shade(ShadeInfo& r) override;
+	virtual Vec3 getColor(ShadeInfo& r) override;
 };
 
