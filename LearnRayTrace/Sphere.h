@@ -4,6 +4,7 @@
 class Sphere : public Shape
 {
 public:
+	meta_name(Sphere);
 	Sphere();
 	Sphere(const Vec3& center, float radius);
 	~Sphere();

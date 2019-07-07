@@ -4,6 +4,7 @@
 class Plane : public Shape
 {
 public:
+	meta_name(Plane);
 	Plane();
 	Plane(const Vec3& position, const  Vec3& normal);
 	~Plane();

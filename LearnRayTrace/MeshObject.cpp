@@ -22,7 +22,7 @@ struct MeshObject::Impl
 	Extent		extent_;
 	const Mesh& mesh_;
 
-	bool uesExtent = true;
+	bool uesExtent = false;
 };
 
 Mesh::Mesh(const string& filename) : impl(new Impl)
@@ -146,13 +146,13 @@ ShadeInfo MeshObject::intersect(const Ray& ray)
 
 					if (normals.size())
 					{
-						info.normal = n1 * (1 - u - v) + n2 * u + n3 * v;
-						info.normal.normalize();
+						info.normal = n1 * (1 - u - v) + n2 * u + n3 * v;						
 					}						
 					else
 					{
 						info.normal = v0v1 ^ v0v2;
-					}										
+					}									
+					info.normal.normalize();
 				}
 			}
 		}

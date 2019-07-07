@@ -18,30 +18,6 @@
 
 begin_name_space(g);
 
-bool inShadow(ShadeInfo& info)
-{
-	for (PointLight* pl : Light::get_type<PointLight>())
-	{
-		Ray shadowRay;
-		shadowRay.orig = info.position;
-		shadowRay.dir = pl->pt_ - info.position;
-		shadowRay.dir.normalize();
-
-		if (!World::Instance()->intersection(shadowRay).valid())
-		{
-			return false;
-		}
-	}
-
-	for (DirectionLight* pl : Light::get_type<DirectionLight>())
-	{
-		if (info.normal * pl->dir_ > 0) //说明能被光线照射到
-			return false;
-	}
-
-	return true;
-}
-
 void RANDOM_PT(vector<float>& xVec, vector<float>& zVec)
 {
 	std::default_random_engine			  gen(time(NULL));
@@ -167,9 +143,9 @@ void World::buildScene2()
 	{
 		MeshObject* bunny = new MeshObject(bunyMesh);
 
-		bunny->matrix_   = Matrix::rotate(0, Vec3(0, 1, 0)) * Matrix::scale(50) * Matrix::translate(xVec[i], -10, zVec[i]);
+		bunny->matrix_   = /*Matrix::rotate(0, Vec3(0, 1, 0)) **/ Matrix::scale(10) * Matrix::translate(0, -3, -10);
 		bunny->material_ = matte;
-		//shapes_ << bunny;
+		shapes_ << bunny;
 	}
 
 	//-------------------------------------------------venusm
@@ -186,15 +162,15 @@ void World::buildScene2()
 
 	ateneam->matrix_   = Matrix::rotate(0, Vec3(0, 1, 0)) * Matrix::scale(.01) * Matrix::translate(-30, -5, -100);
 	ateneam->material_ = matte;
-	shapes_ << ateneam;
+	//shapes_ << ateneam;
 
 	//-------------------------------------------------Sphere
-	Sphere* sphere = new Sphere(Vec3(0, -18, -100), 8);
-	sphere->material_ = matte;
-	shapes_ << sphere;
+	//Sphere* sphere = new Sphere(Vec3(0, -18, -100), 8);
+	//sphere->material_ = matte;
+	//shapes_ << sphere;
 
 	PointLight* pLight = new PointLight;
-	pLight->pt_		   = Vec3(0, 60, -30);
+	pLight->pt_		   = Vec3(0, 10, -10);
 }
 
 ShadeInfo World::intersection(const Ray& ray) const
@@ -279,7 +255,7 @@ Vec3 World::trace_ray_direct(const Ray ray, int depth)
 
 		Vec3 c = info.material->getColor(info);
 
-		if (g::inShadow(info))
+		if (isInShadow(info))
 			c *= .1;
 
 		return c;
@@ -309,4 +285,45 @@ void World::clamp_to_color(Vec3& c, const Vec3& clamto /*= g::Red*/) const
 Vec3 World::get_ambient() const
 {
 	return Vec3(.05);
+}
+
+bool World::isInShadow(ShadeInfo& info) const
+{
+	return false;
+	for (PointLight* pl : Light::get_type<PointLight>())
+	{
+		Ray shadowRay;
+		shadowRay.orig = info.position;
+		shadowRay.dir = pl->pt_ - info.position;
+		shadowRay.dir.normalize();
+
+		ShadeInfo shadowinfo;// = World::Instance()->intersection(shadowRay);
+
+		//shadowinfo = accel_->intersect(shadowRay);
+		//ShadeInfo tmpInfo = intersection_without_meshobject(shadowRay);
+
+		//if (tmpInfo.valid() && tmpInfo.dis < shadowinfo.dis)
+		//{
+		//	shadowinfo = tmpInfo;
+		//}
+
+		shadowinfo = Shape::get_type<MeshObject>()[0]->intersect(shadowRay);
+			
+		if (!shadowinfo.valid())
+		{
+			return false;
+		}
+		else
+		{
+			//cout << shadowinfo.shape->className() << "\t" << cc << "\n";
+		}
+	}
+
+	for (DirectionLight* pl : Light::get_type<DirectionLight>())
+	{
+		if (info.normal * pl->dir_ > kEpsilon) //说明能被光线照射到
+			return false;
+	}
+
+	return true;
 }

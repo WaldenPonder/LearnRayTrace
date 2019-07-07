@@ -25,6 +25,8 @@ public:
 
 	Vec3 get_ambient() const;
 
+	bool isInShadow(ShadeInfo& info) const;
+	
 public:
 	std::vector<Shape*> shapes_;
 	Camera              camera_;
