@@ -849,7 +849,7 @@ bool BVH::intersect(const Vec3f& orig, const Vec3f& dir, const uint32_t& rayId, 
     return (intersectedMesh != nullptr);
 }
 
-#if 0
+#if 1
 // [comment]
 // Implementation of the Grid acceleration structure
 // [/comment]

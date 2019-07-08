@@ -32,11 +32,11 @@ bool rayTriangleIntersect(
 	Vec3  v0v1 = v1 - v0;
 	Vec3  v0v2 = v2 - v0;
 	Vec3  pvec = ray.dir ^ (v0v2);
-	float det  = v0v1 * (pvec);
+	float det  = v0v1 * pvec;
 
 	// if the determinant is negative the triangle is backfacing
 	// if the determinant is close to 0, the ray misses the triangle
-	if (det < kEpsilon) return false;
+	if (fabs(det) < kEpsilon) return false;
 
 	float invDet = 1 / det;
 
@@ -48,7 +48,7 @@ bool rayTriangleIntersect(
 	v		  = ray.dir * ( qvec )*invDet;
 	if (v < 0 || u + v > 1) return false;
 
-	t = v0v2 * ( qvec )*invDet;
+	t = v0v2 *  qvec *invDet;
 
 	return true;
 }

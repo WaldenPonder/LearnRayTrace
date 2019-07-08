@@ -28,7 +28,6 @@ public:
 	bool isInShadow(ShadeInfo& info) const;
 	
 public:
-	std::vector<Shape*> shapes_;
 	Camera              camera_;
 	int                 max_depth_;
 	Vec3				bgColor_ = Vec3(58, 179, 255) / 255.f;

@@ -31,9 +31,9 @@ class MeshObject : public Shape
 
 	Matrix matrix_;
 
- private:
-	void computBBox();
+	const BoundingBox & computBBox();
 
+ private:
 	struct Impl;
 	Impl* impl;
 };

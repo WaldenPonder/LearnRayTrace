@@ -22,7 +22,7 @@ struct MeshObject::Impl
 	Extent		extent_;
 	const Mesh& mesh_;
 
-	bool uesExtent = false;
+	bool uesExtent = true;
 };
 
 Mesh::Mesh(const string& filename) : impl(new Impl)
@@ -59,8 +59,10 @@ MeshObject::~MeshObject()
 {
 }
 
-void MeshObject::computBBox()
+const BoundingBox& MeshObject::computBBox()
 {
+	impl->bbox_.reset();
+
 	const Mesh& mesh = impl->mesh_;
 	for (tinyobj::shape_t& shape : mesh.impl->shapes)
 	{
@@ -74,6 +76,8 @@ void MeshObject::computBBox()
 			impl->bbox_.expandBy(p1 * matrix_);
 		}
 	}
+
+	return impl->bbox_;
 }
 
 //https://blog.csdn.net/xiaobaitu389/article/details/75523018

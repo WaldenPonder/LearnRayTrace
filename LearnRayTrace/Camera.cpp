@@ -30,7 +30,7 @@ void Camera::render()
 	float count = 0;
 	float pre_out = 0;
 
-	int SIZE = 1;
+	int SIZE = 5;
 
 	//std::cout << "输入采样数\n";
 	//std::cin >> SIZE;
@@ -60,7 +60,7 @@ void Camera::render()
 				float px = (2 * (i + pt.x()) / _width - 1) * fov * ratio;
 				float py = (1 - 2 * ((j + pt.y()) / _height)) * fov;
 
-				Vec3 dir = Vec3(px, py, -1) - Vec3(0.);
+				Vec3 dir = Vec3(px, py, -1) - Vec3(0);
 				dir.normalize();
 
 				Ray ray(Vec3(0.), dir);

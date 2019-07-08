@@ -155,7 +155,7 @@ void BVH::init()
 {
 	octree_ = new Octree;
 
-	for (Shape* shape : World::Instance()->shapes_)
+	for (Shape* shape : Shape::pool())
 	{
 		if (shape->className() == MeshObject::class_name())
 		{
