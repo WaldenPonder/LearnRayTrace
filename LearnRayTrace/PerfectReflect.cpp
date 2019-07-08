@@ -32,7 +32,7 @@ Vec3 PerfectReflect::shade(ShadeInfo& info)
 	return c;
 }
 
-Vec3 PerfectReflect::getColor(ShadeInfo& info)
+Vec3 PerfectReflect::shade_direct(ShadeInfo& info)
 {
 	Vec3 lightDir(-info.position + Vec3(0, 2, -4.5));
 	lightDir.normalize();

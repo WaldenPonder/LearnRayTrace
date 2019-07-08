@@ -1,29 +1,20 @@
 #pragma once
 #include "Shape.h"
 
-class World;
-
 class Camera
 {
 public:
 	meta_name(Camera);
 
-	Camera(World& world);
+	Camera();
 	~Camera();
 
-public:
-	void  render();
+	void render();
 
-public:
-	int   _width   = int(1920 * .8);
-	int   _height  = int(1080 * .8);
-		
-	World& _world;
-	Vec3  _eye;
-	Vec3  _front;
-	Vec3  _up;
-	Vec3  _right;
-	float _fovy;
-	float _fovScale;
+private:
+	void  render_impl();
+
+	struct Impl; 
+	Impl * impl;
 };
 

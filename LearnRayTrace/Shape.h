@@ -1,7 +1,7 @@
 #pragma once
 #include "Vec3.h"
 
-class Shape : public InstancePool<Shape>
+class Shape : public InstancePool<Shape>, public Object
 {
 public:
 	meta_name(Shape);

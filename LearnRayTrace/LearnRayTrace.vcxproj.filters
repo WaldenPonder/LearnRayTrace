@@ -126,6 +126,9 @@
     <ClCompile Include="Lambert.cpp">
       <Filter>BRDF</Filter>
     </ClCompile>
+    <ClCompile Include="Object.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Math.h">
@@ -235,6 +238,9 @@
     </ClInclude>
     <ClInclude Include="Lambert.h">
       <Filter>BRDF</Filter>
+    </ClInclude>
+    <ClInclude Include="Object.h">
+      <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

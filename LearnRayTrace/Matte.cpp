@@ -45,7 +45,7 @@ Vec3 Matte::shade(ShadeInfo& info)
 	return c;
 }
 
-Vec3 Matte::getColor(ShadeInfo& info)
+Vec3 Matte::shade_direct(ShadeInfo& info)
 {
 	Vec3 val = World::Instance()->get_ambient();
 

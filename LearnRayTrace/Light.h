@@ -1,7 +1,7 @@
 #pragma once
 #include "Vec3.h"
 
-class Light : public InstancePool<Light>
+class Light : public InstancePool<Light>, public Object
 {
 public:
 	meta_name(Light);

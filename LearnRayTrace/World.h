@@ -4,7 +4,7 @@
 #include <vector>
 
 class Acceleration;
-class World : public Singleton<World>
+class World : public Singleton<World>, public Object
 {
 public:
 	meta_name(World);

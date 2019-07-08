@@ -16,7 +16,7 @@ Vec3 Emissive::shade(ShadeInfo& r)
 	return _light * 10;
 }
 
-Vec3 Emissive::getColor(ShadeInfo& r)
+Vec3 Emissive::shade_direct(ShadeInfo& r)
 {
 	return _light * 10;
 }

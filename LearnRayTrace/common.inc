@@ -155,9 +155,9 @@ VECTOR.erase(std::remove(VECTOR.begin(), VECTOR.end(), DATA), VECTOR.end());
 
 //类名
 #define  meta_name(CLASS)\
- public:\
- static  std::string class_name() { return #CLASS; }/*类型*/\
- virtual std::string  className(){  return #CLASS; }\
+public:\
+static  std::string class_name() { return #CLASS; }/*类型*/\
+virtual std::string  className(){  return #CLASS; }\
 virtual std::string  className() const { return #CLASS; }
 
 class Shape;

@@ -10,7 +10,7 @@ public:
 	~Material();
 
 	virtual Vec3 shade(ShadeInfo& r) = 0;
-	virtual Vec3 getColor(ShadeInfo& r) { return g::Black; }
+	virtual Vec3 shade_direct(ShadeInfo& r) { return g::Black; }
 
 	BRDF* _brdf = nullptr;
 };

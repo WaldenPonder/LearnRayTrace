@@ -20,6 +20,7 @@
 #include <algorithm>
 #include <iostream>
 #include <vector>
+#include "Object.h"
 
 class Vec3
 {

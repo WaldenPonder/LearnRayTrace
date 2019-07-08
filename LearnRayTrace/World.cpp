@@ -62,7 +62,7 @@ void RANDOM_PT(vector<float>& xVec, vector<float>& zVec)
 
 end_name_space
 
-World::World() : camera_(*this)
+World::World()
 {
 	max_depth_ = 2;
 	buildScene1();
@@ -94,23 +94,29 @@ void World::buildScene1()
 	pLight->pt_ = Vec3(0, 0, 0);
 
 	plane			 = new Plane(Vec3(0, 2, 0), Vec3(0, -1, 0));  //上
+	plane->objectName_ = "top";
 	plane->material_ = matte_blue;
 
 	plane			 = new Plane(Vec3(0, 2 - 1e-5, 0), Vec3(0, -1, 0));  //灯
+	plane->objectName_ = "light plane";
 	plane->material_ = new Emissive;
 	plane->x_min = -.5, plane->x_max = .5;
 	plane->z_min = -5, plane->z_max = -4;
 
 	plane			 = new Plane(Vec3(0, -2, 0), Vec3(0, 1, 0));  //下
+	plane->objectName_ = "bottom";
 	plane->material_ = matte_blue;
 
 	plane			 = new Plane(Vec3(-2, 0, 0), Vec3(1, 0, 0));  //左
+	plane->objectName_ = "left";
 	plane->material_ = matte_sky;
 
 	plane			 = new Plane(Vec3(0, 0, -6), Vec3(0, 0, 1));  //后
+	plane->objectName_ = "back";
 	plane->material_ = matte_red;
 
 	plane			 = new Plane(Vec3(2, 0, 0), Vec3(-1, 0, 0));  //右
+	plane->objectName_ = "right";
 	plane->material_ = matte_sky;
 
 	//--------------------------------------------------Sphere
@@ -127,10 +133,10 @@ void World::buildScene1()
 	//sphere->material_ = matte_sky;
 	
 	//-------------------------------------------------bunny
-	static Mesh bunyMesh("../3rd/bunny.obj");
-	MeshObject* bunny = new MeshObject(bunyMesh);
-	bunny->matrix_ = Matrix::rotate(0, Vec3(0, 1, 0)) * Matrix::scale(10) * Matrix::translate(0, 0, -5);
-	bunny->material_ = matte_sky;
+	//static Mesh bunyMesh("../3rd/bunny.obj");
+	//MeshObject* bunny = new MeshObject(bunyMesh);
+	//bunny->matrix_ = Matrix::rotate(0, Vec3(0, 1, 0)) * Matrix::scale(10) * Matrix::translate(0, 0, -5);
+	//bunny->material_ = matte_sky;
 }
 
 //--------------------------------------------------Y 向上， 右手
@@ -263,10 +269,12 @@ Vec3 World::trace_ray_direct(const Ray ray, int depth)
 		info.depth = depth;
 		info.ray   = ray;
 
-		Vec3 c = info.material->getColor(info);
+		Vec3 c = info.material->shade_direct(info);
 
 		if (isInShadow(info))
 			c *= .1;
+
+		//cout << info.shape->objectName_ << "\N";
 
 		return c;
 	}
@@ -306,7 +314,8 @@ bool World::isInShadow(ShadeInfo& info) const
 		shadowRay.dir.normalize();
 		shadowRay.orig = info.position + shadowRay.dir * .001;
 
-		ShadeInfo shadowinfo = accel_->intersect(shadowRay);
+		ShadeInfo shadowinfo;
+		if(accel_) shadowinfo = accel_->intersect(shadowRay);
 		ShadeInfo tmpInfo = intersection_without_meshobject(shadowRay);
 
 		if (tmpInfo.valid() && tmpInfo.dis < shadowinfo.dis)
