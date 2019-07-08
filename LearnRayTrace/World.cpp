@@ -129,7 +129,7 @@ void World::buildScene1()
 	//-------------------------------------------------bunny
 	static Mesh bunyMesh("../3rd/bunny.obj");
 	MeshObject* bunny = new MeshObject(bunyMesh);
-	bunny->matrix_ = Matrix::rotate(0, Vec3(0, 1, 0)) * Matrix::scale(10) * Matrix::translate(0, 0, -3);
+	bunny->matrix_ = Matrix::rotate(0, Vec3(0, 1, 0)) * Matrix::scale(10) * Matrix::translate(0, 0, -5);
 	bunny->material_ = matte_sky;
 }
 
