@@ -114,23 +114,23 @@ void World::buildScene1()
 	plane->material_ = matte_sky;
 
 	//--------------------------------------------------Sphere
-	Sphere* sphere	= new Sphere(Vec3(0, -1.5, -5), .5);
-	sphere->material_ = matte_sky;
+	//Sphere* sphere	= new Sphere(Vec3(0, -1.5, -5), .5);
+	//sphere->material_ = matte_sky;
 
-	sphere			  = new Sphere(Vec3(-1, -1.5, -5), .5);
-	sphere->material_ = matte_red;
+	//sphere			  = new Sphere(Vec3(-1, -1.5, -5), .5);
+	//sphere->material_ = matte_red;
 
-	sphere			  = new Sphere(Vec3(1, -1.5, -5), .5);
-	sphere->material_ = matte_sky;
+	//sphere			  = new Sphere(Vec3(1, -1.5, -5), .5);
+	//sphere->material_ = matte_sky;
 
-	sphere			  = new Sphere(Vec3(0, -1.5, -4), .5);
-	sphere->material_ = matte_sky;
+	//sphere			  = new Sphere(Vec3(0, -1.5, -4), .5);
+	//sphere->material_ = matte_sky;
 	
 	//-------------------------------------------------bunny
 	static Mesh bunyMesh("../3rd/bunny.obj");
 	MeshObject* bunny = new MeshObject(bunyMesh);
-	bunny->matrix_ = Matrix::rotate(0, Vec3(0, 1, 0)) * Matrix::scale(10) * Matrix::translate(0, 0, -5);
-	bunny->material_ = matte;
+	bunny->matrix_ = Matrix::rotate(0, Vec3(0, 1, 0)) * Matrix::scale(10) * Matrix::translate(0, 0, -3);
+	bunny->material_ = matte_sky;
 }
 
 //--------------------------------------------------Y ÏòÉÏ£¬ ÓÒÊÖ

@@ -32,8 +32,8 @@ void Camera::render()
 
 	int SIZE = 5;
 
-	//std::cout << "输入采样数\n";
-	//std::cin >> SIZE;
+	std::cout << "输入采样数\n";
+	std::cin >> SIZE;
 
 	OF << "#\t SAMPES\t" << SIZE << "\n";
 
@@ -64,7 +64,7 @@ void Camera::render()
 				dir.normalize();
 
 				Ray ray(Vec3(0.), dir);
-				Vec3 f = _world.trace_ray_direct(ray, 0);
+				Vec3 f = _world.trace_ray(ray, 0);
 				c = c + f / (float)SIZE;
 			}
 
