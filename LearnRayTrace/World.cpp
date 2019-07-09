@@ -133,10 +133,10 @@ void World::buildScene1()
 	//sphere->material_ = matte_sky;
 	
 	//-------------------------------------------------bunny
-	//static Mesh bunyMesh("../3rd/bunny.obj");
-	//MeshObject* bunny = new MeshObject(bunyMesh);
-	//bunny->matrix_ = Matrix::rotate(0, Vec3(0, 1, 0)) * Matrix::scale(10) * Matrix::translate(0, 0, -5);
-	//bunny->material_ = matte_sky;
+	static Mesh bunyMesh("../3rd/bunny.obj");
+	MeshObject* bunny = new MeshObject(bunyMesh);
+	bunny->matrix_ = Matrix::rotate(0, Vec3(0, 1, 0)) * Matrix::scale(10) * Matrix::translate(0, -2.3, -5);
+	bunny->material_ = matte_sky;
 }
 
 //--------------------------------------------------Y œÚ…œ£¨ ”“ ÷
@@ -307,6 +307,7 @@ Vec3 World::get_ambient() const
 
 bool World::isInShadow(ShadeInfo& info) const
 {
+	return false;
 	for (PointLight* pl : Light::get_type<PointLight>())
 	{
 		Ray shadowRay;

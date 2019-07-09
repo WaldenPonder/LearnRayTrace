@@ -8,98 +8,74 @@
 #include "Matte.h"
 #include "MultiJittered.h"
 #include <thread>
+#include <atomic>
+#include <mutex>
+
+std::ofstream OF(g::getDesktopPath() + "/out.ppm");
+std::mutex	of_mutex;
+//#define  muti_thread
 
 struct Camera::Impl
 {
-	std::ofstream OF;
+	static const int width  = int(1920 * .8);
+	static const int height = int(1080 * .8);
+	static const int SAMPLE_SIZE = 5;
+	const float ratio = width / ( float )height;
+	const float fov   = (60. / 2 * PI / 180);
 
-	int width_  = int(1920 * .8);
-	int height_ = int(1080 * .8);
+	const float total = height * width;
 
-	float ratio_;
-	float fov_;
+	std::atomic<float> draw_pixel_count = 0;
+	std::atomic<float> pre_out			= 0;
+	std::atomic<int> i			 = 0;
+	std::atomic<int> j			 = 0;
+	std::atomic<int> k			 = 0;
 
-	float total			   = height_ * width_;
-	float draw_pixel_count = 0;
-	float pre_out		   = 0;
+	std::atomic<bool> flag[width][height][5];	
+	std::mutex	cout_mutex;
 
-	int SAMPLE_SIZE = 5;
-	int i			= 0;
-	int j			= 0;
+	void  render_impl();
 };
 
-Camera::Camera() : impl(new Impl)
+void Camera::Impl::render_impl()
 {
-	impl->OF.open(g::getDesktopPath() + "/out.ppm");
-}
-
-Camera::~Camera()
-{
-}
-
-void Camera::render()
-{
-	long t = clock();
-
-	impl->ratio_ = impl->width_ / ( float )impl->height_;
-	impl->fov_   = tan(60. / 2 * PI / 180);
-
-	impl->OF << "P3\n"
-			 << impl->width_ << " " << impl->height_ << "\n255\n";
-
-	std::cout << "输入采样数\n";
-	std::cin >> impl->SAMPLE_SIZE;
-
-	impl->OF << "#\t SAMPES\t" << impl->SAMPLE_SIZE << "\n";
-
-	vector<std::thread*> ths;
-
-	for (int i = 0; i < 1; i++)
+	for (; j < height; j += 1)
 	{
-		std::thread* th = new std::thread(&Camera::render_impl, this);
-		ths.push_back(th);
-	}
+		if (i >= width) i = 0;
 
-	for (std::thread* th : ths)
-	{
-		th->join();
-	}
-
-	impl->OF << "# " << float(clock() - t) / ( float )CLOCKS_PER_SEC << "   sample\t" << impl->SAMPLE_SIZE;
-	impl->OF.close();
-
-	cout << "finish " << (clock() - t) << endl;
-}
-
-void Camera::render_impl()
-{
-	for (; impl->j < impl->height_; impl->j += 1)
-	{
-		for (; impl->i < impl->width_; impl->i += 1)
+		for (; i < width; i += 1)
 		{
-			impl->draw_pixel_count++;
+			draw_pixel_count = draw_pixel_count + 1;
 
-			if (impl->draw_pixel_count / impl->total - impl->pre_out > 0.01)
+			if (draw_pixel_count / total - pre_out > 0.01)
 			{
-				impl->pre_out = impl->draw_pixel_count / impl->total;
-				cout << int(impl->pre_out * 100) << "%" << endl;
+#ifdef muti_thread
+				std::lock_guard<std::mutex>	guard(cout_mutex);
+#endif
+				pre_out = draw_pixel_count / total;
+				cout << int(pre_out * 100) << "%" << "\t" << std::this_thread::get_id() << endl;
 			}
 
 			Vec3 c;
-
-			for (int k = 0; k < impl->SAMPLE_SIZE; k++)
+			if (k >= SAMPLE_SIZE) k = 0;
+	
+			for (; k < SAMPLE_SIZE; k++)
 			{
+				if (flag[i][j][k])
+					continue;
+
+				flag[i][j][k] = true;
 				//Point2D pt = MultiJittered::instance()->sample_unit_square();
 				Point2D pt(.5);
-				float   px = (2 * (impl->i + pt.x()) / impl->width_ - 1) * impl->fov_ * impl->ratio_;
-				float   py = (1 - 2 * ((impl->j + pt.y()) / impl->height_)) * impl->fov_;
+				float   px = (2 * (i + pt.x()) / width - 1) * fov * ratio;
+				float   py = (1 - 2 * ((j + pt.y()) / height)) * fov;
 
 				Vec3 dir = Vec3(px, py, -1) - Vec3(0);
 				dir.normalize();
 
 				Ray  ray(Vec3(0.), dir);
-				Vec3 f = g::Red;// World::Instance()->trace_ray_direct(ray, 0);
-				c	  = c + f / ( float )impl->SAMPLE_SIZE;
+				Vec3 f = World::Instance()->trace_ray(ray, 0);
+				c = c + f / (float)SAMPLE_SIZE;
 			}
 
 			World::Instance()->max_to_one(c);
@@ -110,7 +86,65 @@ void Camera::render_impl()
 			int ig = c[1];
 			int ib = c[2];
 
-			impl->OF << ir << " " << ig << " " << ib << "\n";
+			{
+				
+#ifdef muti_thread
+				std::lock_guard<mutex> guard(of_mutex);
+#endif
+				OF << ir << " " << ig << " " << ib << "\n";
+			}
 		}
 	}
+}
+
+Camera::Camera() : impl(new Impl)
+{
+
+}
+
+Camera::~Camera()
+{
+}
+
+void Camera::render()
+{
+	long t = clock();
+
+	OF << "P3\n" << impl->width << " " << impl->height << "\n255\n";
+	OF << "#\t SAMPES\t" << impl->SAMPLE_SIZE << "\n";
+	OF << "# HARDWARE_CONCURRENCY\t" << std::thread::hardware_concurrency() << "\n";
+
+	for (int i = 0; i < impl->width; i++)
+	{
+		for (int j = 0; j < impl->height; j++)
+		{
+			for (int k = 0; k < impl->SAMPLE_SIZE; k++)
+			{
+				impl->flag[i][j][k] = false;
+			}
+		}
+	}
+	MultiJittered::instance()->sample_hemisphere();
+
+#ifdef muti_thread
+	vector<std::thread*> ths;
+
+	for (int i = 0; i < std::thread::hardware_concurrency(); i++)
+	{
+		std::thread* th = new std::thread(&Camera::Impl::render_impl, impl);
+		ths.push_back(th);
+	}
+
+	for (std::thread* th : ths)
+	{
+		th->join();
+	}
+#else
+	impl->render_impl();
+#endif
+	
+	OF << "# " << float(clock() - t) / ( float )CLOCKS_PER_SEC << "   sample\t" << impl->SAMPLE_SIZE;
+	OF.close();
+
+	cout << "finish " << (clock() - t) << endl;
 }

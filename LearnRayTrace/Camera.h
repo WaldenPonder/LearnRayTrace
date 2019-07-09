@@ -11,9 +11,6 @@ public:
 
 	void render();
 
-private:
-	void  render_impl();
-
 	struct Impl; 
 	Impl * impl;
 };
