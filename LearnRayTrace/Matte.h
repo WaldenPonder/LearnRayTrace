@@ -6,6 +6,7 @@ class Matte : public Material
 {
 public:
 	Matte();
+	Matte(const Vec3& c, float k);
 	~Matte();
 
 	virtual Vec3 shade(ShadeInfo& r) override;

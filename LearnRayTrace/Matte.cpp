@@ -10,6 +10,12 @@ Matte::Matte()
 {
 }
 
+Matte::Matte(const Vec3& c, float k)
+{
+	diffuse_brdf.diffuse_.c = c;
+	diffuse_brdf.diffuse_.k = k;
+}
+
 Matte::~Matte()
 {
 }
@@ -46,13 +52,13 @@ Vec3 Matte::shade(ShadeInfo& info)
 }
 
 Vec3 Matte::shade_direct(ShadeInfo& info)
-{
+{	
 	Vec3 val = World::Instance()->get_ambient();
 
 	for (Light* light : Light::pool())
 	{
 		Vec3 lightDir = light->getDir(info);
-		float NdotL = fabs(info.normal * lightDir);
+		float NdotL = info.normal * lightDir;
 
 		Vec3 diffItem = diffuse_brdf.f() * max(NdotL, 0.f);
 		val += diffItem;

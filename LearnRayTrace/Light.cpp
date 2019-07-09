@@ -22,6 +22,18 @@ Vec3 Light::L(ShadeInfo& info) const
 }
 
 //-------------------------------------------------PointLight
+
+PointLight::PointLight(const Point& pt, const Vec3& c)
+{
+	pt_ = pt;
+	color_ = c;
+}
+
+PointLight::PointLight()
+{
+
+}
+
 Vec3 PointLight::getDir(ShadeInfo& info) const
 {
 	Vec3 dir = pt_ - info.position;
@@ -35,6 +47,20 @@ Vec3 PointLight::L(ShadeInfo& info) const
 }
 
 //-------------------------------------------------DirectionLight
+
+DirectionLight::DirectionLight(const Vec3& dir, const Vec3& c)
+{
+	dir_ = dir;
+	dir_.normalize();
+	color_ = c;
+}
+
+DirectionLight::DirectionLight()
+{
+
+}
+
+
 Vec3 DirectionLight::getDir(ShadeInfo& info) const
 {
 	return dir_;

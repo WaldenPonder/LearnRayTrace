@@ -18,6 +18,8 @@ class PointLight : public Light
 {
 public:
 	meta_name(PointLight);
+	PointLight();
+	PointLight(const Point& pt, const Vec3& c);
 
 	virtual Vec3 getDir(ShadeInfo& info) const override;
 	virtual Vec3 L(ShadeInfo& info) const override;
@@ -31,6 +33,9 @@ class DirectionLight : public Light
 {
 public:
 	meta_name(DirectionLight);
+
+	DirectionLight();
+	DirectionLight(const Vec3& dir, const Vec3& c);
 
 	virtual Vec3 getDir(ShadeInfo& info) const override;
 	virtual Vec3 L(ShadeInfo& info) const override;

@@ -13,13 +13,13 @@
 
 std::ofstream OF(g::getDesktopPath() + "/out.ppm");
 std::mutex	of_mutex;
-//#define  muti_thread
+//#define  multi_thread
 
 struct Camera::Impl
 {
 	static const int width  = int(1920 * .8);
 	static const int height = int(1080 * .8);
-	static const int SAMPLE_SIZE = 5;
+	static const int SAMPLE_SIZE = 1;
 	const float ratio = width / ( float )height;
 	const float fov   = (60. / 2 * PI / 180);
 
@@ -49,7 +49,7 @@ void Camera::Impl::render_impl()
 
 			if (draw_pixel_count / total - pre_out > 0.01)
 			{
-#ifdef muti_thread
+#ifdef multi_thread
 				std::lock_guard<std::mutex>	guard(cout_mutex);
 #endif
 				pre_out = draw_pixel_count / total;
@@ -74,7 +74,7 @@ void Camera::Impl::render_impl()
 				dir.normalize();
 
 				Ray  ray(Vec3(0.), dir);
-				Vec3 f = World::Instance()->trace_ray(ray, 0);
+				Vec3 f = World::Instance()->trace_ray_direct(ray, 0);
 				c = c + f / (float)SAMPLE_SIZE;
 			}
 
@@ -88,7 +88,7 @@ void Camera::Impl::render_impl()
 
 			{
 				
-#ifdef muti_thread
+#ifdef multi_thread
 				std::lock_guard<mutex> guard(of_mutex);
 #endif
 				OF << ir << " " << ig << " " << ib << "\n";
@@ -126,7 +126,7 @@ void Camera::render()
 	}
 	MultiJittered::instance()->sample_hemisphere();
 
-#ifdef muti_thread
+#ifdef multi_thread
 	vector<std::thread*> ths;
 
 	for (int i = 0; i < std::thread::hardware_concurrency(); i++)
