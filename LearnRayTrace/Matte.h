@@ -12,6 +12,7 @@ public:
 	virtual Vec3 shade(ShadeInfo& r) override;
 	virtual Vec3 shade_direct(ShadeInfo& r) override;
 
-	Lambert diffuse_brdf;
+private:
+	Lambert brdf;
 };
 

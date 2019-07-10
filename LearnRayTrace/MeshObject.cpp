@@ -22,7 +22,7 @@ struct MeshObject::Impl
 	Extent		extent_;
 	const Mesh& mesh_;
 
-	bool uesExtent = false;
+	bool uesExtent = true;
 };
 
 Mesh::Mesh(const string& filename) : impl(new Impl)

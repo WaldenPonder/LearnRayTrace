@@ -12,8 +12,8 @@ Matte::Matte()
 
 Matte::Matte(const Vec3& c, float k)
 {
-	diffuse_brdf.diffuse_.c = c;
-	diffuse_brdf.diffuse_.k = k;
+	brdf.diffuse_.c = c;
+	brdf.diffuse_.k = k;
 }
 
 Matte::~Matte()
@@ -22,7 +22,7 @@ Matte::~Matte()
 
 Vec3 Matte::shade(ShadeInfo& info)
 {
-	Vec3 val = diffuse_brdf.f();
+	Vec3 val = brdf.f();
 
 	if (info.depth > 5)
 	{
@@ -60,7 +60,7 @@ Vec3 Matte::shade_direct(ShadeInfo& info)
 		Vec3 lightDir = light->getDir(info);
 		float NdotL = info.normal * lightDir;
 
-		Vec3 diffItem = diffuse_brdf.f() * max(NdotL, 0.f);
+		Vec3 diffItem = brdf.f() * max(NdotL, 0.f);
 		val += diffItem;
 	}
 	

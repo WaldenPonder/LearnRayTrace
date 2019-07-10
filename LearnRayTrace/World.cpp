@@ -143,8 +143,7 @@ void World::buildScene2()
 	vector<float> xVec, zVec;
 	g::RANDOM_PT(xVec, zVec);
 
-	Matte* matte				   = new Matte;
-	matte->diffuse_brdf.diffuse_.k = .95;
+	Matte* matte				   = new Matte(g::White, .95);
 
 	//-------------------------------------------------bunny
 	//for (i = 0; i < 1; i++)
@@ -308,6 +307,7 @@ bool World::isInShadow(ShadeInfo& info) const
 	{
 		shadowRay.dir = pl->pt_ - info.position;
 		shadowRay.dir.normalize();
+		shadowRay.calcuPreValue();
 
 		//if(accel_) shadowinfo = accel_->intersect(shadowRay);
 
@@ -337,6 +337,7 @@ bool World::isInShadow(ShadeInfo& info) const
 	{
 		shadowRay.dir = pl->getDir(info);
 		shadowRay.dir.normalize();
+		shadowRay.calcuPreValue();
 
 		for (Shape* s : Shape::pool())
 		{

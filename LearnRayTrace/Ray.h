@@ -10,6 +10,8 @@ public:
 
 	Point distance(float t) const;
 
+	void calcuPreValue();
+
 public:
 	Vec3 orig;
 	Vec3 dir;
