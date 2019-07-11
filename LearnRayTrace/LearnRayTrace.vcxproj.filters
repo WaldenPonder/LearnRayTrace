@@ -132,6 +132,9 @@
     <ClCompile Include="Object.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Phong.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Math.h">
@@ -243,6 +246,9 @@
       <Filter>BRDF</Filter>
     </ClInclude>
     <ClInclude Include="Object.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Phong.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

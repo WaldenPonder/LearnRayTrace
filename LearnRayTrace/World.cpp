@@ -7,6 +7,7 @@
 #include "Matte.h"
 #include "MeshObject.h"
 #include "Acceleration.h"
+#include "Phong.h"
 
 #undef max
 #undef min
@@ -109,11 +110,6 @@ Vec3 World::trace_ray_direct(const Ray ray, int depth)
 
 		Vec3 c = info.material->shade_direct(info);
 
-		if (isInShadow(info))
-			c *= .1;
-
-		//cout << info.shape->objectName_ << "\N";
-
 		return c;
 	}
 
@@ -145,6 +141,11 @@ Vec3 World::get_ambient() const
 
 bool World::isInShadow(ShadeInfo& info) const
 {
+	if (info.isInShadow == ShadeInfo::YES)
+		return true;
+	else if (info.isInShadow == ShadeInfo::NO)
+		return false;
+
 	Ray shadowRay;
 
 	shadowRay.orig = info.position;
@@ -177,6 +178,7 @@ bool World::isInShadow(ShadeInfo& info) const
 		//shadowinfo = Shape::get_type<MeshObject>()[0]->intersect(shadowRay);		
 		if(shadowinfo.valid() && shadowinfo.dis < (info.position - pl->pt_).length())
 		{
+			info.isInShadow = ShadeInfo::YES;
 			return true;			
 		}
 	}
@@ -195,11 +197,13 @@ bool World::isInShadow(ShadeInfo& info) const
 			ShadeInfo value = s->intersect(shadowRay);
 			if (value.valid())
 			{
+				info.isInShadow = ShadeInfo::YES;
 				//cout << "a\n";
 				return true;
 			}
 		}
 	}
+	info.isInShadow = ShadeInfo::NO;
 
 	return false;
 }

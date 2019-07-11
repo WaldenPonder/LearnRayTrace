@@ -4,12 +4,22 @@
 #include "MultiJittered.h"
 #include <cmath>
 
-GlossySpecular::GlossySpecular()
+GlossySpecular::GlossySpecular(const Color& c, float exp) : glossyColor_(c), exp_(exp)
 {
 	sampler_ = MultiJittered::instance();
 }
 
 GlossySpecular::~GlossySpecular() {}
+
+Vec3 GlossySpecular::f(const ShadeInfo& info, const Vec3& wo, const Vec3& wi) const
+{
+	float ndotwi = info.normal * wi;
+	Vec3  r = -wi + info.normal * ndotwi * 2.0;  // direction of mirror reflection
+
+	float phong_lobe = pow(r * wo, exp_);
+	
+	return (glossyColor_.get() * phong_lobe);
+}
 
 Vec3 GlossySpecular::sample_f(const ShadeInfo& info, const Vec3& wo, Vec3& wi, float& pdf) const
 {
@@ -27,9 +37,7 @@ Vec3 GlossySpecular::sample_f(const ShadeInfo& info, const Vec3& wo, Vec3& wi, f
 	if (info.normal * wi < 0.0)  // reflected ray is below tangent plane
 		wi = -sp.x() * u - sp.y() * v + sp.z() * w;
 
-	const int kExp = 10;
-
-	float phong_lobe = pow(r * wi, kExp);
+	float phong_lobe = pow(r * wi, exp_);
 	pdf				 = phong_lobe * (info.normal * wi);
 
 	return (glossyColor_.get() * phong_lobe);

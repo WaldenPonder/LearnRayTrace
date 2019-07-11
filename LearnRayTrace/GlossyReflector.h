@@ -5,8 +5,7 @@
 class GlossyReflector : public Matte
 {
 public:
-	GlossyReflector();
-	GlossyReflector(const Vec3& c);
+	GlossyReflector(const Vec3& c, int k);
 	~GlossyReflector();
 
 	virtual Vec3 shade(ShadeInfo& info) override;

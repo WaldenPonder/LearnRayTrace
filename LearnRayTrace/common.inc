@@ -13,6 +13,10 @@ struct Color
 	float k = 1.f;
 	Vec3 c = Vec3(1.f);
 
+	Color() = default;
+	Color(const Vec3& c_, float k_) :c(c_), k(k_)
+	{}
+		
 	Vec3 get() const 
 	{
 		return k * c;
@@ -167,7 +171,7 @@ class ShadeInfo;
 class Ray;
 class Extent;
 class MeshObject;
-
+class Acceleration;
 
 
 template<typename T>

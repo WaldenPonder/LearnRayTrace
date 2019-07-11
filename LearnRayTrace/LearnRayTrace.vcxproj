@@ -42,6 +42,7 @@
     <ClCompile Include="MultiJittered.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="PerfectReflect.cpp" />
+    <ClCompile Include="Phong.cpp" />
     <ClCompile Include="Plane.cpp" />
     <ClCompile Include="Extent.cpp" />
     <ClCompile Include="Quat.cpp" />
@@ -79,6 +80,7 @@
     <ClInclude Include="MultiJittered.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="PerfectReflect.h" />
+    <ClInclude Include="Phong.h" />
     <ClInclude Include="Plane.h" />
     <ClInclude Include="Extent.h" />
     <ClInclude Include="Quat.h" />

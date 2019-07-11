@@ -1,11 +1,10 @@
 #include "stdafx.h"
 #include "Lambert.h"
 
-
-Lambert::Lambert()
+Lambert::Lambert(const Vec3& c, float k)
 {
+	diffuse_.c = c, diffuse_.k = k;
 }
-
 
 Lambert::~Lambert()
 {

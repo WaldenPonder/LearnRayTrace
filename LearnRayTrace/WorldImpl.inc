@@ -123,7 +123,8 @@ void World::buildScene()
 	vector<float> xVec, zVec;
 	g::RANDOM_PT(xVec, zVec);
 
-	Matte* matte = new Matte(g::White, .95);
+	Matte* matte = //new Matte(g::White, .95);
+		new Phong(g::White, .85, g::White, .1, 10);
 
 	//-------------------------------------------------bunny
 	//for (i = 0; i < 1; i++)
@@ -153,6 +154,9 @@ void World::buildScene()
 
 	//-------------------------------------------------Sphere
 	Sphere* sphere = new Sphere(Vec3(20, -17, -60), 8);
+	sphere->material_ = matte;
+
+	sphere = new Sphere(Vec3(2, -17, -80), 8);
 	sphere->material_ = matte;
 
 	//PointLight* pLight = new PointLight(Vec3(-22, 100, -98), g::White);

@@ -5,7 +5,6 @@
 class Matte : public Material
 {
 public:
-	Matte();
 	Matte(const Vec3& c, float k);
 	~Matte();
 
@@ -13,6 +12,6 @@ public:
 	virtual Vec3 shade_direct(ShadeInfo& r) override;
 
 private:
-	Lambert brdf;
+	Lambert brdf_;
 };
 

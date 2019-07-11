@@ -11,7 +11,7 @@ BRDF::~BRDF()
 {
 }
 
-Vec3 BRDF::f(const ShadeInfo& si, const Vec3& wo, Vec3& wi) const
+Vec3 BRDF::f(const ShadeInfo& si, const Vec3& wo, const Vec3& wi) const
 {
 	return Vec3();
 }

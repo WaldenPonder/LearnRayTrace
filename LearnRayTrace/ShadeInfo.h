@@ -22,6 +22,14 @@ public:
 
 	Material* material = nullptr;
 
+	enum eISINSHADOW
+	{
+		YES,
+		NO,
+		NOT_CALCULAT_YET
+	};
+	eISINSHADOW      isInShadow = NOT_CALCULAT_YET;
+
 	void setShape(Shape* s);
 
 	bool valid();

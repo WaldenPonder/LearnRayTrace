@@ -6,14 +6,8 @@
 #include "World.h"
 #include "Light.h"
 
-Matte::Matte()
+Matte::Matte(const Vec3& c, float k) : brdf_(c, k)
 {
-}
-
-Matte::Matte(const Vec3& c, float k)
-{
-	brdf.diffuse_.c = c;
-	brdf.diffuse_.k = k;
 }
 
 Matte::~Matte()
@@ -22,18 +16,20 @@ Matte::~Matte()
 
 Vec3 Matte::shade(ShadeInfo& info)
 {
-	Vec3 val = brdf.f();
+	Vec3 val = brdf_.f();
 
 	if (info.depth > 5)
 	{
-		float f = max({ val.x(), val.y(), val.z()} );
-		if (rand_float() < f) val /= f;
-		else return Vec3();
+		float f = max({ val.x(), val.y(), val.z() });
+		if (rand_float() < f)
+			val /= f;
+		else
+			return Vec3();
 	}
 
 	if (info.depth > 100)
 		return Vec3();
-	
+
 	Vec3 w = info.normal;
 	Vec3 u = Vec3(0.00424, 1, 0.00764) ^ w;
 	u.normalize();
@@ -42,8 +38,8 @@ Vec3 Matte::shade(ShadeInfo& info)
 	Vec3 f = g::Black;
 
 	Point sp = MultiJittered::instance()->sample_hemisphere();
-	Vec3 wi = sp.x() * u + sp.y() * v + sp.z() * w;			// reflected ray direction
-	Ray r(info.position, wi);
+	Vec3  wi = sp.x() * u + sp.y() * v + sp.z() * w;  // reflected ray direction
+	Ray   r(info.position, wi);
 
 	f = World::Instance()->trace_ray(r, info.depth + 1);
 
@@ -52,17 +48,20 @@ Vec3 Matte::shade(ShadeInfo& info)
 }
 
 Vec3 Matte::shade_direct(ShadeInfo& info)
-{	
+{
 	Vec3 val = World::Instance()->get_ambient();
 
 	for (Light* light : Light::pool())
 	{
-		Vec3 lightDir = light->getDir(info);
-		float NdotL = info.normal * lightDir;
+		Vec3  lightDir = light->getDir(info);
+		float NdotL	= info.normal * lightDir;
 
-		Vec3 diffItem = brdf.f() * max(NdotL, 0.f);
+		Vec3 diffItem = brdf_.f() * max(NdotL, 0.f);
 		val += diffItem;
 	}
-	
+
+	if (World::Instance()->isInShadow(info))
+		val *= .1;
+
 	return val.clamp(0, 1);
 }

@@ -3,7 +3,6 @@
 #include "Camera.h"
 #include <vector>
 
-class Acceleration;
 class World : public Singleton<World>, public Object
 {
 public:

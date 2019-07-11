@@ -4,10 +4,9 @@
 #include "GlossySpecular.h"
 #include "World.h"
 
-GlossyReflector::GlossyReflector()
+GlossyReflector::GlossyReflector(const Vec3& c, int k) : Matte(c, k)
 {
-	_brdf			 = new GlossySpecular;
-	_brdf->material_ = this;
+
 }
 
 GlossyReflector::~GlossyReflector() {}
