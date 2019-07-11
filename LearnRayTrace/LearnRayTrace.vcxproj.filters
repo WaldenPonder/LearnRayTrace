@@ -90,9 +90,6 @@
     <ClCompile Include="GlossyReflector.cpp">
       <Filter>Material</Filter>
     </ClCompile>
-    <ClCompile Include="PerfectReflect.cpp">
-      <Filter>Material</Filter>
-    </ClCompile>
     <ClCompile Include="Material.cpp">
       <Filter>Material</Filter>
     </ClCompile>
@@ -134,6 +131,9 @@
     </ClCompile>
     <ClCompile Include="Phong.cpp">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Reflective.cpp">
+      <Filter>Material</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -197,9 +197,6 @@
     <ClInclude Include="Material.h">
       <Filter>Material</Filter>
     </ClInclude>
-    <ClInclude Include="PerfectReflect.h">
-      <Filter>Material</Filter>
-    </ClInclude>
     <ClInclude Include="GlossyReflector.h">
       <Filter>Material</Filter>
     </ClInclude>
@@ -250,6 +247,9 @@
     </ClInclude>
     <ClInclude Include="Phong.h">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Reflective.h">
+      <Filter>Material</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

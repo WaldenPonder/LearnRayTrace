@@ -8,6 +8,7 @@
 #include "MeshObject.h"
 #include "Acceleration.h"
 #include "Phong.h"
+#include "Reflective.h"
 
 #undef max
 #undef min
@@ -22,7 +23,7 @@
 
 World::World()
 {
-	max_depth_ = 2;
+	max_depth_ = 3;
 	buildScene();
 }
 
@@ -101,6 +102,8 @@ Vec3 World::trace_ray(const Ray ray, int depth)
 
 Vec3 World::trace_ray_direct(const Ray ray, int depth)
 {
+	if (depth > max_depth_) return g::Black;
+
 	ShadeInfo info(this->intersection(ray));
 
 	if (info.valid())

@@ -112,9 +112,19 @@ void World::buildScene()
 //--------------------------------------------------Y ÏòÉÏ£¬ ÓÒÊÖ
 void World::buildScene()
 {
+	Reflective* reflective_green = new Reflective(g::Green * .3, .15, g::Green* .3, .1, 100);
+	reflective_green->set_rc(Color(g::Green* .3, .45));
+
+	Reflective* reflective_red = new Reflective(g::Red, .15, g::Red, .1, 100);
+	reflective_red->set_rc(Color(g::Red, .45));
+
+	Reflective* reflective_blue = new Reflective(g::Blue, .15, g::Blue, .1, 100);
+	reflective_blue->set_rc(Color(g::Blue, .45));
+
 	Plane* plane = nullptr;
 	plane = new Plane(Vec3(0, -25, 0), Vec3(0, 1, 0));
-	plane->material_ = new Checker();
+	plane->material_ = reflective_green;
+	// new Checker();
 
 	int i = 0;
 
@@ -124,8 +134,8 @@ void World::buildScene()
 	g::RANDOM_PT(xVec, zVec);
 
 	Matte* matte = //new Matte(g::White, .95);
-		new Phong(g::White, .85, g::White, .1, 10);
-
+		new Phong(g::White, .95, g::White, .1, 10);
+	
 	//-------------------------------------------------bunny
 	//for (i = 0; i < 1; i++)
 	//{
@@ -145,19 +155,22 @@ void World::buildScene()
 	//venusm->material_ = matte;
 
 	//-------------------------------------------------ateneam
-	static Mesh ateneammMesh("../3rd/ateneam.obj");
+	/*static Mesh ateneammMesh("../3rd/ateneam.obj");
 	MeshObject* ateneam = new MeshObject(ateneammMesh);
 	ateneam->matrix_ = Matrix::rotate(0, Vec3(0, 1, 0)) * Matrix::scale(.01) * Matrix::translate(-30, -5, -100);
 	ateneam->material_ = matte;
 	BoundingBox bb = ateneam->computBBox();
-	cout << "BB " << bb.center() << "\t" << bb.min_len() << "\t" << bb.max_len() << "\n";
+	cout << "BB " << bb.center() << "\t" << bb.min_len() << "\t" << bb.max_len() << "\n";*/
 
 	//-------------------------------------------------Sphere
 	Sphere* sphere = new Sphere(Vec3(20, -17, -60), 8);
-	sphere->material_ = matte;
+	sphere->material_ = reflective_red;
 
 	sphere = new Sphere(Vec3(2, -17, -80), 8);
-	sphere->material_ = matte;
+	sphere->material_ = reflective_green;
+
+	sphere = new Sphere(Vec3(-15, -17, -60), 8);
+	sphere->material_ = reflective_blue;
 
 	//PointLight* pLight = new PointLight(Vec3(-22, 100, -98), g::White);
 	DirectionLight* dLight = new DirectionLight(Vec3(.33, .33, .33), g::White);
