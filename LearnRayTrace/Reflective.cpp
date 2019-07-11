@@ -23,10 +23,10 @@ Vec3 Reflective::shade_direct(ShadeInfo& info)
 	Vec3 L(Phong::shade_direct(info));
 	Vec3 wi = -info.ray.dir + 2 * info.normal * info.ray.dir * info.normal;
 
-	Vec3 fr = rc_.get() / abs(wi * info.normal);
+	Vec3 fr = rc_.get();// / abs(wi * info.normal) * (info.normal * wi);
 
 	Ray reflect_ray(info.position, wi);
 	L += componentMultiply(fr, World::Instance()->trace_ray_direct(reflect_ray, info.depth + 1));
 
-	return L;
+	return L.clamp(0, 1);
 }

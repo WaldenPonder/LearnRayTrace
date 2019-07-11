@@ -112,13 +112,13 @@ void World::buildScene()
 //--------------------------------------------------Y ÏòÉÏ£¬ ÓÒÊÖ
 void World::buildScene()
 {
-	Reflective* reflective_green = new Reflective(g::Green * .3, .15, g::Green* .3, .1, 100);
-	reflective_green->set_rc(Color(g::Green* .3, .45));
+	Reflective* reflective_green = new Reflective(g::Green, .55, g::Green, .1, 100);
+	reflective_green->set_rc(Color(g::Green, .45));
 
-	Reflective* reflective_red = new Reflective(g::Red, .15, g::Red, .1, 100);
+	Reflective* reflective_red = new Reflective(g::Red, .55, g::Red, .1, 100);
 	reflective_red->set_rc(Color(g::Red, .45));
 
-	Reflective* reflective_blue = new Reflective(g::Blue, .15, g::Blue, .1, 100);
+	Reflective* reflective_blue = new Reflective(g::Blue, .55, g::Blue, .1, 100);
 	reflective_blue->set_rc(Color(g::Blue, .45));
 
 	Plane* plane = nullptr;
