@@ -28,6 +28,9 @@
     <Filter Include="osg">
       <UniqueIdentifier>{411aa35b-a3a8-4c0b-ac28-7e52da043d3f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="inc">
+      <UniqueIdentifier>{a0291548-81e3-475d-b8b2-0ae01932cfde}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Math.cpp">
@@ -246,6 +249,9 @@
   <ItemGroup>
     <None Include="common.inc">
       <Filter>头文件</Filter>
+    </None>
+    <None Include="WorldImpl.inc">
+      <Filter>inc</Filter>
     </None>
   </ItemGroup>
 </Project>

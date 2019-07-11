@@ -11,8 +11,7 @@ public:
 	World();
 	~World();
 
-	void buildScene1();
-	void buildScene2();
+	void buildScene();
 
 	ShadeInfo intersection(const Ray& ray) const;
 	ShadeInfo intersection_without_meshobject(const Ray& ray) const;

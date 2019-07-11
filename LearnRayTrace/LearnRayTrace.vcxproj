@@ -98,13 +98,14 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="common.inc" />
+    <None Include="WorldImpl.inc" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{4E54969E-48E5-4823-9693-D85FE3FB9607}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>LearnRayTrace</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
