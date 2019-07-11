@@ -112,19 +112,20 @@ void World::buildScene()
 //--------------------------------------------------Y ÏòÉÏ£¬ ÓÒÊÖ
 void World::buildScene()
 {
-	Reflective* reflective_green = new Reflective(g::Green, .55, g::Green, .1, 100);
-	reflective_green->set_rc(Color(g::Green, .45));
+	static const float cd = 0.95;
+	static const float kr = 0.3;
+	Reflective* reflective_green = new Reflective(g::Green, cd, g::Green, .1, 100);
+	reflective_green->set_rc(Color(g::White, kr));
 
-	Reflective* reflective_red = new Reflective(g::Red, .55, g::Red, .1, 100);
-	reflective_red->set_rc(Color(g::Red, .45));
+	Reflective* reflective_red = new Reflective(g::Red, cd, g::Red, .1, 100);
+	reflective_red->set_rc(Color(g::White, kr));
 
-	Reflective* reflective_blue = new Reflective(g::Blue, .55, g::Blue, .1, 100);
-	reflective_blue->set_rc(Color(g::Blue, .45));
+	Reflective* reflective_white = new Reflective(g::White, cd, g::White, .1, 100);
+	reflective_white->set_rc(Color(g::White, kr));
 
 	Plane* plane = nullptr;
 	plane = new Plane(Vec3(0, -25, 0), Vec3(0, 1, 0));
-	plane->material_ = reflective_green;
-	// new Checker();
+	plane->material_ = new Checker;
 
 	int i = 0;
 
@@ -148,29 +149,29 @@ void World::buildScene()
 	//}
 
 	//-------------------------------------------------venusm
-	static Mesh venusmMesh("../3rd/venusm.obj");
+	//static Mesh venusmMesh("../3rd/venusm.obj");
 	//MeshObject* venusm = new MeshObject(venusmMesh);
 
 	//venusm->matrix_   = Matrix::rotate(0, Vec3(0, 1, 0)) * Matrix::scale(.01) * Matrix::translate(30, -10, -50);
 	//venusm->material_ = matte;
 
 	//-------------------------------------------------ateneam
-	/*static Mesh ateneammMesh("../3rd/ateneam.obj");
+	static Mesh ateneammMesh("../3rd/ateneam.obj");
 	MeshObject* ateneam = new MeshObject(ateneammMesh);
-	ateneam->matrix_ = Matrix::rotate(0, Vec3(0, 1, 0)) * Matrix::scale(.01) * Matrix::translate(-30, -5, -100);
-	ateneam->material_ = matte;
+	ateneam->matrix_ = Matrix::rotate(0, Vec3(0, 1, 0)) * Matrix::scale(.01) * Matrix::translate(-30, -5, -130);
+	ateneam->material_ = reflective_white;
 	BoundingBox bb = ateneam->computBBox();
-	cout << "BB " << bb.center() << "\t" << bb.min_len() << "\t" << bb.max_len() << "\n";*/
+	cout << "BB " << bb.center() << "\t" << bb.min_len() << "\t" << bb.max_len() << "\n";
 
 	//-------------------------------------------------Sphere
 	Sphere* sphere = new Sphere(Vec3(20, -17, -60), 8);
 	sphere->material_ = reflective_red;
 
-	sphere = new Sphere(Vec3(2, -17, -80), 8);
+	sphere = new Sphere(Vec3(2, -17, -60), 8);
 	sphere->material_ = reflective_green;
 
-	sphere = new Sphere(Vec3(-15, -17, -60), 8);
-	sphere->material_ = reflective_blue;
+	/*sphere = new Sphere(Vec3(-15, -17, -60), 8);
+	sphere->material_ = reflective_white;*/
 
 	//PointLight* pLight = new PointLight(Vec3(-22, 100, -98), g::White);
 	DirectionLight* dLight = new DirectionLight(Vec3(.33, .33, .33), g::White);

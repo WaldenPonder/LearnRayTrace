@@ -23,7 +23,7 @@
 
 World::World()
 {
-	max_depth_ = 3;
+	max_depth_ = 2;
 	buildScene();
 }
 
@@ -116,7 +116,8 @@ Vec3 World::trace_ray_direct(const Ray ray, int depth)
 		return c;
 	}
 
-	return bgColor_;
+	if(depth == 0) return bgColor_;
+	else return g::Black;	
 }
 
 void World::max_to_one(Vec3& c) const
@@ -144,6 +145,7 @@ Vec3 World::get_ambient() const
 
 bool World::isInShadow(ShadeInfo& info) const
 {
+	//return false;
 	if (info.isInShadow == ShadeInfo::YES)
 		return true;
 	else if (info.isInShadow == ShadeInfo::NO)
