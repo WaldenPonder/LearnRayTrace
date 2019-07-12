@@ -36,7 +36,7 @@ PointLight::PointLight()
 
 Vec3 PointLight::getDir(ShadeInfo& info) const
 {
-	Vec3 dir = pt_ - info.position;
+	Vec3 dir = pt_ - info.hit_pos;
 	dir.normalize();
 	return dir;
 }

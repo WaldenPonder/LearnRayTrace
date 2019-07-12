@@ -25,7 +25,7 @@ Vec3 GlossyReflector::shade(ShadeInfo& info)
 		Vec3  f = _brdf->sample_f(info, wo, wi, pdf);
 
 		float ndowi = info.normal * wi;
-		Ray   reflected_ray(info.position, wi);
+		Ray   reflected_ray(info.hit_pos, wi);
 
 		Vec3 c1 = World::Instance()->trace_ray(reflected_ray, info.depth + 1);
 		L += (componentMultiply(f, c1)) * ndowi / pdf;

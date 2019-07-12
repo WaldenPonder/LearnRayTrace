@@ -16,10 +16,11 @@
 #include "Light.h"
 #include <assert.h>
 
-#define MATERIAL Matte
-#define SCENE_2
+#define SCENE_1
 
 #include "WorldImpl.inc"
+
+static const bool USE_SHDOW = false;
 
 World::World()
 {
@@ -145,7 +146,8 @@ Vec3 World::get_ambient() const
 
 bool World::isInShadow(ShadeInfo& info) const
 {
-	//return false;
+	if(!USE_SHDOW) return false;
+
 	if (info.isInShadow == ShadeInfo::YES)
 		return true;
 	else if (info.isInShadow == ShadeInfo::NO)
@@ -153,13 +155,13 @@ bool World::isInShadow(ShadeInfo& info) const
 
 	Ray shadowRay;
 
-	shadowRay.orig = info.position;
+	shadowRay.orig = info.hit_pos;
 
 	ShadeInfo shadowinfo;
 
 	for (PointLight* pl : Light::get_type<PointLight>())
 	{
-		shadowRay.dir = pl->pt_ - info.position;
+		shadowRay.dir = pl->pt_ - info.hit_pos;
 		shadowRay.dir.normalize();
 		shadowRay.calcuPreValue();
 
@@ -181,7 +183,7 @@ bool World::isInShadow(ShadeInfo& info) const
 		}
 		
 		//shadowinfo = Shape::get_type<MeshObject>()[0]->intersect(shadowRay);		
-		if(shadowinfo.valid() && shadowinfo.dis < (info.position - pl->pt_).length())
+		if(shadowinfo.valid() && shadowinfo.dis < (info.hit_pos - pl->pt_).length())
 		{
 			info.isInShadow = ShadeInfo::YES;
 			return true;			

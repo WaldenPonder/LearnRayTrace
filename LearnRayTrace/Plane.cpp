@@ -23,7 +23,7 @@ ShadeInfo Plane::intersect(const Ray& ray)
 	if (t > 1e-4)
 	{
 		info.normal   = _normal;
-		info.position = ray.orig + ray.dir * t;
+		info.hit_pos = ray.orig + ray.dir * t;
 		info.dis	  = t;
 		info.material = this->material_;
 		info.shape	= this;
@@ -31,19 +31,19 @@ ShadeInfo Plane::intersect(const Ray& ray)
 
 		if (x_min != x_max)
 		{
-			if (info.position.x() < x_min || info.position.x() > x_max)
+			if (info.hit_pos.x() < x_min || info.hit_pos.x() > x_max)
 				return ShadeInfo();
 		}
 
 		if (y_min != y_max)
 		{
-			if (info.position.y() < y_min || info.position.y() > y_max)
+			if (info.hit_pos.y() < y_min || info.hit_pos.y() > y_max)
 				return ShadeInfo();
 		}
 
 		if (z_min != z_max)
 		{
-			if (info.position.z() < z_min || info.position.z() > z_max)
+			if (info.hit_pos.z() < z_min || info.hit_pos.z() > z_max)
 				return ShadeInfo();
 		}
 	}

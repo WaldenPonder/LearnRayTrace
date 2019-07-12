@@ -36,8 +36,8 @@ ShadeInfo Cylinder::intersect(const Ray& ray)
 
 		info.dis = max(t1, t2);
 		info.setShape(this);
-		info.position = ray.distance(info.dis);
-		info.normal = info.position;
+		info.hit_pos = ray.distance(info.dis);
+		info.normal = info.hit_pos;
 		info.normal.normalize();
 		info.ray = ray;
 	}

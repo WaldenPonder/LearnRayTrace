@@ -50,10 +50,26 @@ end_name_space
 //--------------------------------------------------Y 向上， 右手
 void World::buildScene()
 {
-	Matte* matte_red = new Matte(g::Red, .95);
-	Matte* matte_sky = new Matte(g::SummerSky, .95);
-	Matte* matte_blue = new Matte(g::Blue, .95);
-	Matte* matte = new Matte(g::White, .95);
+	static const float cd = 0.75;
+	static const float kr = 0.75;
+	
+	Phong* phong_green = new Phong(g::Green, cd, g::Green, .1, 100);
+	Phong* phong_red = new Phong(g::Red, cd, g::Red, .1, 100);
+	Phong* phong_blue = new Phong(g::Blue, cd, g::Blue, .1, 100);
+	Phong* phong_white = new Phong(g::White, cd, g::White, .1, 100);
+
+
+	Reflective* reflective_green = new Reflective(g::Green, cd, g::Green, .1, 100);
+	reflective_green->set_rc(Color(g::White, 1));
+
+	Reflective* reflective_red = new Reflective(g::Red, cd, g::Red, .1, 100);
+	reflective_red->set_rc(Color(g::White, kr));
+
+	Reflective* reflective_blue = new Reflective(g::Blue, cd, g::Blue, .1, 100);
+	reflective_blue->set_rc(Color(g::White, kr));
+
+	Reflective* reflective_white = new Reflective(g::White, cd, g::White, .1, 100);
+	reflective_white->set_rc(Color(g::White, 1));
 
 	Plane* plane = nullptr;
 
@@ -62,7 +78,7 @@ void World::buildScene()
 
 	plane = new Plane(Vec3(0, 2, 0), Vec3(0, -1, 0));  //上
 	plane->objectName_ = "top";
-	plane->material_ = matte_blue;
+	plane->material_ = phong_blue;
 
 	plane = new Plane(Vec3(0, 2 - 1e-5, 0), Vec3(0, -1, 0));  //灯
 	plane->objectName_ = "light plane";
@@ -72,38 +88,35 @@ void World::buildScene()
 
 	plane = new Plane(Vec3(0, -2, 0), Vec3(0, 1, 0));  //下
 	plane->objectName_ = "bottom";
-	plane->material_ = matte_blue;
+	plane->material_ = reflective_blue;
 
 	plane = new Plane(Vec3(-2, 0, 0), Vec3(1, 0, 0));  //左
 	plane->objectName_ = "left";
-	plane->material_ = matte_sky;
+	plane->material_ = phong_red;
 
 	plane = new Plane(Vec3(0, 0, -6), Vec3(0, 0, 1));  //后
 	plane->objectName_ = "back";
-	plane->material_ = matte_red;
+	plane->material_ = reflective_white;
 
 	plane = new Plane(Vec3(2, 0, 0), Vec3(-1, 0, 0));  //右
 	plane->objectName_ = "right";
-	plane->material_ = matte_sky;
+	plane->material_ = phong_red;
 
 	//--------------------------------------------------Sphere
-	//Sphere* sphere	= new Sphere(Vec3(0, -1.5, -5), .5);
-	//sphere->material_ = matte_sky;
+	//Sphere* sphere	= new Sphere(Vec3(0, -1.5, -4.5), .5);
+	//sphere->material_ = reflective_red;
 
-	//sphere			  = new Sphere(Vec3(-1, -1.5, -5), .5);
-	//sphere->material_ = matte_red;
+	//sphere			  = new Sphere(Vec3(-1, -1.5, -4.5), .5);
+	//sphere->material_ = reflective_green;
 
-	//sphere			  = new Sphere(Vec3(1, -1.5, -5), .5);
-	//sphere->material_ = matte_sky;
-
-	//sphere			  = new Sphere(Vec3(0, -1.5, -4), .5);
-	//sphere->material_ = matte_sky;
+	//sphere			  = new Sphere(Vec3(1, -1.5, -4.5), .5);
+	//sphere->material_ = reflective_blue;
 
 	//-------------------------------------------------bunny
-	static Mesh bunyMesh("../3rd/bunny.obj");
+	static Mesh bunyMesh("../3rd/bunny_big.obj");
 	MeshObject* bunny = new MeshObject(bunyMesh);
 	bunny->matrix_ = Matrix::rotate(0, Vec3(0, 1, 0)) * Matrix::scale(10) * Matrix::translate(0, -2.3, -5);
-	bunny->material_ = matte_sky;
+	bunny->material_ = reflective_green;
 }
 
 #endif // SCENE_1

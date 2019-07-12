@@ -1,7 +1,6 @@
 #pragma once
 #include "Singleton.h"
 #include "Camera.h"
-#include <vector>
 
 class World : public Singleton<World>, public Object
 {

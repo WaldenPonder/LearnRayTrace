@@ -145,7 +145,7 @@ ShadeInfo MeshObject::intersect(const Ray& ray)
 					info.dis	  = t;
 					info.u		  = u;
 					info.v		  = v;
-					info.position = ray.distance(t);
+					info.hit_pos = ray.distance(t);
 					info.ray	= ray;
 
 					if (normals.size())

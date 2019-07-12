@@ -39,7 +39,7 @@ Vec3 Matte::shade(ShadeInfo& info)
 
 	Point sp = MultiJittered::instance()->sample_hemisphere();
 	Vec3  wi = sp.x() * u + sp.y() * v + sp.z() * w;  // reflected ray direction
-	Ray   r(info.position, wi);
+	Ray   r(info.hit_pos, wi);
 
 	f = World::Instance()->trace_ray(r, info.depth + 1);
 

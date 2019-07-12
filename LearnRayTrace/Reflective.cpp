@@ -21,12 +21,11 @@ void Reflective::set_rc(const Color& rc)
 Vec3 Reflective::shade_direct(ShadeInfo& info)
 {
 	Vec3 L(Phong::shade_direct(info));
-	Vec3 wo = -info.ray.dir;
-	Vec3 wi = -wo + 2. * info.normal * wo * info.normal;
 
+	Vec3 wi = info.reflect();
 	Vec3 fr = rc_.get();
 
-	Ray reflect_ray(info.position, wi);
+	Ray reflect_ray(info.hit_pos, wi);
 	Vec3 c = componentMultiply(fr, World::Instance()->trace_ray_direct(reflect_ray, info.depth + 1));
 	L += c;
 	return L.clamp(0, 1);

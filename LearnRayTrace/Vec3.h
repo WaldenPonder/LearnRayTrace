@@ -46,6 +46,10 @@ class Vec3
             _v[2] = zz;
         }
 
+		inline bool isNearZero() const 
+		{ 
+			return g::equivalent(_v[0], 0.0f) && g::equivalent(_v[1], 0.0f) && g::equivalent(_v[2], 0.0f);
+		}
 
         inline bool operator == (const Vec3& v) const { return _v[0]==v._v[0] && _v[1]==v._v[1] && _v[2]==v._v[2]; }
 

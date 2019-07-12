@@ -3,7 +3,14 @@
 
 ShadeInfo::ShadeInfo()
 {
-	dis = FLT_MAX;
+}
+
+Vec3 ShadeInfo::reflect() const
+{
+	Vec3 wo = -ray.dir;
+	Vec3 wi = -wo + 2. * normal * wo * normal;
+	wi.normalize();
+	return wi;
 }
 
 void ShadeInfo::setShape(Shape* s)

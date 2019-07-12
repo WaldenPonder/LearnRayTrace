@@ -32,8 +32,8 @@ ShadeInfo Sphere::intersect(const Ray& ray)
 		{
 			info.setShape(this);
 			info.dis = -DdotV - sqrt(discr);
-			info.position = ray.distance(info.dis);
-			info.normal   = info.position - _center;
+			info.hit_pos = ray.distance(info.dis);
+			info.normal   = info.hit_pos - _center;
 			info.normal.normalize();
 			info.ray      = ray;
 		}

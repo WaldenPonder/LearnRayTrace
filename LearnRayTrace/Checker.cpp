@@ -21,22 +21,21 @@ Vec3 Checker::shade_direct(ShadeInfo& info)
 {
 	static float factor = .05;
 	
-	//-------------------------------------------------反射部分
-	Vec3 wo = -info.ray.dir;
-	Vec3 wi = -wo + 2. * info.normal * wo * info.normal;
+	//-------------------------------------------------反射部分	
+	Vec3 wi = info.reflect();
 
 	Vec3 fr(kr_);
 
-	Ray reflect_ray(info.position, wi);
+	Ray reflect_ray(info.hit_pos, wi);
 	Vec3 cr = componentMultiply(fr, World::Instance()->trace_ray_direct(reflect_ray, info.depth + 1));
 
-	Vec3 c = fabs((int)(floor(info.position.x() * factor) + floor(info.position.z() * factor)) % 2) < 1 ? c1_ : c2_;
+	Vec3 c = fabs((int)(floor(info.hit_pos.x() * factor) + floor(info.hit_pos.z() * factor)) % 2) < 1 ? c1_ : c2_;
 	
-	c += cr;
+	if(!cr.isNearZero()) //如果有反射则显示反射的颜色
+		c = cr;
 
 	if (World::Instance()->isInShadow(info))
 		c *= .1;
 
-	World::Instance()->max_to_one(c);
 	return c;
 }
