@@ -4,7 +4,7 @@
 class Camera
 {
 public:
-	meta_name(Camera);
+	__class__(Camera);
 
 	Camera();
 	~Camera();

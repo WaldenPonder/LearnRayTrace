@@ -4,7 +4,7 @@
 class Shape : public InstancePool<Shape>, public Object
 {
 public:
-	meta_name(Shape);
+	__class__(Shape);
 	Shape();
 	~Shape();
 

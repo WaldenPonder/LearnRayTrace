@@ -14,6 +14,5 @@ public:
 	virtual Vec3 sample_f(const ShadeInfo& si, const Vec3& wo, Vec3& wi, float& pdf) const;
 
 	Sampler* sampler_ = nullptr;
-	Material* material_ = nullptr;
 };
 

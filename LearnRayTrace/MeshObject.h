@@ -6,7 +6,7 @@
 class Mesh
 {
  public:
-	meta_name(Mesh);
+	__class__(Mesh);
 	Mesh(const string& filename);
 	~Mesh();
 
@@ -21,7 +21,7 @@ class Mesh
 class MeshObject : public Shape
 {
  public:
-	meta_name(MeshObject);
+	__class__(MeshObject);
 	MeshObject(const Mesh& mesh);
 	virtual ~MeshObject();
 

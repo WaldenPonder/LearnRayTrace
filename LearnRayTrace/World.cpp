@@ -9,22 +9,20 @@
 #include "Acceleration.h"
 #include "Phong.h"
 #include "Reflective.h"
+#include "Transparent.h"
 
 #undef max
 #undef min
 #include <random>
 #include "Light.h"
 #include <assert.h>
-
-#define SCENE_1
-
 #include "WorldImpl.inc"
 
 static const bool USE_SHDOW = false;
 
 World::World()
 {
-	max_depth_ = 2;
+	max_depth_ = 5;
 	buildScene();
 }
 

@@ -13,25 +13,25 @@ Phong::~Phong()
 {
 }
 
-Vec3 Phong::shade(ShadeInfo& r)
+Vec3 Phong::shade(ShadeInfo& si)
 {
-	Vec3 L(Matte::shade(r));
+	Vec3 L(Matte::shade(si));
 
 	return L;
 }
 
-Vec3 Phong::shade_direct(ShadeInfo& info)
+Vec3 Phong::shade_direct(ShadeInfo& si)
 {
-	Vec3 L(Matte::shade_direct(info));
+	Vec3 L(Matte::shade_direct(si));
 
-	float k = World::Instance()->isInShadow(info) ? .1 : 1;
+	float k = World::Instance()->isInShadow(si) ? .1 : 1;
 
 	for (Light* light : Light::pool())
 	{
-		Vec3 lightDir = light->getDir(info);
-		float NdotL = info.normal * lightDir;
+		Vec3 lightDir = light->getDir(si);
+		float NdotL = si.normal * lightDir;
 
-		L += glossySpecular_.f(info, -info.ray.dir, lightDir) * k * max(NdotL, 0.f);
+		L += glossySpecular_.f(si, -si.ray.dir, lightDir) * k * max(NdotL, 0.f);
 	}
 	return L.clamp(0, 1);
 }

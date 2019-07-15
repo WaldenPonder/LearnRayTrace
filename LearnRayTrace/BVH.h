@@ -5,7 +5,7 @@
 class BVH : public Acceleration
 {
 public:
-	meta_name(BVH);
+	__class__(BVH);
 	BVH();
 	virtual ~BVH();
 

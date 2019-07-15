@@ -4,7 +4,7 @@
 class Cylinder : public Shape
 {
 public:
-	meta_name(Cylinder);
+	__class__(Cylinder);
 	Cylinder();
 	~Cylinder();
 

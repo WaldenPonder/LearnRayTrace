@@ -28,9 +28,6 @@
     <Filter Include="inc">
       <UniqueIdentifier>{a0291548-81e3-475d-b8b2-0ae01932cfde}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Transparent">
-      <UniqueIdentifier>{2a9d0f67-862e-45e7-a252-d957ef731e1d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Shape">
       <UniqueIdentifier>{9d66de14-30a8-4ef3-bc4e-44958a1b2539}</UniqueIdentifier>
     </Filter>
@@ -138,14 +135,17 @@
     <ClCompile Include="Reflective.cpp">
       <Filter>Material</Filter>
     </ClCompile>
-    <ClCompile Include="Transparent.cpp">
-      <Filter>Transparent</Filter>
+    <ClCompile Include="PerfectSpecular.cpp">
+      <Filter>BRDF</Filter>
     </ClCompile>
-    <ClCompile Include="PerfectTransmitter.cpp">
-      <Filter>Transparent</Filter>
+    <ClCompile Include="Transparent.cpp">
+      <Filter>Material</Filter>
     </ClCompile>
     <ClCompile Include="BTDF.cpp">
-      <Filter>Transparent</Filter>
+      <Filter>BRDF</Filter>
+    </ClCompile>
+    <ClCompile Include="PerfectTransmitter.cpp">
+      <Filter>BRDF</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -257,20 +257,23 @@
     <ClInclude Include="Reflective.h">
       <Filter>Material</Filter>
     </ClInclude>
-    <ClInclude Include="BTDF.h">
-      <Filter>Transparent</Filter>
-    </ClInclude>
-    <ClInclude Include="Transparent.h">
-      <Filter>Transparent</Filter>
-    </ClInclude>
     <ClInclude Include="Object.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Phong.h">
       <Filter>Material</Filter>
     </ClInclude>
+    <ClInclude Include="PerfectSpecular.h">
+      <Filter>BRDF</Filter>
+    </ClInclude>
+    <ClInclude Include="Transparent.h">
+      <Filter>Material</Filter>
+    </ClInclude>
+    <ClInclude Include="BTDF.h">
+      <Filter>BRDF</Filter>
+    </ClInclude>
     <ClInclude Include="PerfectTransmitter.h">
-      <Filter>Transparent</Filter>
+      <Filter>BRDF</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

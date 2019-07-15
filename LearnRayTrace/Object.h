@@ -1,5 +1,5 @@
 #pragma once
-#include <string>
+#include "Vec3.h"
 
 class Object
 {

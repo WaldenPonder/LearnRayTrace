@@ -5,7 +5,7 @@
 class World : public Singleton<World>, public Object
 {
 public:
-	meta_name(World);
+	__class__(World);
 	World();
 	~World();
 

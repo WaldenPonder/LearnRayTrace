@@ -4,7 +4,7 @@
 class Light : public InstancePool<Light>, public Object
 {
 public:
-	meta_name(Light);
+	__class__(Light);
 
 	Light();
 	~Light();
@@ -17,7 +17,7 @@ public:
 class PointLight : public Light
 {
 public:
-	meta_name(PointLight);
+	__class__(PointLight);
 	PointLight();
 	PointLight(const Point& pt, const Vec3& c);
 
@@ -32,7 +32,7 @@ public:
 class DirectionLight : public Light
 {
 public:
-	meta_name(DirectionLight);
+	__class__(DirectionLight);
 
 	DirectionLight();
 	DirectionLight(const Vec3& dir, const Vec3& c);

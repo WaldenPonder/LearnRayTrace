@@ -5,7 +5,7 @@
 class Acceleration
 {
 public:
-	meta_name(Acceleration);
+	__class__(Acceleration);
 	Acceleration();
 	~Acceleration();
 

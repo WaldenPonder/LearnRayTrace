@@ -5,7 +5,7 @@
 class Extent : public IBox
 {
  public:
-	meta_name(Extent);
+	__class__(Extent);
 	Extent();
 	explicit Extent(MeshObject* mesh);
 	Extent(const Extent& extent);

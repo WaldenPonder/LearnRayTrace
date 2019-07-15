@@ -6,7 +6,7 @@
 class ShadeInfo
 {
  public:
-	meta_name(ShadeInfo);
+	__class__(ShadeInfo);
 	ShadeInfo();
 
 	float  dis   = FLT_MAX;
