@@ -22,6 +22,7 @@
     <ClCompile Include="Acceleration.cpp" />
     <ClCompile Include="BoundingBox.cpp" />
     <ClCompile Include="BRDF.cpp" />
+    <ClCompile Include="BTDF.cpp" />
     <ClCompile Include="BVH.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Checker.cpp" />
@@ -41,6 +42,7 @@
     <ClCompile Include="MeshObject.cpp" />
     <ClCompile Include="MultiJittered.cpp" />
     <ClCompile Include="Object.cpp" />
+    <ClCompile Include="PerfectTransmitter.cpp" />
     <ClCompile Include="Reflective.cpp" />
     <ClCompile Include="Phong.cpp" />
     <ClCompile Include="Plane.cpp" />
@@ -53,11 +55,13 @@
     <ClCompile Include="Sphere.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="tiny_obj_loader.cpp" />
+    <ClCompile Include="Transparent.cpp" />
     <ClCompile Include="util.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Acceleration.h" />
+    <ClInclude Include="BTDF.h" />
     <ClInclude Include="IBox.h" />
     <ClInclude Include="BoundingBox.h" />
     <ClInclude Include="BRDF.h" />
@@ -79,6 +83,7 @@
     <ClInclude Include="MeshObject.h" />
     <ClInclude Include="MultiJittered.h" />
     <ClInclude Include="Object.h" />
+    <ClInclude Include="PerfectTransmitter.h" />
     <ClInclude Include="Reflective.h" />
     <ClInclude Include="Phong.h" />
     <ClInclude Include="Plane.h" />
@@ -92,6 +97,7 @@
     <ClInclude Include="Sphere.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="tiny_obj_loader.h" />
+    <ClInclude Include="Transparent.h" />
     <ClInclude Include="util.h" />
     <ClInclude Include="Vec2.h" />
     <ClInclude Include="Vec3.h" />
