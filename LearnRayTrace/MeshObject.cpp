@@ -136,7 +136,7 @@ ShadeInfo MeshObject::intersect(const Ray& ray)
 			
 			if (g::rayTriangleIntersect(ray, p1 * matrix_, p2 * matrix_, p3 * matrix_, t, u, v))
 			{
-				if (t < info.dis)
+				if (t < info.dis && t > .001)
 				{
 					Vec3 v0v1 = p2 - p1;
 					Vec3 v0v2 = p3 - p1;
