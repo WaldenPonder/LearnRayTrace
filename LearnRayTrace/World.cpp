@@ -22,7 +22,7 @@ static const bool USE_SHDOW = false;
 
 World::World()
 {
-	max_depth_ = 2;
+	max_depth_ = 3;
 	buildScene();
 }
 

@@ -31,11 +31,11 @@ Vec3 Checker::shade_direct(ShadeInfo& info)
 
 	Vec3 c = fabs((int)(floor(info.hit_pos.x() * factor) + floor(info.hit_pos.z() * factor)) % 2) < 1 ? c1_ : c2_;
 	
-	if(!cr.isNearZero()) //如果有反射则显示反射的颜色
-		c = cr;
+	//if(!cr.isNearZero()) //如果有反射则显示反射的颜色
+	//	c = cr;
 
-	if (World::Instance()->isInShadow(info))
-		c *= .1;
+	//if (World::Instance()->isInShadow(info))
+	//	c *= .1;
 
 	return c;
 }

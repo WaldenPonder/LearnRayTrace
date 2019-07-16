@@ -138,8 +138,8 @@ void World::buildScene()
 	Reflective* reflective_white = new Reflective(g::White, cd, g::White, .1, 100);
 	reflective_white->set_reflect(Color(g::White, kr));
 
-	Transparent* transparent_whitte = new Transparent(g::White, cd, g::White, .5, 100);
-	transparent_whitte->set_reflect(Color(g::White, kr));
+	Transparent* transparent_whitte = new Transparent(g::White, .5, g::White, .3, 100);
+	transparent_whitte->set_reflect(Color(g::White, .2));
 	transparent_whitte->set_refract(.9, 1.5);
 
 	Plane* plane	 = nullptr;

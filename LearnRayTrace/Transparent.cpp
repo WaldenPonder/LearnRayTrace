@@ -51,7 +51,7 @@ Vec3 Transparent::shade_direct(ShadeInfo& si)
 		Vec3 rc = World::Instance()->trace_ray_direct(reflected_ray, si.depth + 1) * fabs(si.normal * wi);
 		Vec3 tc = World::Instance()->trace_ray_direct(transmitted_ray, si.depth + 1) *fabs(si.normal * wt);
 
-		L += componentMultiply(fr, rc);
+		//L += componentMultiply(fr, rc);
 		L += componentMultiply(ft, tc);
 	}
 

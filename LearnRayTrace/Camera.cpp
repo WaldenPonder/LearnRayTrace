@@ -65,8 +65,11 @@ void Camera::Impl::render_impl()
 					continue;
 
 				flag[i][j][k] = true;
-				//Point2D pt = MultiJittered::instance()->sample_unit_square();
+
 				Point2D pt(.5);
+				if(SAMPLE_SIZE != 1)
+					pt = MultiJittered::instance()->sample_unit_square();
+
 				float   px = (2 * (i + pt.x()) / width - 1) * fov * ratio;
 				float   py = (1 - 2 * ((j + pt.y()) / height)) * fov;
 
