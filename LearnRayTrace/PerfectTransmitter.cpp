@@ -33,7 +33,7 @@ Vec3 PerfectTransmitter::sample_f(const ShadeInfo& si, const Vec3& wo, Vec3& wt)
 	float tmp = 1.0 - (1.0 - cos_thetai * cos_thetai) / (eta * eta);
 	float cos_theta2 = std::sqrt(tmp);
 
-	wt = - wo / eta - (cos_theta2 - cos_thetai / eta) * n;
+	wt = -wo / eta - (cos_theta2 - cos_thetai / eta) * n;
 
 	return kt_ / (eta * eta) * g::White / fabs(si.normal * wt);
 }

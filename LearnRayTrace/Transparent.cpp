@@ -28,7 +28,7 @@ Transparent::~Transparent()
 
 Vec3 Transparent::shade_direct(ShadeInfo& si)
 {
-	Vec3 L;// (Phong::shade_direct(si));
+	Vec3 L(Phong::shade_direct(si));
 
 	Vec3 wo = -si.ray.dir;
 	Vec3 wi;
@@ -49,12 +49,10 @@ Vec3 Transparent::shade_direct(ShadeInfo& si)
 		Ray transmitted_ray(si.hit_pos, wt);
 
 		Vec3 rc = World::Instance()->trace_ray_direct(reflected_ray, si.depth + 1) * fabs(si.normal * wi);
-		Vec3 tc = World::Instance()->trace_ray_direct(transmitted_ray, si.depth + 1);// *fabs(si.normal * wt);
-		//assert(tc.isNearZero());
-		//cout << componentMultiply(fr, rc) << "\n";
-		//L += componentMultiply(fr, rc);
-		L += tc;
-		//L += componentMultiply(ft, tc);
+		Vec3 tc = World::Instance()->trace_ray_direct(transmitted_ray, si.depth + 1) *fabs(si.normal * wt);
+
+		L += componentMultiply(fr, rc);
+		L += componentMultiply(ft, tc);
 	}
 
 	return L;
