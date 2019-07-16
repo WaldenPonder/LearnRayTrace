@@ -56,6 +56,10 @@ end_name_space
 	static const float cd = 0.75;
 	static const float kr = 0.75;
 
+	Transparent* transparent_whitte = new Transparent(g::White, .75, g::White, .75, 100);
+	transparent_whitte->set_reflect_color(g::White);
+	transparent_whitte->set_refract(1.5f);
+
 	Phong* phong_green = new Phong(g::Green, cd, g::Green, .1, 100);
 	Phong* phong_red   = new Phong(g::Red, cd, g::Red, .1, 100);
 	Phong* phong_blue  = new Phong(g::Blue, cd, g::Blue, .1, 100);
@@ -106,13 +110,13 @@ end_name_space
 
 	//--------------------------------------------------Sphere
 	Sphere* sphere	= new Sphere(Vec3(0, -1.5, -4.5), .5);
-	sphere->material_ = reflective_red;
+	sphere->material_ = transparent_whitte;
 
 	sphere			  = new Sphere(Vec3(-1, -1.5, -4.5), .5);
-	sphere->material_ = reflective_green;
+	sphere->material_ = transparent_whitte;
 
 	sphere			  = new Sphere(Vec3(1, -1.5, -4.5), .5);
-	sphere->material_ = reflective_blue;
+	sphere->material_ = transparent_whitte;
 
 	//-------------------------------------------------bunny
 	//static Mesh bunyMesh("../3rd/bunny_big.obj");
@@ -138,13 +142,16 @@ void World::buildScene()
 	Reflective* reflective_white = new Reflective(g::White, cd, g::White, .1, 100);
 	reflective_white->set_reflect(Color(g::White, kr));
 
-	Transparent* transparent_whitte = new Transparent(g::White, .5, g::White, .3, 100);
-	transparent_whitte->set_reflect(Color(g::White, .2));
-	transparent_whitte->set_refract(.9, 1.5);
+	Transparent* transparent_whitte = new Transparent(g::White, .75, g::White, .75, 100);
+	transparent_whitte->set_reflect_color(g::White);
+	transparent_whitte->set_refract(1.5f);
 
 	Plane* plane	 = nullptr;
 	plane			 = new Plane(Vec3(0, -25, 0), Vec3(0, 1, 0));
-	plane->material_ = new Checker(g::Red, g::Green);
+	plane->material_ = new Checker;// (g::Red, g::Green);
+
+	//plane = new Plane(Vec3(0, 35, 0), Vec3(0, -1, 0));
+	//plane->material_ = new Checker;// (g::Red, g::Green);
 
 	int i = 0;
 
@@ -157,15 +164,15 @@ void World::buildScene()
 		new Phong(g::White, .95, g::White, .1, 10);
 
 	//-------------------------------------------------bunny
-	//for (i = 0; i < 1; i++)
-	//{
-	//	MeshObject* bunny = new MeshObject(bunyMesh);
+	for (i = 0; i < 1; i++)
+	{
+		MeshObject* bunny = new MeshObject(bunyMesh);
 
-	//	bunny->matrix_   = Matrix::rotate(0, Vec3(0, 1, 0)) * Matrix::scale(10) * Matrix::translate(0, 0, -5);
-	//	bunny->material_ = matte;
-	//	const BoundingBox& bb = bunny->computBBox();
-	//	//cout << bb.max_len() << "\t" << bb.min_len() << "\tXX";
-	//}
+		bunny->matrix_   = Matrix::rotate(0, Vec3(0, 1, 0)) * Matrix::scale(10) * Matrix::translate(0, -2, -5);
+		bunny->material_ = transparent_whitte;
+		const BoundingBox& bb = bunny->computBBox();
+		//cout << bb.max_len() << "\t" << bb.min_len() << "\tXX";
+	}
 
 	//-------------------------------------------------venusm
 	//static Mesh venusmMesh("../3rd/venusm.obj");
@@ -183,11 +190,11 @@ void World::buildScene()
 	//cout << "BB " << bb.center() << "\t" << bb.min_len() << "\t" << bb.max_len() << "\n";
 
 	//-------------------------------------------------Sphere
-	Sphere* sphere	= new Sphere(Vec3(20, -17, -60), 8);
-	sphere->material_ = transparent_whitte;
+	//Sphere* sphere	= new Sphere(Vec3(20, -7, -60), 8);
+	//sphere->material_ = transparent_whitte;
 
-	sphere			  = new Sphere(Vec3(2, -17, -60), 8);
-	sphere->material_ = transparent_whitte;
+	//sphere			  = new Sphere(Vec3(2, -0, -60), 8);
+	//sphere->material_ = transparent_whitte;
 
 	/*sphere = new Sphere(Vec3(-15, -17, -60), 8);
 	sphere->material_ = reflective_white;*/

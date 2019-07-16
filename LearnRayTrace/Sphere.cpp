@@ -29,7 +29,7 @@ ShadeInfo Sphere::intersect(const Ray& ray)
 		float discr = DdotV * DdotV - a0;
 		float t = -DdotV - sqrt(discr);
 
-		if (discr >= 0 && t > .0001)
+		if (discr >= 0 && t > .001)
 		{
 			info.setShape(this);
 			info.dis = t;
