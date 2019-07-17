@@ -1,5 +1,5 @@
 
-#define SCENE_2
+#define SCENE_1
 
 begin_name_space(g);
 
@@ -94,7 +94,7 @@ end_name_space
 
 	plane			   = new Plane(Vec3(0, -2, 0), Vec3(0, 1, 0));  //ÏÂ
 	plane->objectName_ = "bottom";
-	plane->material_   = phong_blue;
+	plane->material_   = reflective_white;
 
 	plane			   = new Plane(Vec3(-2, 0, 0), Vec3(1, 0, 0));  //×ó
 	plane->objectName_ = "left";
@@ -109,20 +109,20 @@ end_name_space
 	plane->material_   = phong_red;
 
 	//--------------------------------------------------Sphere
-	Sphere* sphere	= new Sphere(Vec3(0, -1.5, -4.5), .5);
-	sphere->material_ = transparent_whitte;
+	//Sphere* sphere	= new Sphere(Vec3(0, -1.5, -4.5), .5);
+	//sphere->material_ = transparent_whitte;
 
-	sphere			  = new Sphere(Vec3(-1, -1.5, -4.5), .5);
-	sphere->material_ = transparent_whitte;
+	//sphere			  = new Sphere(Vec3(-1, -1.5, -4.5), .5);
+	//sphere->material_ = transparent_whitte;
 
-	sphere			  = new Sphere(Vec3(1, -1.5, -4.5), .5);
-	sphere->material_ = transparent_whitte;
+	//sphere			  = new Sphere(Vec3(1, -1.5, -4.5), .5);
+	//sphere->material_ = transparent_whitte;
 
 	//-------------------------------------------------bunny
-	//static Mesh bunyMesh("../3rd/bunny_big.obj");
-	//MeshObject* bunny = new MeshObject(bunyMesh);
-	//bunny->matrix_ = Matrix::rotate(0, Vec3(0, 1, 0)) * Matrix::scale(10) * Matrix::translate(0, -2.3, -5);
-	//bunny->material_ = reflective_green;
+	static Mesh bunyMesh("../3rd/bunny_big.obj");
+	MeshObject* bunny = new MeshObject(bunyMesh);
+	bunny->matrix_ = Matrix::rotate(0, Vec3(0, 1, 0)) * Matrix::scale(10) * Matrix::translate(0, -2.3, -5);
+	bunny->material_ = transparent_whitte;
 }
 
 #endif  // SCENE_1
