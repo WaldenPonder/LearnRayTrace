@@ -86,15 +86,15 @@ end_name_space
 	plane->objectName_ = "top";
 	plane->material_   = phong_blue;
 
-	plane			   = new Plane(Vec3(0, 2 - 1e-5, 0), Vec3(0, -1, 0));  //µÆ
-	plane->objectName_ = "light plane";
-	plane->material_   = new Emissive;
-	plane->x_min = -.5, plane->x_max = .5;
-	plane->z_min = -5, plane->z_max = -4;
+	//plane			   = new Plane(Vec3(0, 2 - 1e-5, 0), Vec3(0, -1, 0));  //µÆ
+	//plane->objectName_ = "light plane";
+	//plane->material_   = new Emissive;
+	//plane->x_min = -.5, plane->x_max = .5;
+	//plane->z_min = -5, plane->z_max = -4;
 
 	plane			   = new Plane(Vec3(0, -2, 0), Vec3(0, 1, 0));  //ÏÂ
 	plane->objectName_ = "bottom";
-	plane->material_   = reflective_white;
+	plane->material_   = phong_white;
 
 	plane			   = new Plane(Vec3(-2, 0, 0), Vec3(1, 0, 0));  //×ó
 	plane->objectName_ = "left";
@@ -119,10 +119,18 @@ end_name_space
 	//sphere->material_ = transparent_whitte;
 
 	//-------------------------------------------------bunny
-	static Mesh bunyMesh("../3rd/bunny_big.obj");
-	MeshObject* bunny = new MeshObject(bunyMesh);
-	bunny->matrix_ = Matrix::rotate(0, Vec3(0, 1, 0)) * Matrix::scale(10) * Matrix::translate(0, -2.3, -5);
-	bunny->material_ = transparent_whitte;
+	//static Mesh bunyMesh("../3rd/bunny_big.obj");
+	//MeshObject* bunny = new MeshObject(bunyMesh);
+	//bunny->matrix_ = Matrix::rotate(0, Vec3(0, 1, 0)) * Matrix::scale(10) * Matrix::translate(0, -2.3, -5);
+	//bunny->material_ = transparent_whitte;
+
+	//-------------------------------------------------teapot
+	static Mesh teapotMesh("../3rd/teapot.obj");
+	MeshObject* teapot = new MeshObject(teapotMesh);
+	teapot->matrix_ = Matrix::rotate(-PI_2f, Vec3(1, 0, 0)) * Matrix::scale(1) * Matrix::translate(0, -1.6, -5);
+	teapot->material_ = transparent_whitte;
+	const BoundingBox& bb = teapot->computBBox();
+	cout << bb.max_len() << "\t" << bb.min_len() << "\tXX";
 }
 
 #endif  // SCENE_1
