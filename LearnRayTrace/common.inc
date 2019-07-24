@@ -239,3 +239,7 @@ private:
 
 template<typename T>
 vector<T*> InstancePool<T>::pool_;
+
+namespace g {
+	extern int sample;
+};

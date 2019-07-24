@@ -19,7 +19,6 @@ struct Camera::Impl
 {
 	static const int width  = int(1920 * .8);
 	static const int height = int(1080 * .8);
-	static const int SAMPLE_SIZE = 1;
 	const float ratio = width / ( float )height;
 	const float fov   = (60. / 2 * PI / 180);
 
@@ -57,9 +56,9 @@ void Camera::Impl::render_impl()
 			}
 
 			Vec3 c;
-			if (k >= SAMPLE_SIZE) k = 0;
+			if (k >= g::sample) k = 0;
 	
-			for (; k < SAMPLE_SIZE; k++)
+			for (; k < g::sample; k++)
 			{
 				if (flag[i][j][k])
 					continue;
@@ -67,7 +66,7 @@ void Camera::Impl::render_impl()
 				flag[i][j][k] = true;
 
 				Point2D pt(.5);
-				if(SAMPLE_SIZE != 1)
+				if(g::sample != 1)
 					pt = MultiJittered::instance()->sample_unit_square();
 
 				float   px = (2 * (i + pt.x()) / width - 1) * fov * ratio;
@@ -78,7 +77,7 @@ void Camera::Impl::render_impl()
 
 				Ray  ray(Vec3(0.), dir);
 				Vec3 f = World::Instance()->trace_ray_direct(ray, 0);
-				c = c + f / (float)SAMPLE_SIZE;
+				c = c + f / (float)g::sample;
 			}
 
 			World::Instance()->max_to_one(c);
@@ -114,14 +113,14 @@ void Camera::render()
 	long t = clock();
 
 	OF << "P3\n" << impl->width << " " << impl->height << "\n255\n";
-	OF << "#\t SAMPES\t" << impl->SAMPLE_SIZE << "\n";
+	OF << "#\t SAMPES\t" << g::sample << "\n";
 	OF << "# HARDWARE_CONCURRENCY\t" << std::thread::hardware_concurrency() << "\n";
 
 	for (int i = 0; i < impl->width; i++)
 	{
 		for (int j = 0; j < impl->height; j++)
 		{
-			for (int k = 0; k < impl->SAMPLE_SIZE; k++)
+			for (int k = 0; k < g::sample; k++)
 			{
 				impl->flag[i][j][k] = false;
 			}
@@ -146,7 +145,7 @@ void Camera::render()
 	impl->render_impl();
 #endif
 	
-	OF << "# " << float(clock() - t) / ( float )CLOCKS_PER_SEC << "   sample\t" << impl->SAMPLE_SIZE;
+	OF << "# " << float(clock() - t) / ( float )CLOCKS_PER_SEC << "   sample\t" << g::sample;
 	OF.close();
 
 	cout << "finish " << (clock() - t) << endl;

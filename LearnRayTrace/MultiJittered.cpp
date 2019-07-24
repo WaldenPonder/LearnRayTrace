@@ -6,11 +6,13 @@
 #include "MultiJittered.h"
 #include <algorithm>
 
+namespace g {
+	int sample = 5;
+};
 
 MultiJittered* MultiJittered::instance()
 {
-	const int kSamples = 1024;
-	static MultiJittered s_MultiJittered(1024);
+	static MultiJittered s_MultiJittered(g::sample);
 	static bool flag = false;
 
 	if (!flag)
