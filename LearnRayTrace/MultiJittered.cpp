@@ -7,7 +7,7 @@
 #include <algorithm>
 
 namespace g {
-	int sample = 5;
+	int sample = 4;
 };
 
 MultiJittered* MultiJittered::instance()

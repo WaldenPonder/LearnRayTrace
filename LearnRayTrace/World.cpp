@@ -115,10 +115,10 @@ Vec3 World::trace_ray_direct(const Ray ray, int depth)
 		return c;
 	}
 
-	//if (depth == 0)
-	//	return bgColor_;
-	//else
-		return g::Black;
+	if (depth == 0)
+		return bgColor_;
+	else
+		return g::Red;
 }
 
 void World::max_to_one(Vec3& c) const
