@@ -22,6 +22,15 @@ string getDesktopPath()
 	return string(szDir);
 }
 
+std::string getExeDir()
+{
+	char* str = 0;
+	_get_pgmptr(&str);
+	string ss(str);
+	ss = ss.substr(0, ss.find_last_of("\\") + 1);
+	return ss;
+}
+
 //https://www.scratchapixel.com/lessons/3d-basic-rendering/ray-tracing-rendering-a-triangle/moller-trumbore-ray-triangle-intersection
 
 bool rayTriangleIntersect(

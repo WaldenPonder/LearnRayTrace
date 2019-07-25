@@ -18,103 +18,11 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Acceleration.cpp" />
-    <ClCompile Include="BoundingBox.cpp" />
-    <ClCompile Include="BRDF.cpp" />
-    <ClCompile Include="BTDF.cpp" />
-    <ClCompile Include="BVH.cpp" />
-    <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="Checker.cpp" />
-    <ClCompile Include="Cylinder.cpp" />
-    <ClCompile Include="Emissive.cpp" />
-    <ClCompile Include="GlossyReflector.cpp" />
-    <ClCompile Include="GlossySpecular.cpp" />
-    <ClCompile Include="Lambert.cpp" />
-    <ClCompile Include="Light.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Material.cpp" />
-    <ClCompile Include="Math.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="Matrix.cpp" />
-    <ClCompile Include="Matte.cpp" />
-    <ClCompile Include="MeshObject.cpp" />
-    <ClCompile Include="MultiJittered.cpp" />
-    <ClCompile Include="Object.cpp" />
-    <ClCompile Include="PerfectSpecular.cpp" />
-    <ClCompile Include="PerfectTransmitter.cpp" />
-    <ClCompile Include="Reflective.cpp" />
-    <ClCompile Include="Phong.cpp" />
-    <ClCompile Include="Plane.cpp" />
-    <ClCompile Include="Extent.cpp" />
-    <ClCompile Include="Quat.cpp" />
-    <ClCompile Include="Ray.cpp" />
-    <ClCompile Include="Sampler.cpp" />
-    <ClCompile Include="ShadeInfo.cpp" />
-    <ClCompile Include="Shape.cpp" />
-    <ClCompile Include="Sphere.cpp" />
-    <ClCompile Include="stdafx.cpp" />
-    <ClCompile Include="tiny_obj_loader.cpp" />
-    <ClCompile Include="Transparent.cpp" />
-    <ClCompile Include="util.cpp" />
-    <ClCompile Include="World.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Acceleration.h" />
-    <ClInclude Include="BTDF.h" />
-    <ClInclude Include="IBox.h" />
-    <ClInclude Include="BoundingBox.h" />
-    <ClInclude Include="BRDF.h" />
-    <ClInclude Include="BVH.h" />
-    <ClInclude Include="Camera.h" />
-    <ClInclude Include="Checker.h" />
-    <ClInclude Include="Cylinder.h" />
-    <ClInclude Include="Emissive.h" />
-    <ClInclude Include="GlossyReflector.h" />
-    <ClInclude Include="GlossySpecular.h" />
-    <ClInclude Include="Lambert.h" />
-    <ClInclude Include="Light.h" />
-    <ClInclude Include="Material.h" />
-    <ClInclude Include="Math.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="Matrix.h" />
-    <ClInclude Include="Matte.h" />
-    <ClInclude Include="MeshObject.h" />
-    <ClInclude Include="MultiJittered.h" />
-    <ClInclude Include="Object.h" />
-    <ClInclude Include="PerfectSpecular.h" />
-    <ClInclude Include="PerfectTransmitter.h" />
-    <ClInclude Include="Reflective.h" />
-    <ClInclude Include="Phong.h" />
-    <ClInclude Include="Plane.h" />
-    <ClInclude Include="Extent.h" />
-    <ClInclude Include="Quat.h" />
-    <ClInclude Include="Ray.h" />
-    <ClInclude Include="Sampler.h" />
-    <ClInclude Include="ShadeInfo.h" />
-    <ClInclude Include="Shape.h" />
-    <ClInclude Include="Singleton.h" />
-    <ClInclude Include="Sphere.h" />
-    <ClInclude Include="stdafx.h" />
-    <ClInclude Include="tiny_obj_loader.h" />
-    <ClInclude Include="Transparent.h" />
-    <ClInclude Include="util.h" />
-    <ClInclude Include="Vec2.h" />
-    <ClInclude Include="Vec3.h" />
-    <ClInclude Include="Vec4.h" />
-    <ClInclude Include="World.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="common.inc" />
-    <None Include="WorldImpl.inc" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{4E54969E-48E5-4823-9693-D85FE3FB9607}</ProjectGuid>
+    <ProjectGuid>{8B9B75A6-06CC-42C6-A036-25F193F4C737}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>LearnRayTrace</RootNamespace>
+    <RootNamespace>Manager</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -162,18 +70,37 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LinkIncremental>false</LinkIncremental>
+    <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <LinkIncremental>false</LinkIncremental>
-  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -182,6 +109,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -190,14 +118,13 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <PrecompiledHeader>Create</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <OpenMPSupport>true</OpenMPSupport>
-      <AdditionalOptions>/Zc:twoPhase- %(AdditionalOptions)</AdditionalOptions>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -214,6 +141,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -222,27 +150,18 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <ClCompile>
-      <PrecompiledHeader>Create</PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
-      <Optimization>Disabled</Optimization>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ConformanceMode>true</ConformanceMode>
-      <OpenMPSupport>true</OpenMPSupport>
-      <AdditionalOptions>/Zc:twoPhase- %(AdditionalOptions)</AdditionalOptions>
-      <CompileAs>CompileAsCpp</CompileAs>
+  <ItemGroup>
+    <ClInclude Include="pch.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Manager.cpp" />
+    <ClCompile Include="pch.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
-    <Link>
-      <SubSystem>Console</SubSystem>
-      <OptimizeReferences>false</OptimizeReferences>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
-    </Link>
-  </ItemDefinitionGroup>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

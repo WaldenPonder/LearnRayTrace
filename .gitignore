@@ -16,3 +16,6 @@
 *.bin
 LearnRayTrace/x64/Debug/*.obj
 LearnRayTrace/x64/Release/*.obj
+manager/x64/Debug/*.obj
+manager/x64/Release/*.obj
+*.ppm

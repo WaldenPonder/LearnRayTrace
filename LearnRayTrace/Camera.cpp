@@ -11,7 +11,7 @@
 #include <atomic>
 #include <mutex>
 
-std::ofstream OF(g::getDesktopPath() + "/out2.ppm");
+std::ofstream OF(g::getExeDir() + "/out.ppm");
 std::mutex	of_mutex;
 //#define  multi_thread
 
@@ -129,7 +129,7 @@ void Camera::render()
 {
 	long t = clock();
 
-	OF << "P3\n" << impl->width << " " << impl->height << "\n255\n";
+	OF << "P3 # # \n" << impl->width << " " << impl->height << " #\n255  # #  \n";
 	OF << "#\t SAMPES\t" << g::sample << "\n";
 	OF << "# HARDWARE_CONCURRENCY\t" << std::thread::hardware_concurrency() << "\n";
 		
