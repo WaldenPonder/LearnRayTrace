@@ -11,7 +11,7 @@
 #include <atomic>
 #include <mutex>
 
-std::ofstream OF(g::getDesktopPath() + "/out.ppm");
+std::ofstream OF(g::getDesktopPath() + "/out2.ppm");
 std::mutex	of_mutex;
 //#define  multi_thread
 
@@ -33,6 +33,7 @@ struct Camera::Impl
 	std::atomic<bool> flag[width][height][5];	
 	std::mutex	cout_mutex;
 
+	void set_flag_false();
 	void  render_impl();
 };
 
@@ -56,14 +57,16 @@ void Camera::Impl::render_impl()
 			}
 
 			Vec3 c;
-			if (k >= g::sample) k = 0;
-	
-			for (; k < g::sample; k++)
-			{
-				if (flag[i][j][k])
-					continue;
+			//if (k >= g::sample) k = 0;
+			
+			//set_flag_false();
 
-				flag[i][j][k] = true;
+			for (int k = 0; k < g::sample; k++)
+			{
+				//if (flag[i][j][k])
+				//	continue;
+
+				//flag[i][j][k] = true;
 
 				Point2D pt(.5);
 				if(g::sample != 1)
@@ -76,10 +79,10 @@ void Camera::Impl::render_impl()
 				dir.normalize();
 
 				Ray  ray(Vec3(0.), dir);
-				Vec3 f = World::Instance()->trace_ray_direct(ray, 0);
-				c = c + f / (float)g::sample;
+				Vec3 f = World::Instance()->trace_ray(ray, 0);
+				c += f /(float)g::sample;
 			}
-
+		
 			World::Instance()->max_to_one(c);
 			c.clamp(0, 1);
 
@@ -94,6 +97,20 @@ void Camera::Impl::render_impl()
 				std::lock_guard<mutex> guard(of_mutex);
 #endif
 				OF << ir << " " << ig << " " << ib << "\n";
+			}
+		}
+	}
+}
+
+void Camera::Impl::set_flag_false()
+{
+	for (int i = 0; i < width; i++)
+	{
+		for (int j = 0; j < height; j++)
+		{
+			for (int k = 0; k < g::sample; k++)
+			{
+				flag[i][j][k] = false;
 			}
 		}
 	}
@@ -115,17 +132,7 @@ void Camera::render()
 	OF << "P3\n" << impl->width << " " << impl->height << "\n255\n";
 	OF << "#\t SAMPES\t" << g::sample << "\n";
 	OF << "# HARDWARE_CONCURRENCY\t" << std::thread::hardware_concurrency() << "\n";
-
-	for (int i = 0; i < impl->width; i++)
-	{
-		for (int j = 0; j < impl->height; j++)
-		{
-			for (int k = 0; k < g::sample; k++)
-			{
-				impl->flag[i][j][k] = false;
-			}
-		}
-	}
+		
 	MultiJittered::instance()->sample_hemisphere();
 
 #ifdef multi_thread

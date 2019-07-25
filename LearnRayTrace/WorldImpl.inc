@@ -53,12 +53,17 @@ end_name_space
 	void
 	World::buildScene()
 {
-	static const float cd = 0.75;
+	static const float cd = 0.95;
 	static const float kr = 0.75;
 
 	Transparent* transparent_whitte = new Transparent(g::White, .75, g::White, .75, 100);
 	transparent_whitte->set_reflect_color(g::White);
 	transparent_whitte->set_refract(1.5f);
+
+	Matte* matte_green = new Matte(g::Green, cd);
+	Matte* matte_red = new Matte(g::Red, cd);
+	Matte* matte_blue = new Matte(g::Blue, cd);
+	Matte* matte_white = new Matte(g::White, cd);
 
 	Phong* phong_green = new Phong(g::Green, cd, g::Green, .1, 100);
 	Phong* phong_red   = new Phong(g::Red, cd, g::Red, .1, 100);
@@ -84,29 +89,29 @@ end_name_space
 
 	plane			   = new Plane(Vec3(0, 2, 0), Vec3(0, -1, 0));  //ÉÏ
 	plane->objectName_ = "top";
-	plane->material_   = phong_blue;
+	plane->material_   = matte_blue;
 
-	//plane			   = new Plane(Vec3(0, 2 - 1e-5, 0), Vec3(0, -1, 0));  //µÆ
-	//plane->objectName_ = "light plane";
-	//plane->material_   = new Emissive;
-	//plane->x_min = -.5, plane->x_max = .5;
-	//plane->z_min = -5, plane->z_max = -4;
+	plane			   = new Plane(Vec3(0, 2 - 1e-5, 0), Vec3(0, -1, 0));  //µÆ
+	plane->objectName_ = "light plane";
+	plane->material_   = new Emissive;
+	plane->x_min = -.5, plane->x_max = .5;
+	plane->z_min = -5, plane->z_max = -4;
 
 	plane			   = new Plane(Vec3(0, -2, 0), Vec3(0, 1, 0));  //ÏÂ
 	plane->objectName_ = "bottom";
-	plane->material_   = phong_blue;
+	plane->material_   = matte_blue;
 
 	plane			   = new Plane(Vec3(-2, 0, 0), Vec3(1, 0, 0));  //×ó
 	plane->objectName_ = "left";
-	plane->material_   = phong_red;
+	plane->material_   = matte_red;
 
 	plane			   = new Plane(Vec3(0, 0, -6), Vec3(0, 0, 1));  //ºó
 	plane->objectName_ = "back";
-	plane->material_   = phong_white;
+	plane->material_   = matte_white;
 
 	plane			   = new Plane(Vec3(2, 0, 0), Vec3(-1, 0, 0));  //ÓÒ
 	plane->objectName_ = "right";
-	plane->material_   = phong_red;
+	plane->material_   = matte_red;
 
 	//--------------------------------------------------Sphere
 	Sphere* sphere	= new Sphere(Vec3(0, -1.5, -4.5), .5);
