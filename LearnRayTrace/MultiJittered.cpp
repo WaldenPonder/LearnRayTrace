@@ -8,7 +8,7 @@
 #include <ctime>
 
 namespace g {
-	int sample = 100;
+	int sample = 4;
 };
 
 MultiJittered* MultiJittered::instance()

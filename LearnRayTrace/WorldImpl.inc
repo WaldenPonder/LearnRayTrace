@@ -12,7 +12,7 @@ void RANDOM_PT(vector<float>& xVec, vector<float>& zVec)
 #if 0
 
 	std::ofstream OFILE;
-	OFILE.open("../3rd/random_pt.txt");
+	OFILE.open(g::getExeDir() + "/res/random_pt.txt");
 
 	int i = 0;
 	float x, z;
@@ -28,7 +28,7 @@ void RANDOM_PT(vector<float>& xVec, vector<float>& zVec)
 #else
 
 	std::ifstream IFILE;
-	IFILE.open("../3rd/random_pt.txt");
+	IFILE.open(g::getExeDir() + "/res/random_pt.txt");
 
 	int   i = 0;
 	float x, z;
@@ -114,28 +114,28 @@ end_name_space
 	plane->material_   = matte_red;
 
 	//--------------------------------------------------Sphere
-	Sphere* sphere	= new Sphere(Vec3(0, -1.5, -4.5), .5);
-	sphere->material_ = transparent_whitte;
+	//Sphere* sphere	= new Sphere(Vec3(0, -1.5, -4.5), .5);
+	//sphere->material_ = transparent_whitte;
 
-	sphere			  = new Sphere(Vec3(-1, -1.5, -4.5), .5);
-	sphere->material_ = transparent_whitte;
+	//sphere			  = new Sphere(Vec3(-1, -1.5, -4.5), .5);
+	//sphere->material_ = transparent_whitte;
 
-	sphere			  = new Sphere(Vec3(1, -1.5, -4.5), .5);
-	sphere->material_ = transparent_whitte;
+	//sphere			  = new Sphere(Vec3(1, -1.5, -4.5), .5);
+	//sphere->material_ = transparent_whitte;
 
 	//-------------------------------------------------bunny
-	//static Mesh bunyMesh("../3rd/bunny_big.obj");
+	//static Mesh bunyMesh(g::getExeDir() + "/res/bunny_big.obj");
 	//MeshObject* bunny = new MeshObject(bunyMesh);
 	//bunny->matrix_ = Matrix::rotate(0, Vec3(0, 1, 0)) * Matrix::scale(10) * Matrix::translate(0, -2.3, -5);
 	//bunny->material_ = transparent_whitte;
 
 	//-------------------------------------------------teapot
-	//static Mesh teapotMesh("../3rd/teapot.obj");
-	//MeshObject* teapot = new MeshObject(teapotMesh);
-	//teapot->matrix_ = Matrix::rotate(-PI_2f, Vec3(1, 0, 0)) * Matrix::scale(1) * Matrix::translate(0, -1.6, -5);
-	//teapot->material_ = transparent_whitte;
-	//const BoundingBox& bb = teapot->computBBox();
-	//cout << bb.max_len() << "\t" << bb.min_len() << "\tXX";
+	static Mesh teapotMesh(g::getExeDir() + "/../../res/teapot.obj");
+	MeshObject* teapot = new MeshObject(teapotMesh);
+	teapot->matrix_ = Matrix::rotate(-PI_2f, Vec3(1, 0, 0)) * Matrix::scale(1) * Matrix::translate(0, -1.6, -5);
+	teapot->material_ = transparent_whitte;
+	const BoundingBox& bb = teapot->computBBox();
+	cout << bb.max_len() << "\t" << bb.min_len() << "\tXX";
 }
 
 #endif  // SCENE_1
@@ -168,7 +168,7 @@ void World::buildScene()
 
 	int i = 0;
 
-	static Mesh bunyMesh("../3rd/bunny_big.obj");
+	static Mesh bunyMesh(g::getExeDir() + "/res/bunny_big.obj");
 
 	vector<float> xVec, zVec;
 	g::RANDOM_PT(xVec, zVec);
@@ -188,14 +188,14 @@ void World::buildScene()
 	}
 
 	//-------------------------------------------------venusm
-	//static Mesh venusmMesh("../3rd/venusm.obj");
+	//static Mesh venusmMesh(g::getExeDir() + "/res/venusm.obj");
 	//MeshObject* venusm = new MeshObject(venusmMesh);
 
 	//venusm->matrix_   = Matrix::rotate(0, Vec3(0, 1, 0)) * Matrix::scale(.01) * Matrix::translate(30, -10, -50);
 	//venusm->material_ = matte;
 
 	//-------------------------------------------------ateneam
-	//static Mesh ateneammMesh("../3rd/ateneam.obj");
+	//static Mesh ateneammMesh(g::getExeDir() + "/res/ateneam.obj");
 	//MeshObject* ateneam = new MeshObject(ateneammMesh);
 	//ateneam->matrix_	= Matrix::rotate(0, Vec3(0, 1, 0)) * Matrix::scale(.01) * Matrix::translate(-30, -5, -130);
 	//ateneam->material_  = reflective_white;
