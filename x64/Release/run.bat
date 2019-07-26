@@ -12,5 +12,7 @@ copy LearnRayTrace.exe exe\3
 rm------------------------------------------
 
 start exe\1\LearnRayTrace.exe
+TIMEOUT /T 3
 start exe\2\LearnRayTrace.exe
+TIMEOUT /T 3
 start exe\3\LearnRayTrace.exe

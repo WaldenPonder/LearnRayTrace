@@ -5,9 +5,10 @@
 #include "stdafx.h"
 #include "MultiJittered.h"
 #include <algorithm>
+#include <ctime>
 
 namespace g {
-	int sample = 1000;
+	int sample = 100;
 };
 
 MultiJittered* MultiJittered::instance()
@@ -111,6 +112,8 @@ MultiJittered::shuffle_x_coordinates(void) {
 void
 MultiJittered::generate_samples(void) {
 	// num_samples needs to be a perfect square
+
+	srand(time(NULL));
 
 	int n = (int)sqrt((float)num_samples);
 	float subcell_width = 1.0 / ((float) num_samples);

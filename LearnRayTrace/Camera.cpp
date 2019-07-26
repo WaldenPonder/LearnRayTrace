@@ -76,6 +76,7 @@ void Camera::Impl::render_impl()
 				float   py = (1 - 2 * ((j + pt.y()) / height)) * fov;
 
 				Vec3 dir = Vec3(px, py, -1) - Vec3(0);
+				
 				dir.normalize();
 
 				Ray  ray(Vec3(0.), dir);
@@ -87,6 +88,8 @@ void Camera::Impl::render_impl()
 			c.clamp(0, 1);
 
 			c *= 255;
+			//cout << i << "\t" << j << "\t" << c << "\n";
+			
 			int ir = c[0];
 			int ig = c[1];
 			int ib = c[2];

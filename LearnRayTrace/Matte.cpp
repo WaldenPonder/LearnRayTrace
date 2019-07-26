@@ -65,3 +65,8 @@ Vec3 Matte::shade_direct(ShadeInfo& info)
 
 	return val.clamp(0, 1);
 }
+
+Vec3 Matte::lambert_f() const
+{
+	return brdf_.f();
+}

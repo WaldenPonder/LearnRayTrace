@@ -26,6 +26,40 @@ Transparent::~Transparent()
 	delete impl;
 }
 
+Vec3 Transparent::shade(ShadeInfo& si)
+{
+	Vec3 L(Matte::lambert_f());
+
+	Vec3 wo = -si.ray.dir;
+	Vec3 wi;
+	Vec3 fr = impl->reflective_brdf->sample_f(si, wo, wi);
+	Ray reflected_ray(si.hit_pos, wi);
+
+	if (impl->specular_btdf->tir(si))
+	{
+		L += World::Instance()->trace_ray(reflected_ray, si.depth + 1);
+	}
+	else
+	{
+		const float FN = fresnel(si);
+		impl->reflective_brdf->rc_.k = FN;
+		impl->specular_btdf->kt_ = 1 - FN;
+
+		Vec3 wt;
+		Vec3 ft = impl->specular_btdf->sample_f(si, wo, wt);
+
+		Ray transmitted_ray(si.hit_pos, wt);
+
+		Vec3 rc = World::Instance()->trace_ray(reflected_ray, si.depth + 1) * fabs(si.normal * wi);
+		Vec3 tc = World::Instance()->trace_ray(transmitted_ray, si.depth + 1) *fabs(si.normal * wt);
+
+		L += componentMultiply(fr, rc);
+		L += componentMultiply(ft, tc);
+	}
+
+	return L;
+}
+
 Vec3 Transparent::shade_direct(ShadeInfo& si)
 {
 	Vec3 L(Phong::shade_direct(si));
@@ -54,7 +88,7 @@ Vec3 Transparent::shade_direct(ShadeInfo& si)
 		Vec3 tc = World::Instance()->trace_ray_direct(transmitted_ray, si.depth + 1) *fabs(si.normal * wt);
 
 		//cout << componentMultiply(ft, tc) << "\n";
-		//L += componentMultiply(fr, rc);
+		L += componentMultiply(fr, rc);
 		L += componentMultiply(ft, tc);
 	}
 

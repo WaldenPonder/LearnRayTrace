@@ -6,6 +6,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <cctype>
 
 using namespace std;
 
@@ -22,10 +23,15 @@ int main()
 {	
 	float count = 3.f;
 	vector<string> res_xstr, res_ystr, res_zstr;
-	for (int i = 1; i <= count; i++)
+	
+	std::fill(res_xstr.begin(), res_xstr.end(), "0");
+	std::fill(res_ystr.begin(), res_ystr.end(), "0");
+	std::fill(res_zstr.begin(), res_zstr.end(), "0");
+
+	for (int j = 1; j <= count; j++)
 	{
 		std::ifstream IFILE;
-		IFILE.open(getExeDir() + "/exe/" + std::to_string(i) + "/out.ppm");
+		IFILE.open(getExeDir() + "/exe/" + std::to_string(j) + "/out.ppm");
 
 		string x, y, z;
 		vector<string> xstr, ystr, zstr;
@@ -40,15 +46,90 @@ int main()
 		res_xstr.resize(xstr.size());
 		res_ystr.resize(xstr.size());
 		res_zstr.resize(xstr.size());
-
+		
 		for (int i = 0; i < xstr.size(); i++)
 		{
-			atoi(xstr[i]);
+			if (std::isdigit(xstr[i].front()))
+			{
+				 float val = atof(res_xstr[i].c_str()) + atof(xstr[i].c_str()) / count;
+				res_xstr[i] = std::to_string(val);
+			}
+			else
+			{
+				res_xstr[i] = xstr[i];
+			}			
+		}
+
+		for (int i = 0; i < ystr.size(); i++)
+		{
+			if (std::isdigit(ystr[i].front()))
+			{
+				float val = atof(res_ystr[i].c_str()) + atof(ystr[i].c_str()) / count;
+				res_ystr[i] = std::to_string(val);
+			}
+			else
+			{
+				res_ystr[i] = ystr[i];
+			}
+		}
+
+		for (int i = 0; i < zstr.size(); i++)
+		{
+			if (std::isdigit(zstr[i].front()))
+			{
+				float val = atof(res_zstr[i].c_str()) + atof(zstr[i].c_str()) / count;
+				res_zstr[i] = std::to_string(val);
+			}
+			else
+			{
+				res_zstr[i] = zstr[i];
+			}
 		}
 
 		IFILE.close();
 	}
 
+	std::ofstream OF(getExeDir() + "/combine.ppm");
 
+	for (int i = 0; i < res_xstr.size(); i++)
+	{
+		if (std::isdigit(res_xstr[i].front()))
+		{
+			int val = atof(res_xstr[i].c_str());
+			OF << std::to_string(val);
+		}
+		else
+		{
+			OF << res_xstr[i];
+		}
+
+		OF << " ";
+
+		if (std::isdigit(res_ystr[i].front()))
+		{
+			int val = atof(res_ystr[i].c_str());
+			OF << std::to_string(val);
+		}
+		else
+		{
+			OF << res_ystr[i];
+		}
+
+		OF << " ";
+
+		if (std::isdigit(res_zstr[i].front()))
+		{
+			int val = atof(res_zstr[i].c_str());
+			OF << std::to_string(val);
+		}
+		else
+		{
+			OF << res_zstr[i];
+		}
+
+		OF << "\n";
+	}
+
+	OF.close();
 	system("pause");
 }

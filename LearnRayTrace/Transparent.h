@@ -9,6 +9,7 @@ public:
 	Transparent(const Vec3& cd, float kd, const Vec3& cs, float ks, float exp);
 	~Transparent();
 
+	virtual Vec3 shade(ShadeInfo& si) override;
 	virtual Vec3 shade_direct(ShadeInfo& si) override;
 
 	void set_refract(float ior);
