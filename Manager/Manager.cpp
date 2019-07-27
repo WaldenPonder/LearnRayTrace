@@ -1,4 +1,5 @@
-﻿// Manager.cpp : 此文件包含 "main" 函数。程序执行将在此处开始并结束。
+﻿#include "..\LearnRayTrace\util.h"
+// Manager.cpp : 此文件包含 "main" 函数。程序执行将在此处开始并结束。
 //
 
 #include "pch.h"
@@ -9,6 +10,8 @@
 #include <cctype>
 
 using namespace std;
+
+void combine(int kCount);
 
 std::string getExeDir()
 {
@@ -21,14 +24,19 @@ std::string getExeDir()
 
 int main()
 {	
-	float count = 3.f;
-	vector<string> res_xstr, res_ystr, res_zstr;
-	
-	std::fill(res_xstr.begin(), res_xstr.end(), "0");
-	std::fill(res_ystr.begin(), res_ystr.end(), "0");
-	std::fill(res_zstr.begin(), res_zstr.end(), "0");
+	for (int kCount = 1; kCount <= 7; kCount++)
+	{
+		combine(kCount);
+	}
 
-	for (int j = 1; j <= count; j++)
+	system("pause");
+}
+
+void combine(int kCount)
+{
+	vector<string> res_xstr, res_ystr, res_zstr;
+
+	for (int j = 1; j <= kCount; j++)
 	{
 		std::ifstream IFILE;
 		IFILE.open(getExeDir() + "/exe/" + std::to_string(j) + "/out.ppm");
@@ -43,28 +51,36 @@ int main()
 			ystr.push_back(y);
 			zstr.push_back(z);
 		}
-		res_xstr.resize(xstr.size());
-		res_ystr.resize(xstr.size());
-		res_zstr.resize(xstr.size());
-		
+
+		if (res_xstr.size() == 0)
+		{
+			res_xstr.resize(xstr.size());
+			res_ystr.resize(xstr.size());
+			res_zstr.resize(xstr.size());
+
+			std::fill(res_xstr.begin(), res_xstr.end(), "0");
+			std::fill(res_ystr.begin(), res_ystr.end(), "0");
+			std::fill(res_zstr.begin(), res_zstr.end(), "0");
+		}
+
 		for (int i = 0; i < xstr.size(); i++)
 		{
-			if (std::isdigit(xstr[i].front()))
+			if (xstr[i].front() >= '0' && xstr[i].front() <= '9')
 			{
-				 float val = atof(res_xstr[i].c_str()) + atof(xstr[i].c_str()) / count;
+				float val = atof(res_xstr[i].c_str()) + atof(xstr[i].c_str());
 				res_xstr[i] = std::to_string(val);
 			}
 			else
 			{
 				res_xstr[i] = xstr[i];
-			}			
+			}
 		}
 
 		for (int i = 0; i < ystr.size(); i++)
 		{
-			if (std::isdigit(ystr[i].front()))
+			if (ystr[i].front() >= '0' && ystr[i].front() <= '9')
 			{
-				float val = atof(res_ystr[i].c_str()) + atof(ystr[i].c_str()) / count;
+				float val = atof(res_ystr[i].c_str()) + atof(ystr[i].c_str());
 				res_ystr[i] = std::to_string(val);
 			}
 			else
@@ -75,9 +91,9 @@ int main()
 
 		for (int i = 0; i < zstr.size(); i++)
 		{
-			if (std::isdigit(zstr[i].front()))
+			if (zstr[i].front() >= '0' && zstr[i].front() <= '9')
 			{
-				float val = atof(res_zstr[i].c_str()) + atof(zstr[i].c_str()) / count;
+				float val = atof(res_zstr[i].c_str()) + atof(zstr[i].c_str());
 				res_zstr[i] = std::to_string(val);
 			}
 			else
@@ -89,13 +105,13 @@ int main()
 		IFILE.close();
 	}
 
-	std::ofstream OF(getExeDir() + "/combine.ppm");
+	std::ofstream OF(getExeDir() + "/combine" + std::to_string(kCount) + ".ppm");
 
 	for (int i = 0; i < res_xstr.size(); i++)
 	{
-		if (std::isdigit(res_xstr[i].front()))
+		if (res_xstr[i].front() >= '0' && res_xstr[i].front() <= '9')
 		{
-			int val = atof(res_xstr[i].c_str());
+			int val = atof(res_xstr[i].c_str()) / (float)kCount;
 			OF << std::to_string(val);
 		}
 		else
@@ -103,11 +119,11 @@ int main()
 			OF << res_xstr[i];
 		}
 
-		OF << " ";
+		OF << "\t";
 
-		if (std::isdigit(res_ystr[i].front()))
+		if (res_ystr[i].front() >= '0' && res_ystr[i].front() <= '9')
 		{
-			int val = atof(res_ystr[i].c_str());
+			int val = atof(res_ystr[i].c_str()) / (float)kCount;
 			OF << std::to_string(val);
 		}
 		else
@@ -115,11 +131,11 @@ int main()
 			OF << res_ystr[i];
 		}
 
-		OF << " ";
+		OF << "\t";
 
-		if (std::isdigit(res_zstr[i].front()))
+		if (res_zstr[i].front() >= '0' && res_zstr[i].front() <= '9')
 		{
-			int val = atof(res_zstr[i].c_str());
+			int val = atof(res_zstr[i].c_str()) / (float)kCount;
 			OF << std::to_string(val);
 		}
 		else
@@ -131,5 +147,4 @@ int main()
 	}
 
 	OF.close();
-	system("pause");
 }

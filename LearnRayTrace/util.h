@@ -4,8 +4,10 @@
 begin_name_space(g);
 
 string getDesktopPath();
-//尾部不带 "\\"
+//尾部带 "\\"
 string getExeDir();
+
+void combine(int kCount);
 
 bool rayTriangleIntersect(const Ray& ray, const Point& v0, const Point& v1, const Point& v2, float& t, float& u, float& v);
 

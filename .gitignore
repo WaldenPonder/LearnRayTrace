@@ -21,3 +21,5 @@ manager/x64/Release/*.obj
 *.ppm
 *.db-wal
 *.db-shm
+x64/Release/LearnRayTrace.exp
+x64/Release/LearnRayTrace.lib

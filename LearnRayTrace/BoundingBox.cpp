@@ -1,7 +1,9 @@
 #include "stdafx.h"
 #include "BoundingBox.h"
 
-BoundingBox::BoundingBox() {}
+BoundingBox::BoundingBox() {
+	reset();
+}
 
 BoundingBox::~BoundingBox() {}
 
@@ -29,7 +31,7 @@ Vec3 BoundingBox::center() const
 	return (_minPt + _maxPt) / 2.f;
 }
 
-bool BoundingBox::intersect( const Ray& r ) {
+bool BoundingBox::is_intersect( const Ray& r ) {
     float tmin = ( _minPt.x() - r.orig.x() ) / r.dir.x();
     float tmax = ( _maxPt.x() - r.orig.x() ) / r.dir.x();
 

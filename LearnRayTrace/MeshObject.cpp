@@ -91,7 +91,7 @@ ShadeInfo MeshObject::intersect(const Ray& ray)
 		if (!impl->extent_.valid())
 			this->init_polytope_boundingbox(impl->extent_);
 
-		if (!impl->extent_.intersect(ray))
+		if (!impl->extent_.is_intersect(ray))
 			return info;
 	}
 	else
@@ -99,7 +99,7 @@ ShadeInfo MeshObject::intersect(const Ray& ray)
 		if (!impl->bbox_.valid())
 			this->computBBox();
 
-		if (!impl->bbox_.intersect(ray))
+		if (!impl->bbox_.is_intersect(ray))
 		{
 			return info;
 		}

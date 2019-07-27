@@ -34,7 +34,7 @@ void Extent::operator=(const Extent& extent)
 
 Extent::~Extent() {}
 
-bool Extent::intersect(const Ray& ray)
+bool Extent::is_intersect(const Ray& ray)
 {
 	uint8_t planeIndex;
 

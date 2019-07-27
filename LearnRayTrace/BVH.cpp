@@ -193,7 +193,7 @@ ShadeInfo BVH::intersect(const Ray& ray)
 
 	uint8_t planeIndex;
 	float   tNear = 0, tFar = FLT_MAX;  // tNear, tFar for the intersected extents
-	if (!octree_->root.nodeExtent.intersect(ray) || tFar < 0)
+	if (!octree_->root.nodeExtent.is_intersect(ray) || tFar < 0)
 		return info;
 	tHit = tFar;
 	std::priority_queue<QueueElement> queue;

@@ -91,12 +91,12 @@ end_name_space
 	plane->objectName_ = "top";
 	plane->material_   = matte_blue;
 
-	plane			   = new Plane(Vec3(0, 2 - 1e-5, 0), Vec3(0, -1, 0));  //µÆ
-	plane->objectName_ = "light plane";
-	plane->material_   = new Emissive;
-	plane->x_min = -.5, plane->x_max = .5;
-	plane->z_min = -5, plane->z_max = -4;
-
+	IBox* box = new IBox;//µÆ
+	box->objectName_ = "light plane";
+	box->material_ = new Emissive;
+	box->_minPt = Vec3(-.5, 1.95, -5);
+	box->_maxPt = Vec3(.5, 2.01, -4);
+	
 	plane			   = new Plane(Vec3(0, -2, 0), Vec3(0, 1, 0));  //ÏÂ
 	plane->objectName_ = "bottom";
 	plane->material_   = matte_blue;
@@ -114,14 +114,14 @@ end_name_space
 	plane->material_   = matte_red;
 
 	//--------------------------------------------------Sphere
-	//Sphere* sphere	= new Sphere(Vec3(0, -1.5, -4.5), .5);
-	//sphere->material_ = transparent_whitte;
+	Sphere* sphere	= new Sphere(Vec3(0, -1.5, -4.5), .5);
+	sphere->material_ = transparent_whitte;
 
-	//sphere			  = new Sphere(Vec3(-1, -1.5, -4.5), .5);
-	//sphere->material_ = transparent_whitte;
+	sphere			  = new Sphere(Vec3(-1, -1.5, -4.5), .5);
+	sphere->material_ = reflective_white;
 
-	//sphere			  = new Sphere(Vec3(1, -1.5, -4.5), .5);
-	//sphere->material_ = transparent_whitte;
+	sphere			  = new Sphere(Vec3(1, -1.5, -4.5), .5);
+	sphere->material_ = transparent_whitte;
 
 	//-------------------------------------------------bunny
 	//static Mesh bunyMesh(g::getExeDir() + "/res/bunny_big.obj");
@@ -130,12 +130,12 @@ end_name_space
 	//bunny->material_ = transparent_whitte;
 
 	//-------------------------------------------------teapot
-	static Mesh teapotMesh(g::getExeDir() + "/../../res/teapot.obj");
-	MeshObject* teapot = new MeshObject(teapotMesh);
-	teapot->matrix_ = Matrix::rotate(-PI_2f, Vec3(1, 0, 0)) * Matrix::scale(1) * Matrix::translate(0, -1.6, -5);
-	teapot->material_ = transparent_whitte;
-	const BoundingBox& bb = teapot->computBBox();
-	cout << bb.max_len() << "\t" << bb.min_len() << "\tXX";
+	//static Mesh teapotMesh(g::getExeDir() + "/../../res/teapot.obj");
+	//MeshObject* teapot = new MeshObject(teapotMesh);
+	//teapot->matrix_ = Matrix::rotate(-PI_2f, Vec3(1, 0, 0)) * Matrix::scale(1) * Matrix::translate(0, -1.6, -5);
+	//teapot->material_ = transparent_whitte;
+	//const BoundingBox& bb = teapot->computBBox();
+	//cout << bb.max_len() << "\t" << bb.min_len() << "\tXX";
 }
 
 #endif  // SCENE_1

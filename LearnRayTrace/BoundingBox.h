@@ -4,6 +4,7 @@
 class BoundingBox : public IBox
 {
 public:
+	__class__(BoundingBox);
 	BoundingBox();
 	~BoundingBox();
 
@@ -18,11 +19,8 @@ public:
 
 	virtual Vec3 center() const override;
 
-	virtual bool intersect(const Ray& ray) override;
+	virtual bool is_intersect(const Ray& ray);
 
 	float max_len() const;
 	float min_len() const;
-
-	Vec3 _minPt = Vec3(FLT_MAX);
-	Vec3 _maxPt = Vec3(-FLT_MAX);
 };

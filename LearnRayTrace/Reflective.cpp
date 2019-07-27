@@ -31,3 +31,15 @@ Vec3 Reflective::shade_direct(ShadeInfo& si)
 	L += c;
 	return L.clamp(0, 1);
 }
+
+Vec3 Reflective::shade(ShadeInfo& si)
+{
+	Vec3 L(Matte::lambert_f());
+	Vec3 wi;
+	Vec3 f = perfectSpecular_->sample_f(si, -si.ray.dir, wi);
+
+	Ray reflect_ray(si.hit_pos, wi);
+	Vec3 c = componentMultiply(f, World::Instance()->trace_ray(reflect_ray, si.depth + 1));
+	L += c;
+	return L.clamp(0, 1);
+}

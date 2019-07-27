@@ -14,7 +14,7 @@ class Extent : public IBox
 
 	virtual ~Extent();
 
-	virtual bool intersect(const Ray& ray) override;
+	virtual bool is_intersect(const Ray& ray);
 	bool		 intersect(
 				const float* precomputedNumerator,
 				const float* precomputedDenominator,

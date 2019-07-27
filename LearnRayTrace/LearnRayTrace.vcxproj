@@ -51,6 +51,7 @@
     <ClCompile Include="Quat.cpp" />
     <ClCompile Include="Ray.cpp" />
     <ClCompile Include="Sampler.cpp" />
+    <ClCompile Include="Setting.cpp" />
     <ClCompile Include="ShadeInfo.cpp" />
     <ClCompile Include="Shape.cpp" />
     <ClCompile Include="Sphere.cpp" />
@@ -93,6 +94,7 @@
     <ClInclude Include="Quat.h" />
     <ClInclude Include="Ray.h" />
     <ClInclude Include="Sampler.h" />
+    <ClInclude Include="Setting.h" />
     <ClInclude Include="ShadeInfo.h" />
     <ClInclude Include="Shape.h" />
     <ClInclude Include="Singleton.h" />
@@ -115,7 +117,7 @@
     <ProjectGuid>{4E54969E-48E5-4823-9693-D85FE3FB9607}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>LearnRayTrace</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -198,6 +200,7 @@
       <ConformanceMode>true</ConformanceMode>
       <OpenMPSupport>true</OpenMPSupport>
       <AdditionalOptions>/Zc:twoPhase- %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>$(SolutionDir)/3rd</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -235,6 +238,7 @@
       <OpenMPSupport>true</OpenMPSupport>
       <AdditionalOptions>/Zc:twoPhase- %(AdditionalOptions)</AdditionalOptions>
       <CompileAs>CompileAsCpp</CompileAs>
+      <AdditionalIncludeDirectories>$(SolutionDir)/3rd</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

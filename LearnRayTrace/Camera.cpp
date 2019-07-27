@@ -10,6 +10,7 @@
 #include <thread>
 #include <atomic>
 #include <mutex>
+#include "Setting.h"
 
 std::ofstream OF(g::getExeDir() + "/out.ppm");
 std::mutex	of_mutex;
@@ -39,6 +40,8 @@ struct Camera::Impl
 
 void Camera::Impl::render_impl()
 {
+	const int kSamples = Setting::Instance()->sample;
+
 	for (; j < height; j += 1)
 	{
 		if (i >= width) i = 0;
@@ -57,31 +60,32 @@ void Camera::Impl::render_impl()
 			}
 
 			Vec3 c;
-			//if (k >= g::sample) k = 0;
-			
-			//set_flag_false();
 
-			for (int k = 0; k < g::sample; k++)
+			for (int k = 0; k < kSamples; k++)
 			{
-				//if (flag[i][j][k])
-				//	continue;
-
-				//flag[i][j][k] = true;
-
 				Point2D pt(.5);
-				if(g::sample != 1)
+				if(kSamples != 1)
 					pt = MultiJittered::instance()->sample_unit_square();
 
 				float   px = (2 * (i + pt.x()) / width - 1) * fov * ratio;
 				float   py = (1 - 2 * ((j + pt.y()) / height)) * fov;
 
-				Vec3 dir = Vec3(px, py, -1) - Vec3(0);
-				
+				Vec3 dir = Vec3(px, py, -1) - Vec3(0);				
 				dir.normalize();
 
 				Ray  ray(Vec3(0.), dir);
-				Vec3 f = World::Instance()->trace_ray(ray, 0);
-				c += f /(float)g::sample;
+
+				if (Setting::Instance()->traceType == Setting::eDirect)
+				{
+					Vec3 f = World::Instance()->trace_ray_direct(ray, 0);
+					c += f / (float)kSamples;
+				}
+				else if (Setting::Instance()->traceType == Setting::ePathTrace)
+				{
+					Vec3 f = World::Instance()->trace_ray(ray, 0);
+					c += f / (float)kSamples;
+				}
+
 			}
 		
 			World::Instance()->max_to_one(c);
@@ -107,11 +111,13 @@ void Camera::Impl::render_impl()
 
 void Camera::Impl::set_flag_false()
 {
+	const int kSamples = Setting::Instance()->sample;
+
 	for (int i = 0; i < width; i++)
 	{
 		for (int j = 0; j < height; j++)
 		{
-			for (int k = 0; k < g::sample; k++)
+			for (int k = 0; k < kSamples; k++)
 			{
 				flag[i][j][k] = false;
 			}
@@ -131,9 +137,10 @@ Camera::~Camera()
 void Camera::render()
 {
 	long t = clock();
+	const int kSamples = Setting::Instance()->sample;
 
 	OF << "P3 # # \n" << impl->width << " " << impl->height << " #\n255  # #  \n";
-	OF << "#\t SAMPES\t" << g::sample << "\n";
+	OF << "#\t SAMPES\t" << kSamples << "\n";
 	OF << "# HARDWARE_CONCURRENCY\t" << std::thread::hardware_concurrency() << "\n";
 		
 	MultiJittered::instance()->sample_hemisphere();
@@ -155,7 +162,7 @@ void Camera::render()
 	impl->render_impl();
 #endif
 	
-	OF << "# " << float(clock() - t) / ( float )CLOCKS_PER_SEC << "   sample\t" << g::sample;
+	OF << "# " << float(clock() - t) / ( float )CLOCKS_PER_SEC << "   sample\t" << kSamples;
 	OF.close();
 
 	cout << "finish " << (clock() - t) << endl;
