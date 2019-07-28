@@ -91,11 +91,12 @@ end_name_space
 	plane->objectName_ = "top";
 	plane->material_   = matte_blue;
 
-	IBox* box = new IBox;//╣ф
-	box->objectName_ = "light plane";
-	box->material_ = new Emissive;
-	box->_minPt = Vec3(-.5, 1.95, -5);
-	box->_maxPt = Vec3(.5, 2.01, -4);
+	IBox* box;
+	//box = new IBox;//╣ф
+	//box->objectName_ = "light plane";
+	//box->material_ = new Emissive;
+	//box->_minPt = Vec3(-.5, 1.85, -5);
+	//box->_maxPt = Vec3(.5, 2.01, -4);
 	
 	plane			   = new Plane(Vec3(0, -2, 0), Vec3(0, 1, 0));  //об
 	plane->objectName_ = "bottom";
@@ -112,6 +113,13 @@ end_name_space
 	plane			   = new Plane(Vec3(2, 0, 0), Vec3(-1, 0, 0));  //ср
 	plane->objectName_ = "right";
 	plane->material_   = matte_red;
+
+	//-----------------------------------------------box
+	//box = new IBox;
+	//box->objectName_ = "box";
+	//box->material_ = reflective_white;
+	//box->_minPt = Vec3(-.5, -2, -5);
+	//box->_maxPt = Vec3(.5, -1, -4);
 
 	//--------------------------------------------------Sphere
 	Sphere* sphere	= new Sphere(Vec3(0, -1.5, -4.5), .5);

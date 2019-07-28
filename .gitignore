@@ -23,3 +23,5 @@ manager/x64/Release/*.obj
 *.db-shm
 x64/Release/LearnRayTrace.exp
 x64/Release/LearnRayTrace.lib
+x64/Debug/LearnRayTrace.exp
+x64/Debug/LearnRayTrace.lib

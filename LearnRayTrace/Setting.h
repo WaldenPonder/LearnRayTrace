@@ -16,7 +16,7 @@ class Setting : public Singleton<Setting>
 	void serialize(Archive& ar)
 	{
 		int type = traceType;
-		ar(cereal::make_nvp("0 path trace 1 direct", type));
+		ar(cereal::make_nvp("#0 path trace 1 direct", type));
 		traceType = (TraceType)type;
 
 		ar(CEREAL_NVP(sample));
