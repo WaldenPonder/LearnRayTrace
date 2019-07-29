@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "util.h"
+#include <io.h>
 
 begin_name_space(g);
 
@@ -33,6 +34,9 @@ std::string getExeDir()
 
 std::string getResDir()
 {
+	string s = getExeDir() + "res/";
+	if (!_access(s.c_str(), 0))
+		return s;
 	return getExeDir() + "../../res/";
 }
 
