@@ -1,7 +1,7 @@
 #pragma once
 #include "IBox.h"
 
-class BoundingBox : public IBox
+class BoundingBox : public Object
 {
 public:
 	__class__(BoundingBox);
@@ -17,10 +17,13 @@ public:
 
 	void expandBy(const Vec3& pt);
 
-	virtual Vec3 center() const override;
+	virtual Vec3 center() const;
 
 	virtual bool is_intersect(const Ray& ray);
 
 	float max_len() const;
 	float min_len() const;
+
+	Vec3 _minPt;
+	Vec3 _maxPt;
 };

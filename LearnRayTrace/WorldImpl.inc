@@ -92,11 +92,11 @@ end_name_space
 	plane->material_   = matte_blue;
 
 	IBox* box;
-	//box = new IBox;//µÆ
-	//box->objectName_ = "light plane";
-	//box->material_ = new Emissive;
-	//box->_minPt = Vec3(-.5, 1.85, -5);
-	//box->_maxPt = Vec3(.5, 2.01, -4);
+	box = new IBox;//µÆ
+	box->objectName_ = "light plane";
+	box->material_ = new Emissive;
+	box->_minPt = Vec3(-.5, 1.85, -5);
+	box->_maxPt = Vec3(.5, 2.01, -4);
 	
 	plane			   = new Plane(Vec3(0, -2, 0), Vec3(0, 1, 0));  //ÏÂ
 	plane->objectName_ = "bottom";
@@ -122,14 +122,24 @@ end_name_space
 	//box->_maxPt = Vec3(.5, -1, -4);
 
 	//--------------------------------------------------Sphere
-	Sphere* sphere	= new Sphere(Vec3(0, -1.5, -4.5), .5);
-	sphere->material_ = transparent_whitte;
+	Sphere* sphere;
+	//sphere	= new Sphere(Vec3(0, -1.5, -4.5), .5);
+	//sphere->material_ = transparent_whitte;
 
 	sphere			  = new Sphere(Vec3(-1, -1.5, -4.5), .5);
 	sphere->material_ = reflective_white;
 
 	sphere			  = new Sphere(Vec3(1, -1.5, -4.5), .5);
 	sphere->material_ = transparent_whitte;
+
+	//-------------------------------------------------box
+	static Mesh boxMesh(g::getResDir() + "cube.obj");
+	MeshObject* boxModel = new MeshObject(boxMesh);
+	boxModel->objectName_ = "box.obj";
+	boxModel->matrix_ = Matrix::rotate(0, Vec3(0, 1, 0)) * Matrix::scale(1) * Matrix::translate(-.5, -2.01, -5);
+	boxModel->material_ = transparent_whitte;
+	//BoundingBox bb = boxModel->computBBox();
+	//cout << "bb" << bb.center() << "\t" << bb.max_len() << "\t" << bb.min_len() << "\tXX";
 
 	//-------------------------------------------------bunny
 	//static Mesh bunyMesh(g::getExeDir() + "/res/bunny_big.obj");
@@ -138,7 +148,7 @@ end_name_space
 	//bunny->material_ = transparent_whitte;
 
 	//-------------------------------------------------teapot
-	//static Mesh teapotMesh(g::getExeDir() + "/../../res/teapot.obj");
+	//static Mesh teapotMesh(g::getExeDir() + "../../res/teapot.obj");
 	//MeshObject* teapot = new MeshObject(teapotMesh);
 	//teapot->matrix_ = Matrix::rotate(-PI_2f, Vec3(1, 0, 0)) * Matrix::scale(1) * Matrix::translate(0, -1.6, -5);
 	//teapot->material_ = transparent_whitte;

@@ -31,6 +31,11 @@ std::string getExeDir()
 	return ss;
 }
 
+std::string getResDir()
+{
+	return getExeDir() + "../../res/";
+}
+
 //https://www.scratchapixel.com/lessons/3d-basic-rendering/ray-tracing-rendering-a-triangle/moller-trumbore-ray-triangle-intersection
 
 bool rayTriangleIntersect(

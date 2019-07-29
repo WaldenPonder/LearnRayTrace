@@ -1,8 +1,8 @@
 #pragma once
-#include "IBox.h"
+#include "Object.h"
 
 //14ÃæÌå
-class Extent : public IBox
+class Extent : public Object
 {
  public:
 	__class__(Extent);
@@ -22,7 +22,7 @@ class Extent : public IBox
 				float&		 tFar,   // within the range [tNear:tFar]
 				uint8_t&	 planeIndex) const;
 
-	virtual Vec3 center() const override;
+	virtual Vec3 center() const;
 	void		 extendBy(const Extent& pbb);
 
 	void init();

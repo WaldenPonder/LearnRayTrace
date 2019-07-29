@@ -4,8 +4,9 @@
 
 Setting::Setting()
 {
-	sample = 1;
-	traceType = eDirect;
+	sample = 16;
+	//traceType = eDirect;
+	traceType = ePathTrace;
 }
 
 

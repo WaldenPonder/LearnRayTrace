@@ -34,7 +34,10 @@ Vec3 Reflective::shade_direct(ShadeInfo& si)
 
 Vec3 Reflective::shade(ShadeInfo& si)
 {
-	Vec3 L(Matte::lambert_f());
+	bool bRet;
+	Vec3 L = lambert_f(si, bRet);
+	if (bRet) return L;
+	
 	Vec3 wi;
 	Vec3 f = perfectSpecular_->sample_f(si, -si.ray.dir, wi);
 

@@ -16,19 +16,9 @@ Matte::~Matte()
 
 Vec3 Matte::shade(ShadeInfo& info)
 {
-	Vec3 val = brdf_.f();
-
-	if (info.depth > 5)
-	{
-		float f = max({ val.x(), val.y(), val.z() });
-		if (rand_float() < f)
-			val /= f;
-		else
-			return Vec3();
-	}
-
-	if (info.depth > 100)
-		return Vec3();
+	bool bRet;
+	Vec3 val = lambert_f(info, bRet);
+	if (bRet) return val;
 
 	Vec3 w = info.normal;
 	Vec3 u = Vec3(0.00424, 1, 0.00764) ^ w;
@@ -66,7 +56,26 @@ Vec3 Matte::shade_direct(ShadeInfo& info)
 	return val.clamp(0, 1);
 }
 
-Vec3 Matte::lambert_f() const
+Vec3 Matte::lambert_f(ShadeInfo& si, bool& bRet) const
 {
-	return brdf_.f();
+	bRet = false;
+	Vec3 val = brdf_.f();
+
+	if (si.depth > 5)
+	{
+		float f = max({ val.x(), val.y(), val.z() });
+		if (rand_float() < f)
+			val /= f;
+		else
+		{
+			bRet = true; return Vec3();
+		}			
+	}
+
+	if (si.depth > 100)
+	{
+		bRet = true; return Vec3();
+	}	
+
+	return val;
 }

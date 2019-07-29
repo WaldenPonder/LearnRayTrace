@@ -28,7 +28,9 @@ Transparent::~Transparent()
 
 Vec3 Transparent::shade(ShadeInfo& si)
 {
-	Vec3 L(Matte::lambert_f());
+	bool bRet;
+	Vec3 L = lambert_f(si, bRet);
+	if (bRet) return L;
 
 	Vec3 wo = -si.ray.dir;
 	Vec3 wi;
