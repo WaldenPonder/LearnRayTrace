@@ -88,6 +88,7 @@ void Camera::Impl::render_impl()
 
 			}
 		
+			c[0] = pow(c[0], 1. / 2.2), c[1] = pow(c[1], 1. / 2.2), c[2] = pow(c[2], 1. / 2.2);
 			World::Instance()->max_to_one(c);
 			c.clamp(0, 1);
 

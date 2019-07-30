@@ -24,7 +24,7 @@ std::string getExeDir()
 
 int main()
 {	
-	for (int kCount = 1; kCount <= 7; kCount++)
+	for (int kCount = 1; kCount <= 3; kCount++)
 	{
 		combine(kCount);
 	}
@@ -67,7 +67,8 @@ void combine(int kCount)
 		{
 			if (xstr[i].front() >= '0' && xstr[i].front() <= '9')
 			{
-				float val = atof(res_xstr[i].c_str()) + atof(xstr[i].c_str());
+				float tmp = atof(xstr[i].c_str());			
+				float val = atof(res_xstr[i].c_str()) + tmp;
 				res_xstr[i] = std::to_string(val);
 			}
 			else
@@ -80,7 +81,8 @@ void combine(int kCount)
 		{
 			if (ystr[i].front() >= '0' && ystr[i].front() <= '9')
 			{
-				float val = atof(res_ystr[i].c_str()) + atof(ystr[i].c_str());
+				float tmp = atof(ystr[i].c_str());
+				float val = atof(res_ystr[i].c_str()) + tmp;
 				res_ystr[i] = std::to_string(val);
 			}
 			else
@@ -93,7 +95,8 @@ void combine(int kCount)
 		{
 			if (zstr[i].front() >= '0' && zstr[i].front() <= '9')
 			{
-				float val = atof(res_zstr[i].c_str()) + atof(zstr[i].c_str());
+				float tmp = atof(zstr[i].c_str());
+				float val = atof(res_zstr[i].c_str()) + tmp;
 				res_zstr[i] = std::to_string(val);
 			}
 			else
