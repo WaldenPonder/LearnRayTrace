@@ -289,5 +289,8 @@
     <None Include="WorldImpl.inc">
       <Filter>inc</Filter>
     </None>
+    <None Include="..\x64\Release\res\setting.json">
+      <Filter>资源文件</Filter>
+    </None>
   </ItemGroup>
 </Project>

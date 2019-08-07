@@ -127,17 +127,17 @@ end_name_space
 	//sphere->material_ = transparent_whitte;
 
 	sphere			  = new Sphere(Vec3(-1, -1.5, -4.5), .5);
-	sphere->material_ = reflective_white;
+	sphere->material_ = matte_white;
 
 	sphere			  = new Sphere(Vec3(1, -1.5, -4.5), .5);
-	sphere->material_ = transparent_whitte;
+	sphere->material_ = matte_white;
 
 	//-------------------------------------------------box
 	static Mesh boxMesh(g::getResDir() + "cube.obj");
 	MeshObject* boxModel = new MeshObject(boxMesh);
 	boxModel->objectName_ = "box.obj";
 	boxModel->matrix_ = Matrix::rotate(0, Vec3(0, 1, 0)) * Matrix::scale(1) * Matrix::translate(-.5, -2.01, -5);
-	boxModel->material_ = transparent_whitte;
+	boxModel->material_ = matte_white;
 	//BoundingBox bb = boxModel->computBBox();
 	//cout << "bb" << bb.center() << "\t" << bb.max_len() << "\t" << bb.min_len() << "\tXX";
 

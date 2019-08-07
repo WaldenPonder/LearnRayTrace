@@ -109,6 +109,7 @@
     <ClInclude Include="World.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\x64\Release\res\setting.json" />
     <None Include="common.inc" />
     <None Include="WorldImpl.inc" />
   </ItemGroup>
