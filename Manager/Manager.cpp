@@ -24,7 +24,10 @@ std::string getExeDir()
 
 int main()
 {	
-	for (int kCount = 1; kCount <= 3; kCount++)
+	int COUNT = 0;
+	std::cout << "输入count\n";
+	std::cin >> COUNT;
+	for (int kCount = 1; kCount <= COUNT; kCount++)
 	{
 		combine(kCount);
 	}
