@@ -3,7 +3,7 @@
 
 Setting::Setting()
 {
-	sample = 500;
+	sample = 100;
 	//traceType = eDirect;
 	traceType = ePathTrace;
 }

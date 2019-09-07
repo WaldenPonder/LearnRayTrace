@@ -83,15 +83,13 @@ void Camera::Impl::render_impl(const int thread_index)
 					c += f / ( float )kSamples;
 				}
 			}
-
-			//TODO: 会出现负数，估计是BUG
-			c.clamp(0, 1);
-
+			
 			c[0] = pow(c[0], 1. / 2.2), c[1] = pow(c[1], 1. / 2.2), c[2] = pow(c[2], 1. / 2.2);
 			World::Instance()->max_to_one(c);
-			
-			c *= 255;
 
+			c.clamp(0, 1);
+			c *= 255;
+			
 			int ir = c[0];
 			int ig = c[1];
 			int ib = c[2];

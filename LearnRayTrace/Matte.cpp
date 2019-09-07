@@ -35,7 +35,7 @@ Vec3 Matte::shade(ShadeInfo& info)
 		Vec3 wi = sp.x() * u + sp.y() * v + sp.z() * w;  // reflected ray direction
 		Ray  r(info.hit_pos, wi);
 		
-		f = info.normal * sp * f;
+		f = info.normal * wi * f;
 
 		c = World::Instance()->trace_ray(r, info.depth + 1);
 	}
@@ -59,6 +59,10 @@ Vec3 Matte::shade(ShadeInfo& info)
 		c = World::Instance()->trace_ray(r, info.depth + 1);
 	}
 
+	if (f.x() < 0 || f.y() < 0 || f.z() < 0)
+	{
+		//cout << "INVALID BRDF\n";
+	}
 	Vec3 res = componentMultiply(f, c);
 	return res;
 }
