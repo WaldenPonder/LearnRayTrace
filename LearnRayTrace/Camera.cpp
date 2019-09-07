@@ -84,6 +84,7 @@ void Camera::Impl::render_impl(const int thread_index)
 				}
 			}
 
+			//TODO: 会出现负数，估计是BUG
 			c.clamp(0, 1);
 
 			c[0] = pow(c[0], 1. / 2.2), c[1] = pow(c[1], 1. / 2.2), c[2] = pow(c[2], 1. / 2.2);
