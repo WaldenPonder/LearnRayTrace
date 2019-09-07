@@ -34,6 +34,8 @@ Vec3 Matte::shade(ShadeInfo& info)
 		Vec3 sp = g::random_cosine_direction();
 		Vec3 wi = sp.x() * u + sp.y() * v + sp.z() * w;  // reflected ray direction
 		Ray  r(info.hit_pos, wi);
+		
+		f = info.normal * sp * f;
 
 		c = World::Instance()->trace_ray(r, info.depth + 1);
 	}
@@ -89,7 +91,7 @@ Vec3 Matte::lambert_f(ShadeInfo& si, bool& bRet) const
 	{
 		float f = max({ val.x(), val.y(), val.z() });
 		if (rand_float() < f)
-			val /= f;
+			val = val / (1/f);
 		else
 		{
 			bRet = true;
@@ -97,7 +99,7 @@ Vec3 Matte::lambert_f(ShadeInfo& si, bool& bRet) const
 		}
 	}
 
-	if (si.depth > 100)
+	if (si.depth > 30)
 	{
 		bRet = true;
 		return Vec3();

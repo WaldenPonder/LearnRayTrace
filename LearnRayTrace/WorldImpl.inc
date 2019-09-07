@@ -137,7 +137,7 @@ end_name_space
 	MeshObject* boxModel = new MeshObject(boxMesh);
 	boxModel->objectName_ = "box.obj";
 	boxModel->matrix_ = Matrix::rotate(0, Vec3(0, 1, 0)) * Matrix::scale(1) * Matrix::translate(-.5, -2.01, -5);
-	boxModel->material_ = matte_white;
+	boxModel->material_ = transparent_whitte;
 	//BoundingBox bb = boxModel->computBBox();
 	//cout << "bb" << bb.center() << "\t" << bb.max_len() << "\t" << bb.min_len() << "\tXX";
 

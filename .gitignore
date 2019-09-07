@@ -10,6 +10,7 @@
 *.ipdb
 *.exe
 *.ilk
+.vs
 .vs/LearnRayTrace/v15/.suo
 *.opendb
 /.vs/config/applicationhost.config
