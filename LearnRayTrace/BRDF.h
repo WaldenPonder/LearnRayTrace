@@ -4,7 +4,7 @@
 
 class Sampler;
 
-class BRDF
+class BRDF : public Object
 {
 public:
 	BRDF();

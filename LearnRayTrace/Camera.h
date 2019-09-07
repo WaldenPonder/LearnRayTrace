@@ -1,7 +1,7 @@
 #pragma once
 #include "Shape.h"
 
-class Camera
+class Camera : public Object
 {
 public:
 	__class__(Camera);

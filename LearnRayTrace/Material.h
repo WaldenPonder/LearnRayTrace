@@ -3,7 +3,7 @@
 #include "ShadeInfo.h"
 #include "Lambert.h"
 
-class Material
+class Material : public Object
 {
 public:
 	Material();

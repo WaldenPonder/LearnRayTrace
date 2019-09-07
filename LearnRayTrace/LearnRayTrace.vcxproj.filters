@@ -129,9 +129,6 @@
     <ClCompile Include="Object.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Phong.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="Reflective.cpp">
       <Filter>Material</Filter>
     </ClCompile>
@@ -149,6 +146,9 @@
     </ClCompile>
     <ClCompile Include="Setting.cpp">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Phong.cpp">
+      <Filter>Material</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
