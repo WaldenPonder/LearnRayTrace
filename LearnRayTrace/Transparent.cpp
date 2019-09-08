@@ -73,7 +73,7 @@ Vec3 Transparent::shade_direct(ShadeInfo& si)
 
 	if (impl->specular_btdf->tir(si))
 	{
-		L += World::Instance()->trace_ray_direct(reflected_ray, si.depth + 1);
+		L += World::Instance()->trace_ray_direct(reflected_ray);
 	}
 	else
 	{
@@ -86,8 +86,8 @@ Vec3 Transparent::shade_direct(ShadeInfo& si)
 
 		Ray transmitted_ray(si.hit_pos, wt);
 
-		Vec3 rc = World::Instance()->trace_ray_direct(reflected_ray, si.depth + 1) * fabs(si.normal * wi);
-		Vec3 tc = World::Instance()->trace_ray_direct(transmitted_ray, si.depth + 1) *fabs(si.normal * wt);
+		Vec3 rc = World::Instance()->trace_ray_direct(reflected_ray) * fabs(si.normal * wi);
+		Vec3 tc = World::Instance()->trace_ray_direct(transmitted_ray) *fabs(si.normal * wt);
 
 		//cout << componentMultiply(ft, tc) << "\n";
 		L += componentMultiply(fr, rc);

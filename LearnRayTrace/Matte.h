@@ -8,8 +8,10 @@ public:
 	Matte(const Vec3& c, float k);
 	~Matte();
 
-	virtual Vec3 shade(ShadeInfo& r) override;
-	virtual Vec3 shade_direct(ShadeInfo& r) override;
+	virtual Vec3 shade(ShadeInfo& si) override;
+	virtual Vec3 shade_direct(ShadeInfo& si) override;
+	virtual void collect_photon(ShadeInfo& si, Vec3 color) override;
+
 	Vec3 lambert_f(ShadeInfo& si, bool& bRet) const;
 
 private:

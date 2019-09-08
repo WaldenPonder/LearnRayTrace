@@ -74,13 +74,18 @@ void Camera::Impl::render_impl(const int thread_index)
 
 				if (Setting::Instance()->traceType == Setting::eDirect)
 				{
-					Vec3 f = World::Instance()->trace_ray_direct(ray, 0);
+					Vec3 f = World::Instance()->trace_ray_direct(ray);
 					c += f / ( float )kSamples;
 				}
 				else if (Setting::Instance()->traceType == Setting::ePathTrace)
 				{
 					Vec3 f = World::Instance()->trace_ray(ray, 0);
 					c += f / ( float )kSamples;
+				}
+				else if (Setting::Instance()->traceType == Setting::ePhotonMap)
+				{
+					Vec3 f = World::Instance()->trace_photon(ray);
+					c += f / (float)kSamples;
 				}
 			}
 			
@@ -123,7 +128,7 @@ void Camera::render()
 
 	vector< std::shared_ptr<std::thread> > ths;
 
-	for (int i = 0; i < std::thread::hardware_concurrency(); i++)
+	for (size_t i = 0; i < std::thread::hardware_concurrency(); i++)
 	{
 		std::shared_ptr<std::thread> th = std::make_shared<std::thread>(&Camera::Impl::render_impl, impl, i);
 		ths.push_back(th);
@@ -134,7 +139,7 @@ void Camera::render()
 		th->join();
 	}
 
-	for (int i = 0; i < impl->colors.size(); i++)
+	for (size_t i = 0; i < impl->colors.size(); i++)
 	{
 		OF << impl->colors[i].x() << "\t" << impl->colors[i].y() << "\t" << impl->colors[i].z() << endl;
 	}

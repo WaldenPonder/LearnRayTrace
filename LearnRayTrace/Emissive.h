@@ -4,6 +4,7 @@
 class Emissive : public Material
 {
 public:
+	__class__(Emissive);
 	Emissive();
 	~Emissive();
 

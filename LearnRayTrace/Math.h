@@ -29,6 +29,10 @@
 #undef PI_4
 #endif
 
+#pragma warning(disable:4244)
+#pragma warning(disable:4305)
+
+
 const double PI		 = 3.14159265358979323846;
 const double PI_2	= 1.57079632679489661923;
 const double PI_4	= 0.78539816339744830962;
@@ -257,11 +261,11 @@ namespace g
 
 }  // namespace g
 
-inline double drand48()
+inline float drand48()
 {
 	static std::random_device				seed_gen;
 	static std::mt19937						engine(seed_gen());
-	static std::uniform_real_distribution<> dist(0.0, 1.0);
+	static std::uniform_real_distribution<float> dist(0.0, 1.0);
 	return dist(engine);
 }
 

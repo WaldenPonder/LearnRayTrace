@@ -27,7 +27,7 @@ Vec3 Reflective::shade_direct(ShadeInfo& si)
 	Vec3 f = perfectSpecular_->sample_f(si, -si.ray.dir, wi);
 
 	Ray reflect_ray(si.hit_pos, wi);
-	Vec3 c = componentMultiply(f, World::Instance()->trace_ray_direct(reflect_ray, si.depth + 1));
+	Vec3 c = componentMultiply(f, World::Instance()->trace_ray_direct(reflect_ray));
 	L += c;
 	return L.clamp(0, 1);
 }

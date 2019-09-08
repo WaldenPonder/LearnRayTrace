@@ -84,9 +84,11 @@
     <ClInclude Include="Matte.h" />
     <ClInclude Include="MeshObject.h" />
     <ClInclude Include="MultiJittered.h" />
+    <ClInclude Include="nanoflann.hpp" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="PerfectSpecular.h" />
     <ClInclude Include="PerfectTransmitter.h" />
+    <ClInclude Include="PhotonMap.h" />
     <ClInclude Include="Reflective.h" />
     <ClInclude Include="Phong.h" />
     <ClInclude Include="Plane.h" />

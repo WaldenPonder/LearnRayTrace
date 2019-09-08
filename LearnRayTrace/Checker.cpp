@@ -19,7 +19,7 @@ Vec3 Checker::shade(ShadeInfo& r)
 
 Vec3 Checker::shade_direct(ShadeInfo& info)
 {
-	static float factor = .05;
+	static float factor = .05f;
 	
 	//-------------------------------------------------·´Éä²¿·Ö	
 	Vec3 wi = info.reflect();
@@ -27,7 +27,7 @@ Vec3 Checker::shade_direct(ShadeInfo& info)
 	Vec3 fr(kr_);
 
 	Ray reflect_ray(info.hit_pos, wi);
-	Vec3 cr = componentMultiply(fr, World::Instance()->trace_ray_direct(reflect_ray, info.depth + 1));
+	Vec3 cr = componentMultiply(fr, World::Instance()->trace_ray_direct(reflect_ray));
 
 	Vec3 c = fabs((int)(floor(info.hit_pos.x() * factor) + floor(info.hit_pos.z() * factor)) % 2) < 1 ? c1_ : c2_;
 	

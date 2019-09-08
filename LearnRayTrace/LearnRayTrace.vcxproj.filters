@@ -31,6 +31,9 @@
     <Filter Include="Shape">
       <UniqueIdentifier>{9d66de14-30a8-4ef3-bc4e-44958a1b2539}</UniqueIdentifier>
     </Filter>
+    <Filter Include="PhotonMap">
+      <UniqueIdentifier>{7147c229-5f57-4659-898f-ca0ee9688d10}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Math.cpp">
@@ -280,6 +283,12 @@
     </ClInclude>
     <ClInclude Include="Setting.h">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="nanoflann.hpp">
+      <Filter>PhotonMap</Filter>
+    </ClInclude>
+    <ClInclude Include="PhotonMap.h">
+      <Filter>PhotonMap</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

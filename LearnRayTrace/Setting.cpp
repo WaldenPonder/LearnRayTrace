@@ -3,9 +3,9 @@
 
 Setting::Setting()
 {
-	sample = 500;
+	sample = 1;
 	//traceType = eDirect;
-	traceType = ePathTrace;
+	traceType = ePhotonMap;
 }
 
 Setting::~Setting()

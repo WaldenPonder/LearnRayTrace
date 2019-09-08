@@ -27,6 +27,7 @@ class Setting : public Singleton<Setting>
 	{
 		ePathTrace,
 		eDirect,
+		ePhotonMap,
 	};
 
 	Setting();

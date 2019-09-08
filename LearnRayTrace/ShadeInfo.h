@@ -15,7 +15,6 @@ class ShadeInfo
 	Vec3   normal;
 	Vec3   hit_pos;
 
-	Vec3  color;
 	Ray   ray;
 	float u = 0;
 	float v = 0;
