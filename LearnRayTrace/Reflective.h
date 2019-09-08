@@ -13,6 +13,7 @@ public:
 
 	virtual Vec3 shade_direct(ShadeInfo& si) override;
 	virtual Vec3 shade(ShadeInfo& si) override;
+	virtual void collect_photon(ShadeInfo& si, Vec3 color) override;
 
 private:
 	PerfectSpecular* perfectSpecular_;

@@ -71,7 +71,7 @@ end_name_space
 	Phong* phong_white = new Phong(g::White, cd, g::White, .1, 100);
 
 	Reflective* reflective_green = new Reflective(g::Green, cd, g::Green, .1, 100);
-	reflective_green->set_reflect(Color(g::White, 1));
+	reflective_green->set_reflect(Color(g::Green, 1));
 
 	Reflective* reflective_red = new Reflective(g::Red, cd, g::Red, .1, 100);
 	reflective_red->set_reflect(Color(g::White, kr));

@@ -5,6 +5,7 @@
 #include "MultiJittered.h"
 #include "World.h"
 #include "PerfectSpecular.h"
+#include "photonmap.h"
 
 Reflective::Reflective(const Vec3& cd, float kd, const Vec3& cs, float ks, float exp) : Phong(cd, kd, cs, ks, exp)
 {
@@ -45,4 +46,19 @@ Vec3 Reflective::shade(ShadeInfo& si)
 	Vec3 c = componentMultiply(f, World::Instance()->trace_ray(reflect_ray, si.depth + 1));
 	L += c;
 	return L.clamp(0, 1);
+}
+
+void Reflective::collect_photon(ShadeInfo& si, Vec3 color)
+{
+	Vec3 wi;
+	Vec3 f = perfectSpecular_->sample_f(si, -si.ray.dir, wi);
+
+	Ray reflect_ray(si.hit_pos, wi);
+
+	const float NDotWi = si.normal * wi;
+	f =  NDotWi * f;
+
+	Vec3 c = componentMultiply(f, color);
+	PhotonMap::Instance()->addPhoton(Photon{ si.hit_pos, wi, c });
+	World::Instance()->collect_photon(reflect_ray, si.depth + 1, c);
 }

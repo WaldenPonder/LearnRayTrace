@@ -35,7 +35,7 @@ void World::build_photon_map(const int photon_num)
 	is_collect_photon_	= true;
 	const int max_threads = std::thread::hardware_concurrency();
 
-	const float power = 1;
+	const float power = .7;
 	const Vec3  photon_power(power / photon_num, power / photon_num, power / photon_num);
 
 	auto FUNC = [photon_num, max_threads, photon_power, this](int thread_index) {
