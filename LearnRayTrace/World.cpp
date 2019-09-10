@@ -179,7 +179,7 @@ Vec3 World::trace_photon(const Ray ray)
 		else
 		{
 			float		   max_distance = 0;
-			vector<Photon> photons		= PhotonMap::Instance()->find_nearst<50>(info.hit_pos, max_distance);
+			vector<Photon> photons		= PhotonMap::Instance()->find_nearst<500>(info.hit_pos, max_distance);
 
 			Vec3 c;
 
