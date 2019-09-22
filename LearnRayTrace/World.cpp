@@ -1,30 +1,28 @@
 #include "stdafx.h"
 #include "World.h"
-#include "Plane.h"
+#include "Acceleration.h"
 #include "Checker.h"
-#include "Sphere.h"
 #include "Emissive.h"
 #include "Matte.h"
 #include "MeshObject.h"
-#include "Acceleration.h"
 #include "Phong.h"
+#include "Plane.h"
 #include "Reflective.h"
+#include "Sphere.h"
 #include "Transparent.h"
-
 #undef max
 #undef min
-#include <random>
 #include "Light.h"
-#include <assert.h>
-#include "WorldImpl.inc"
-#include "PhotonMap.h"
 #include "MultiJittered.h"
-
-static const bool USE_SHDOW = false;
+#include "PhotonMap.h"
+#include "Setting.h"
+#include "WorldImpl.inc"
+#include <assert.h>
+#include <random>
+static const bool USE_SHDOW = true;
 
 World::World()
 {
-	max_depth_ = 2;
 	buildScene();
 }
 
@@ -49,16 +47,15 @@ void World::build_photon_map(const int photon_num)
 			float z = rand_float(-5, -4);
 
 			Vec3 w(0, -1, 0);
-			Vec3 u = Vec3(0.00424, 1, 0.00764) ^ w;
-			u.normalize();
-			Vec3 v = u ^ w;
-			//Vec3 sp = MultiJittered::instance()->sample_hemisphere();
-			Vec3 sp  = g::random_cosine_direction();
+			Vec3 u(1, 0, 0);
+			Vec3 v(0, 0, 1);
+			Vec3 sp = MultiJittered::instance()->sample_hemisphere();
+			//Vec3 sp  = g::random_cosine_direction();
 			Vec3 dir = sp.x() * u + sp.y() * v + sp.z() * w;
 			dir.normalize();
 
-			Ray ray(Vec3(0, 1.85, -4.5), dir);
-			collect_photon(ray, 0, photon_power);
+			Ray ray(Vec3(x, y, z), dir, 0);
+			collect_photon(ray, photon_power);
 		}
 	};
 
@@ -97,9 +94,6 @@ ShadeInfo World::intersection(const Ray& ray) const
 
 	for (Shape* s : Shape::pool())
 	{
-		if (is_collect_photon_ && s->className() == IBox::class_name())  //创建photon map时，不考虑跟光源相交
-			continue;
-
 		ShadeInfo value = s->intersect(ray);
 		if (value.valid())
 		{
@@ -136,15 +130,14 @@ ShadeInfo World::intersection_without_meshobject(const Ray& ray) const
 }
 
 //返回最终颜色
-Vec3 World::trace_ray(const Ray ray, int depth)
+Vec3 World::trace_ray(const Ray ray)
 {
+	if (ray.depth > Setting::Instance()->max_depth) return Vec3();
 	ShadeInfo info(this->intersection(ray));
 
 	if (info.valid())
 	{
-		info.depth = depth;
 		info.ray   = ray;
-
 		Vec3 c = info.material->shade(info);
 		return c;
 	}
@@ -154,6 +147,7 @@ Vec3 World::trace_ray(const Ray ray, int depth)
 
 Vec3 World::trace_ray_direct(const Ray ray)
 {
+	//if (ray.depth > Setting::Instance()->max_depth) return Vec3();
 	ShadeInfo info(this->intersection(ray));
 
 	if (info.valid())
@@ -168,6 +162,8 @@ Vec3 World::trace_ray_direct(const Ray ray)
 
 Vec3 World::trace_photon(const Ray ray)
 {
+	if (ray.depth > Setting::Instance()->max_depth) return Vec3();
+
 	ShadeInfo info(this->intersection(ray));
 
 	if (info.valid())
@@ -178,18 +174,17 @@ Vec3 World::trace_photon(const Ray ray)
 		}
 		else
 		{
-			float		   max_distance = 0;
-			vector<Photon> photons		= PhotonMap::Instance()->find_nearst<500>(info.hit_pos, max_distance);
-
 			Vec3 c;
+			float		   max_distance = 0;
+			vector<Photon> photons = PhotonMap::Instance()->find_nearst<PHOTON_MAP_NEARST_SIZE>(info.hit_pos, max_distance);
 
 			for (auto& p : photons)
 			{
 				c += p.color;
 			}
-
-			//cout << "max_distance\t" << max_distance << endl;
 			c /= (PI * max_distance * max_distance);
+			
+			//c += info.material->shade_direct(info);
 			return c;
 		}
 	}
@@ -197,15 +192,14 @@ Vec3 World::trace_photon(const Ray ray)
 	return bgColor_;
 }
 
-void World::collect_photon(const Ray ray, int depth, Vec3 c)
+void World::collect_photon(const Ray ray, Vec3 c)
 {
-	if (depth > max_depth_) return;
+	if (ray.depth > Setting::Instance()->max_depth) return;
 
 	ShadeInfo info(this->intersection(ray));
 
 	if (info.valid())
 	{
-		info.depth = depth;
 		info.ray   = ray;
 		info.material->collect_photon(info, c);
 	}

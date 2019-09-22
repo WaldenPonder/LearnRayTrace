@@ -1,5 +1,6 @@
 #pragma once
 #include "Shape.h"
+#include <string>
 
 class Camera : public Object
 {
@@ -10,6 +11,7 @@ public:
 	~Camera();
 
 	void render();
+	void output_ppm(const std::string& filename);
 
 	struct Impl; 
 	Impl * impl;

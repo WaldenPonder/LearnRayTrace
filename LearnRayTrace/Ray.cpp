@@ -6,7 +6,7 @@ Ray::Ray()
 
 }
 
-Ray::Ray(const Vec3& o, const Vec3& d) : orig(o), dir(d)
+Ray::Ray(const Vec3& o, const Vec3& d, int dp) : orig(o), dir(d), depth(dp)
 {
 	calcuPreValue();
 }

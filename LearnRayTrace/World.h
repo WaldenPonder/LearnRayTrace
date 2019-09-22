@@ -15,11 +15,11 @@ public:
 	ShadeInfo intersection(const Ray& ray) const;
 	ShadeInfo intersection_without_meshobject(const Ray& ray) const;
 
-	Vec3 trace_ray(const Ray ray, int depth);
+	Vec3 trace_ray(const Ray ray);
 	Vec3 trace_ray_direct(const Ray ray); //÷±Ω”π‚’’
 	Vec3 trace_photon(const Ray ray);
 
-	void collect_photon(const Ray ray, int depth, Vec3 c);
+	void collect_photon(const Ray ray, Vec3 c);
 
 	void max_to_one(Vec3& c) const;
 	void clamp_to_color(Vec3& c, const Vec3& clamto = g::Red) const;
@@ -30,7 +30,6 @@ public:
 
 public:
 	Camera              camera_;
-	int                 max_depth_;
 	Vec3				bgColor_ = Vec3(58, 179, 255) / 255.f;
 	Acceleration* accel_ = nullptr;
 	bool is_collect_photon_ = false;

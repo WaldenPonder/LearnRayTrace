@@ -8,6 +8,8 @@
 #include <cereal/types/unordered_map.hpp>
 #include <cereal/types/memory.hpp>
 
+#define PHOTON_MAP_NEARST_SIZE 300
+
 class Setting : public Singleton<Setting>
 {
  private:
@@ -17,7 +19,7 @@ class Setting : public Singleton<Setting>
 	{
 		int type = traceType;
 		ar(cereal::make_nvp("#0 path trace 1 direct", type));
-		traceType = (TraceType)type;
+		traceType = ( TraceType )type;
 
 		ar(CEREAL_NVP(sample));
 	}
@@ -33,6 +35,7 @@ class Setting : public Singleton<Setting>
 	Setting();
 	~Setting();
 
-	int		  sample = 1;
+	int		  sample;
+	int		  max_depth;
 	TraceType traceType;
 };

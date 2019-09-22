@@ -53,16 +53,16 @@ end_name_space
 	void
 	World::buildScene()
 {
-	static const float cd = 0.95;
+	static const float cd = 0.85;
 	static const float kr = 0.75;
 
-	Transparent* transparent_whitte = new Transparent(g::White, .75, g::White, .75, 100);
+	Transparent* transparent_whitte = new Transparent(g::White, .05, g::White, .05, 100);
 	transparent_whitte->set_reflect_color(g::White);
 	transparent_whitte->set_refract(1.5f);
 
 	Matte* matte_green = new Matte(g::Green, cd);
-	Matte* matte_red = new Matte(g::Red, cd);
-	Matte* matte_blue = new Matte(g::Blue, cd);
+	Matte* matte_red   = new Matte(g::Red, cd);
+	Matte* matte_blue  = new Matte(g::Blue, cd);
 	Matte* matte_white = new Matte(g::White, cd);
 
 	Phong* phong_green = new Phong(g::Green, cd, g::Green, .1, 100);
@@ -84,20 +84,29 @@ end_name_space
 
 	Plane* plane = nullptr;
 
-	PointLight* pLight = new PointLight;
-	pLight->pt_		   = Vec3(0, 0, -5);
-
 	plane			   = new Plane(Vec3(0, 2, 0), Vec3(0, -1, 0));  //ио
 	plane->objectName_ = "top";
 	plane->material_   = matte_blue;
 
 	IBox* box;
-	box = new IBox;//╣ф
+	box				 = new IBox;  //╣ф
 	box->objectName_ = "light plane";
-	box->material_ = new Emissive;
-	box->_minPt = Vec3(-.5, 1.85, -5);
-	box->_maxPt = Vec3(.5, 2.01, -4);
-	
+	box->material_   = new Emissive;
+	box->_minPt		 = Vec3(-.5, 1.85, -5);
+	box->_maxPt		 = Vec3(.5, 2.01, -4);
+
+#if 0
+	for (int i = 0; i < 10; i++)
+	{
+		PointLight* pLight = new PointLight;
+		pLight->pt_		   = Vec3(rand_float(-.5, .5), 1.8, rand_float(-5, -4));
+	}
+#else
+	PointLight* pLight = new PointLight;
+	pLight->pt_ = Vec3(0, 1.8, -4.5);
+
+#endif
+
 	plane			   = new Plane(Vec3(0, -2, 0), Vec3(0, 1, 0));  //об
 	plane->objectName_ = "bottom";
 	plane->material_   = matte_blue;
@@ -123,21 +132,22 @@ end_name_space
 
 	//--------------------------------------------------Sphere
 	Sphere* sphere;
-	//sphere	= new Sphere(Vec3(0, -1.5, -4.5), .5);
-	//sphere->material_ = transparent_whitte;
-
-	sphere			  = new Sphere(Vec3(-1, -1.5, -4.5), .5);
+	sphere = new Sphere(Vec3(-1, -1.5, -4.5), .5);
 	sphere->material_ = matte_white;
 
+	sphere	= new Sphere(Vec3(0, -1.5, -4.8), .5);
+	sphere->material_ = reflective_white;
+	   
 	sphere			  = new Sphere(Vec3(1, -1.5, -4.5), .5);
 	sphere->material_ = matte_white;
 
 	//-------------------------------------------------box
-	static Mesh boxMesh(g::getResDir() + "cube.obj");
-	MeshObject* boxModel = new MeshObject(boxMesh);
-	boxModel->objectName_ = "box.obj";
-	boxModel->matrix_ = Matrix::rotate(0, Vec3(0, 1, 0)) * Matrix::scale(1) * Matrix::translate(-.5, -2.01, -5);
-	boxModel->material_ = matte_white;
+	//static Mesh boxMesh(g::getResDir() + "cube.obj");
+	//MeshObject* boxModel  = new MeshObject(boxMesh);
+	//boxModel->objectName_ = "box.obj";
+	//boxModel->matrix_	 = Matrix::rotate(0, Vec3(0, 1, 0)) * Matrix::scale(.7) * Matrix::translate(-.5, -2.01, -4.5);
+	//boxModel->material_   = transparent_whitte;
+
 	//BoundingBox bb = boxModel->computBBox();
 	//cout << "bb" << bb.center() << "\t" << bb.max_len() << "\t" << bb.min_len() << "\tXX";
 
@@ -179,7 +189,7 @@ void World::buildScene()
 
 	Plane* plane	 = nullptr;
 	plane			 = new Plane(Vec3(0, -25, 0), Vec3(0, 1, 0));
-	plane->material_ = new Checker;// (g::Red, g::Green);
+	plane->material_ = new Checker;  // (g::Red, g::Green);
 
 	//plane = new Plane(Vec3(0, 35, 0), Vec3(0, -1, 0));
 	//plane->material_ = new Checker;// (g::Red, g::Green);
@@ -199,8 +209,8 @@ void World::buildScene()
 	{
 		MeshObject* bunny = new MeshObject(bunyMesh);
 
-		bunny->matrix_   = Matrix::rotate(0, Vec3(0, 1, 0)) * Matrix::scale(10) * Matrix::translate(0, -2, -5);
-		bunny->material_ = transparent_whitte;
+		bunny->matrix_		  = Matrix::rotate(0, Vec3(0, 1, 0)) * Matrix::scale(10) * Matrix::translate(0, -2, -5);
+		bunny->material_	  = transparent_whitte;
 		const BoundingBox& bb = bunny->computBBox();
 		//cout << bb.max_len() << "\t" << bb.min_len() << "\tXX";
 	}

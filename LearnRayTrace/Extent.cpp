@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "Extent.h"
 #include "MeshObject.h"
+#include <mutex>
+
+//std::mutex	g_is_intersect_lock;
 
 Extent::Extent()
 {
@@ -36,6 +39,7 @@ Extent::~Extent() {}
 
 bool Extent::is_intersect(const Ray& ray)
 {
+	//std::lock_guard<std::mutex> lg(g_is_intersect_lock);
 	uint8_t planeIndex;
 
 	float tNear = 0, tFar = FLT_MAX;  // tNear, tFar for the intersected extents

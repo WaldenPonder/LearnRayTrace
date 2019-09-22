@@ -24,7 +24,7 @@ Vec3 Phong::shade_direct(ShadeInfo& si)
 {
 	Vec3 L(Matte::shade_direct(si));
 
-	float k = World::Instance()->isInShadow(si) ? .1 : 1;
+	float k = 1.f;// World::Instance()->isInShadow(si) ? .1 : 1;
 
 	for (Light* light : Light::pool())
 	{

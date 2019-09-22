@@ -33,11 +33,11 @@ Vec3 Matte::shade(ShadeInfo& si)
 	//Vec3 sp = MultiJittered::instance()->sample_hemisphere();
 	Vec3 sp = g::random_cosine_direction();
 	Vec3 wi = sp.x() * u + sp.y() * v + sp.z() * w;  // reflected ray direction
-	Ray  r(si.hit_pos, wi);
+	Ray  r(si.hit_pos, wi, si.ray.depth + 1);
 
 	f = si.normal * wi * f;
 
-	c = World::Instance()->trace_ray(r, si.depth + 1);
+	c = World::Instance()->trace_ray(r);
 #else
 	Vec3  lightPos(rand_float(-0.5, 0.5), 1.84, rand_float(-5, -4));
 	Vec3  lightDir	= lightPos - si.hit_pos;
@@ -54,7 +54,7 @@ Vec3 Matte::shade(ShadeInfo& si)
 	Vec3 wi = sp.x() * u + sp.y() * v + sp.z() * w;  // reflected ray direction
 	Ray  r(si.hit_pos, wi);
 
-	c = World::Instance()->trace_ray(r, si.depth + 1);
+	c	  = World::Instance()->trace_ray(r, si.depth + 1);
 
 #endif
 
@@ -62,50 +62,60 @@ Vec3 Matte::shade(ShadeInfo& si)
 	return res;
 }
 
-Vec3 Matte::shade_direct(ShadeInfo& info)
+Vec3 Matte::shade_direct(ShadeInfo& si)
 {
 	Vec3 val = World::Instance()->get_ambient();
 
 	for (Light* light : Light::pool())
 	{
-		Vec3  lightDir = light->getDir(info);
-		float NdotL	= info.normal * lightDir;
+		Vec3  lightDir = light->getDir(si);
+		float NdotL	= si.normal * lightDir;
 
-		Vec3 diffItem = brdf_.f() * max(NdotL, 0.f);
+		Vec3 diffItem = brdf_.f() * max(NdotL, 0.f) * PI;
 		val += diffItem;
 	}
 
-	if (World::Instance()->isInShadow(info))
-		val *= .1;
+	//if (World::Instance()->isInShadow(info))
+	//	val *= .1;
 
 	return val.clamp(0, 1);
 }
 
 void Matte::collect_photon(ShadeInfo& si, Vec3 color)
 {
+#if 0
+
 	bool bRet;
 	Vec3 f = lambert_f(si, bRet);
 	if (bRet) return;
 
-	//if (rand_float() > (f.x() + f.y() + f.z()) / 3.)
-	//	return;
+#else
+	Vec3 f = brdf_.f();
 
+#endif
+
+	float max_v = std::max({ f.x() + f.y() + f.z() });
+	
 	Vec3 w = si.normal;
 	Vec3 u = Vec3(0.00424, 1, 0.00764) ^ w;
 	u.normalize();
 	Vec3 v = u ^ w;
 
 	//------------------------------------------------------cosine distribution
-	Vec3 sp = g::random_cosine_direction();
+	Vec3 sp =  // g::random_cosine_direction();
+		MultiJittered::instance()->sample_hemisphere();
 	Vec3 wi = sp.x() * u + sp.y() * v + sp.z() * w;  // reflected ray direction
-	Ray  r(si.hit_pos, wi);
+	Ray  r(si.hit_pos, wi, si.ray.depth + 1);
 
 	f = si.normal * wi * f;
 
 	Vec3 c = componentMultiply(f, color);
-	PhotonMap::Instance()->addPhoton(Photon{ si.hit_pos, wi, c });
+	//c /= max_v;
 
-	World::Instance()->collect_photon(r, si.depth + 1, c);
+	if (si.ray.depth != 0)
+		PhotonMap::Instance()->addPhoton(Photon{ si.hit_pos, wi, c });
+
+	World::Instance()->collect_photon(r, c);
 }
 
 Vec3 Matte::lambert_f(ShadeInfo& si, bool& bRet) const
@@ -113,7 +123,7 @@ Vec3 Matte::lambert_f(ShadeInfo& si, bool& bRet) const
 	bRet	 = false;
 	Vec3 val = brdf_.f();
 
-	if (si.depth > 5)
+	if (si.ray.depth > 5)
 	{
 		float f = max({ val.x(), val.y(), val.z() });
 		if (rand_float() < f)
@@ -125,7 +135,7 @@ Vec3 Matte::lambert_f(ShadeInfo& si, bool& bRet) const
 		}
 	}
 
-	if (si.depth > 30)
+	if (si.ray.depth > 30)
 	{
 		bRet = true;
 		return Vec3();

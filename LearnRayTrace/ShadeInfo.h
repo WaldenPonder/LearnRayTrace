@@ -11,7 +11,6 @@ class ShadeInfo
 
 	float  dis   = FLT_MAX;
 	Shape* shape = nullptr;
-	int	depth = 0;
 	Vec3   normal;
 	Vec3   hit_pos;
 

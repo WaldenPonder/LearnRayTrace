@@ -7,6 +7,7 @@
 //	See the file COPYING.txt for the full license.
 
 #include <algorithm>   // for random_shuffle in Sampler::setup_shuffled_indices
+#include <mutex>
 
 // ------------------------------------------------------------------ default constructor
 
@@ -310,8 +311,13 @@ Sampler::sample_unit_disk(void) {
 
 // ------------------------------------------------------------------- sample_hemisphere
 
+std::mutex	g_sample_hemisphere_mutex;
+
 Point
 Sampler::sample_hemisphere(void) {
+	
+	std::lock_guard<std::mutex> lg(g_sample_hemisphere_mutex);
+
 	if (count % num_samples == 0)  									// start of a new pixel
 		jump = (rand_int() % num_sets) * num_samples;
 

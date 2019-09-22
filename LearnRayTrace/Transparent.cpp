@@ -35,11 +35,11 @@ Vec3 Transparent::shade(ShadeInfo& si)
 	Vec3 wo = -si.ray.dir;
 	Vec3 wi;
 	Vec3 fr = impl->reflective_brdf->sample_f(si, wo, wi);
-	Ray reflected_ray(si.hit_pos, wi);
+	Ray reflected_ray(si.hit_pos, wi, si.ray.depth+1);
 
 	if (impl->specular_btdf->tir(si))
 	{
-		L += World::Instance()->trace_ray(reflected_ray, si.depth + 1);
+		L += World::Instance()->trace_ray(reflected_ray);
 	}
 	else
 	{
@@ -50,10 +50,10 @@ Vec3 Transparent::shade(ShadeInfo& si)
 		Vec3 wt;
 		Vec3 ft = impl->specular_btdf->sample_f(si, wo, wt);
 
-		Ray transmitted_ray(si.hit_pos, wt);
+		Ray transmitted_ray(si.hit_pos, wt, si.ray.depth + 1);
 
-		Vec3 rc = World::Instance()->trace_ray(reflected_ray, si.depth + 1) * fabs(si.normal * wi);
-		Vec3 tc = World::Instance()->trace_ray(transmitted_ray, si.depth + 1) *fabs(si.normal * wt);
+		Vec3 rc = World::Instance()->trace_ray(reflected_ray) * fabs(si.normal * wi);
+		Vec3 tc = World::Instance()->trace_ray(transmitted_ray) *fabs(si.normal * wt);
 
 		L += componentMultiply(fr, rc);
 		L += componentMultiply(ft, tc);
@@ -64,12 +64,14 @@ Vec3 Transparent::shade(ShadeInfo& si)
 
 Vec3 Transparent::shade_direct(ShadeInfo& si)
 {
-	Vec3 L(Phong::shade_direct(si));
+	bool bRet;
+	Vec3 L = lambert_f(si, bRet);
+	if (bRet) return L;
 
 	Vec3 wo = -si.ray.dir;
 	Vec3 wi;
 	Vec3 fr = impl->reflective_brdf->sample_f(si, wo, wi);
-	Ray reflected_ray(si.hit_pos, wi);
+	Ray reflected_ray(si.hit_pos, wi, si.ray.depth + 1);
 
 	if (impl->specular_btdf->tir(si))
 	{
@@ -84,7 +86,7 @@ Vec3 Transparent::shade_direct(ShadeInfo& si)
 		Vec3 wt;
 		Vec3 ft = impl->specular_btdf->sample_f(si, wo, wt);
 
-		Ray transmitted_ray(si.hit_pos, wt);
+		Ray transmitted_ray(si.hit_pos, wt, si.ray.depth + 1);
 
 		Vec3 rc = World::Instance()->trace_ray_direct(reflected_ray) * fabs(si.normal * wi);
 		Vec3 tc = World::Instance()->trace_ray_direct(transmitted_ray) *fabs(si.normal * wt);

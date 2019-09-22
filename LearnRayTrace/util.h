@@ -9,8 +9,6 @@ string getExeDir();
 
 string getResDir();
 
-void combine(int kCount);
-
 bool rayTriangleIntersect(const Ray& ray, const Point& v0, const Point& v1, const Point& v2, float& t, float& u, float& v);
 
 inline Vec3 random_cosine_direction()

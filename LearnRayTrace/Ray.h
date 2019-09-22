@@ -5,7 +5,7 @@ class Ray
 {
 public:
 	Ray();
-	Ray(const Vec3& o, const Vec3& d);
+	Ray(const Vec3& o, const Vec3& d, int dp);
 	~Ray();
 
 	Point distance(float t) const;
@@ -15,6 +15,7 @@ public:
 public:
 	Vec3 orig;
 	Vec3 dir;
+	int depth = 0;
 
 	float precomputedNumerator[7];
 	float precomputedDenominator[7];

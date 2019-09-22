@@ -8,6 +8,6 @@ public:
 	GlossyReflector(const Vec3& c, int k);
 	~GlossyReflector();
 
-	virtual Vec3 shade(ShadeInfo& info) override;
+	virtual Vec3 shade(ShadeInfo& si) override;
 };
 
