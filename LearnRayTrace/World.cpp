@@ -76,19 +76,19 @@ void World::build_photon_map(const int photon_num)
 
 ShadeInfo World::intersection(const Ray& ray) const
 {
-	ShadeInfo info;
+	ShadeInfo si;
 
 	if (accel_)
 	{
-		info			  = accel_->intersect(ray);
-		ShadeInfo tmpInfo = intersection_without_meshobject(ray);
+		si			  = accel_->intersect(ray);
+		ShadeInfo tmpSi = intersection_without_meshobject(ray);
 
-		if (tmpInfo.valid() && tmpInfo.dis < info.dis)
+		if (tmpSi.valid() && tmpSi.dis < si.dis)
 		{
-			info = tmpInfo;
+			si = tmpSi;
 		}
 
-		return info;
+		return si;
 	}
 
 	for (Shape* s : Shape::pool())
@@ -96,19 +96,19 @@ ShadeInfo World::intersection(const Ray& ray) const
 		ShadeInfo value = s->intersect(ray);
 		if (value.valid())
 		{
-			if (value.dis < info.dis)
+			if (value.dis < si.dis)
 			{
-				info = value;
+				si = value;
 			}
 		}
 	}
 
-	return info;
+	return si;
 }
 
 ShadeInfo World::intersection_without_meshobject(const Ray& ray) const
 {
-	ShadeInfo info;
+	ShadeInfo si;
 
 	for (Shape* s : Shape::pool())
 	{
@@ -118,14 +118,14 @@ ShadeInfo World::intersection_without_meshobject(const Ray& ray) const
 		ShadeInfo value = s->intersect(ray);
 		if (value.valid())
 		{
-			if (value.dis < info.dis)
+			if (value.dis < si.dis)
 			{
-				info = value;
+				si = value;
 			}
 		}
 	}
 
-	return info;
+	return si;
 }
 
 //·µ»Ø×îÖÕÑÕÉ«
@@ -163,13 +163,13 @@ Vec3 World::trace_photon(const Ray ray)
 {
 	if (ray.depth > Setting::Instance()->max_depth) return Vec3();
 
-	ShadeInfo info(this->intersection(ray));
+	ShadeInfo si(this->intersection(ray));
 
-	if (info.valid())
+	if (si.valid())
 	{
-		if (info.shape->className() == IBox::class_name())
+		if (si.shape->className() == IBox::class_name())
 		{
-			return info.material->shade(info);
+			return si.material->shade(si);
 		}
 		else
 		{
@@ -181,7 +181,7 @@ Vec3 World::trace_photon(const Ray ray)
 			//	c += p.color;
 			//}
 			//c /= (PI * max_distance * max_distance);
-			c += info.material->shade_direct(info);
+			c += si.material->shade_direct(si);
 			return c;
 		}
 	}
@@ -193,12 +193,12 @@ void World::collect_photon(const Ray ray, Vec3 c)
 {
 	if (ray.depth > Setting::Instance()->max_depth) return;
 
-	ShadeInfo info(this->intersection(ray));
+	ShadeInfo si(this->intersection(ray));
 
-	if (info.valid())
+	if (si.valid())
 	{
-		info.ray   = ray;
-		info.material->collect_photon(info, c);
+		si.ray   = ray;
+		si.material->collect_photon(si, c);
 	}
 }
 
