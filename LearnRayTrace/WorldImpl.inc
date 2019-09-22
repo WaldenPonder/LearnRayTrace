@@ -1,5 +1,5 @@
 
-#define SCENE_1
+#define SCENE_2
 
 begin_name_space(g);
 
@@ -56,7 +56,7 @@ end_name_space
 	static const float cd = 0.85;
 	static const float kr = 0.75;
 
-	Transparent* transparent_whitte = new Transparent(g::White, .05, g::White, .05, 100);
+	Transparent* transparent_whitte = new Transparent(g::White, .01, g::White, .01, 100);
 	transparent_whitte->set_reflect_color(g::White);
 	transparent_whitte->set_refract(1.5f);
 
@@ -135,18 +135,18 @@ end_name_space
 	sphere = new Sphere(Vec3(-1, -1.5, -4.5), .5);
 	sphere->material_ = matte_white;
 
-	sphere	= new Sphere(Vec3(0, -1.5, -4.8), .5);
-	sphere->material_ = reflective_white;
+	sphere	= new Sphere(Vec3(0, -1.5, -5.5), .5);
+	sphere->material_ = transparent_whitte;
 	   
 	sphere			  = new Sphere(Vec3(1, -1.5, -4.5), .5);
 	sphere->material_ = matte_white;
 
 	//-------------------------------------------------box
-	//static Mesh boxMesh(g::getResDir() + "cube.obj");
-	//MeshObject* boxModel  = new MeshObject(boxMesh);
-	//boxModel->objectName_ = "box.obj";
-	//boxModel->matrix_	 = Matrix::rotate(0, Vec3(0, 1, 0)) * Matrix::scale(.7) * Matrix::translate(-.5, -2.01, -4.5);
-	//boxModel->material_   = transparent_whitte;
+	static Mesh boxMesh(g::getResDir() + "cube.obj");
+	MeshObject* boxModel  = new MeshObject(boxMesh);
+	boxModel->objectName_ = "box.obj";
+	boxModel->matrix_	 = Matrix::rotate(0, Vec3(0, 1, 0)) * Matrix::scale(.7) * Matrix::translate(-.5, -2.01, -4.8);
+	boxModel->material_   = transparent_whitte;
 
 	//BoundingBox bb = boxModel->computBBox();
 	//cout << "bb" << bb.center() << "\t" << bb.max_len() << "\t" << bb.min_len() << "\tXX";

@@ -31,15 +31,14 @@ World::~World() {}
 void World::build_photon_map(const int photon_num)
 {
 	is_collect_photon_	= true;
-	const int max_threads = std::thread::hardware_concurrency();
 
 	const float power = .7;
 	const Vec3  photon_power(power / photon_num, power / photon_num, power / photon_num);
 
-	auto FUNC = [photon_num, max_threads, photon_power, this](int thread_index) {
+	auto FUNC = [photon_num, photon_power, this](int thread_index) {
 		for (int i = 0; i < photon_num; i++)
 		{
-			if (i % max_threads != thread_index)
+			if (i % MAX_THREADS != thread_index)
 				continue;
 
 			float x = rand_float(-.5, .5);
@@ -61,7 +60,7 @@ void World::build_photon_map(const int photon_num)
 
 	vector<std::shared_ptr<std::thread>> ths;
 
-	for (int i = 0; i < max_threads; i++)
+	for (int i = 0; i < MAX_THREADS; i++)
 	{
 		std::shared_ptr<std::thread> th = std::make_shared<std::thread>(FUNC, i);
 		ths.push_back(th);
@@ -147,7 +146,7 @@ Vec3 World::trace_ray(const Ray ray)
 
 Vec3 World::trace_ray_direct(const Ray ray)
 {
-	//if (ray.depth > Setting::Instance()->max_depth) return Vec3();
+	if (ray.depth > Setting::Instance()->max_depth) return Vec3();
 	ShadeInfo info(this->intersection(ray));
 
 	if (info.valid())
@@ -175,16 +174,14 @@ Vec3 World::trace_photon(const Ray ray)
 		else
 		{
 			Vec3 c;
-			float		   max_distance = 0;
-			vector<Photon> photons = PhotonMap::Instance()->find_nearst<PHOTON_MAP_NEARST_SIZE>(info.hit_pos, max_distance);
-
-			for (auto& p : photons)
-			{
-				c += p.color;
-			}
-			c /= (PI * max_distance * max_distance);
-			
-			//c += info.material->shade_direct(info);
+			//float		   max_distance = 0;
+			//vector<Photon> photons = PhotonMap::Instance()->find_nearst<PHOTON_MAP_NEARST_SIZE>(info.hit_pos, max_distance);
+			//for (auto& p : photons)
+			//{
+			//	c += p.color;
+			//}
+			//c /= (PI * max_distance * max_distance);
+			c += info.material->shade_direct(info);
 			return c;
 		}
 	}

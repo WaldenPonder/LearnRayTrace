@@ -47,7 +47,7 @@ void Camera::Impl::render_impl(const int thread_index)
 	{
 		for (int i = 0; i < width; i += 1)
 		{
-			if ((i + j) % std::thread::hardware_concurrency() != thread_index)
+			if ((i + j) % MAX_THREADS != thread_index)
 				continue;
 
 			draw_pixel_count = draw_pixel_count + 1;
@@ -132,7 +132,7 @@ void Camera::render()
 {
 	vector<std::shared_ptr<std::thread>> ths;
 
-	for (size_t i = 0; i < std::thread::hardware_concurrency(); i++)
+	for (size_t i = 0; i < MAX_THREADS; i++)
 	{
 		std::shared_ptr<std::thread> th = std::make_shared<std::thread>(&Camera::Impl::render_impl, impl, i);
 		ths.push_back(th);

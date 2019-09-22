@@ -1,6 +1,12 @@
 #pragma once
-#include "Singleton.h"
 #include "Camera.h"
+#include "common.inc"   // for Red, __class__
+#include "Object.h"     // for Object
+#include "ShadeInfo.h"  // for ShadeInfo
+#include "Vec3.h"       // for Vec3
+#include "Singleton.h"
+class Acceleration;
+class Ray;
 
 class World : public Singleton<World>, public Object
 {

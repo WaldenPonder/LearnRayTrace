@@ -71,7 +71,7 @@ Vec3 Matte::shade_direct(ShadeInfo& si)
 		Vec3  lightDir = light->getDir(si);
 		float NdotL	= si.normal * lightDir;
 
-		Vec3 diffItem = brdf_.f() * max(NdotL, 0.f) * PI;
+		Vec3 diffItem = brdf_.f() * fmax(NdotL, 0.f) * PI;
 		val += diffItem;
 	}
 

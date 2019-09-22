@@ -9,6 +9,8 @@
 #include <cereal/types/memory.hpp>
 
 #define PHOTON_MAP_NEARST_SIZE 300
+//#define  MAX_THREADS   std::thread::hardware_concurrency()
+#define  MAX_THREADS  1
 
 class Setting : public Singleton<Setting>
 {

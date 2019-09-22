@@ -1,5 +1,6 @@
 
-
+#ifndef COMMON_COMMON__
+#define COMMON_COMMON__
 const Vec3 X_AXIS(1.0, 0.0, 0.0);
 const Vec3 Y_AXIS(0.0, 1.0, 0.0);
 const Vec3 Z_AXIS(0.0, 0.0, 1.0);
@@ -239,3 +240,5 @@ private:
 
 template<typename T>
 vector<T*> InstancePool<T>::pool_;
+
+#endif
